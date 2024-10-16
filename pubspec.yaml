@@ -15,6 +15,7 @@ dependencies:
   http: ^1.2.2
   google_fonts: ^6.2.1
   flutter_tabler_icons: ^1.43.0
+  flutter_launcher_icons: ^0.14.1
 
 dev_dependencies:
   flutter_test:
