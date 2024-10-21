@@ -7,7 +7,7 @@ import 'package:presience_app/domain/entities/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthLocalDataSource {
-  Future<void> saveAuthData(AuthResponse authResponse) async {
+  Future<AuthDto> saveAuthData(AuthResponse authResponse) async {
     final Map<String, dynamic> decodedToken =
         JwtDecoder.decode(authResponse.token!);
     final user = User(
@@ -28,6 +28,7 @@ class AuthLocalDataSource {
 
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('auth_data', jsonEncode(authData.toJson()));
+    return authData;
   }
 
   Future<void> removeAuthData() async {

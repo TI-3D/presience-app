@@ -9,7 +9,7 @@ class LoginDto {
 
   Map<String, dynamic> toJson() {
     return {
-      'nim': nim,
+      'username': nim,
       'password': password,
     };
   }

@@ -15,7 +15,7 @@ class FieldLabel extends StatelessWidget {
         label,
         style: mediumBodyText,
       ),
-      SizedBox(width: 4),
+      const SizedBox(width: 4),
       if (isOptional != null && isOptional!)
         (Text(
           "(Opsional)",

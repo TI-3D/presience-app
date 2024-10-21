@@ -5,7 +5,8 @@ import 'package:presience_app/presentation/utils/theme.dart';
 class LoginHeading extends StatelessWidget {
   final String heading;
   final String subheading;
-  const LoginHeading({super.key, required this.heading, required this.subheading});
+  const LoginHeading(
+      {super.key, required this.heading, required this.subheading});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +26,9 @@ class LoginHeading extends StatelessWidget {
               height: 6,
             ),
             Text(
-                subheading,
-                style: regularBodyTextL.copyWith(color: neutralTheme[300])),
+              subheading,
+              style: regularBodyTextL.copyWith(color: neutralTheme[300]),
+            ),
           ],
         )
       ],

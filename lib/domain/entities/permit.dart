@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:presience_app/domain/entities/user.dart';
 
 part 'permit.freezed.dart';
 part 'permit.g.dart';

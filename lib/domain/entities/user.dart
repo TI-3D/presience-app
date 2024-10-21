@@ -13,7 +13,7 @@ class User with _$User {
     String? gender,
     String? avatar,
     String? major,
-    String? semester,
+    int? semester,
     bool? isVerified,
     Group? group,
   }) = _User;
