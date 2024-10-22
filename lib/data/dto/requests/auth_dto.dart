@@ -10,10 +10,22 @@ class AuthDto {
   });
 
   factory AuthDto.fromJson(Map<String, dynamic> json) {
-    return AuthDto(
-      user: User.fromJson(json["data"]["user"]),
-      token: json["data"]["token"],
-    );
+    final data = json["data"];
+
+    if (data != null) {
+      final userData = data["user"];
+      final user = userData != null ? User.fromJson(userData) : null;
+
+      return AuthDto(
+        user: user,
+        token: data["token"],
+      );
+    } else {
+      return AuthDto(
+        user: null,
+        token: null,
+      );
+    }
   }
 
   Map<String, dynamic> toJson() => {
