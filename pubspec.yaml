@@ -21,6 +21,7 @@ dependencies:
   freezed: ^2.5.7
   freezed_annotation: ^2.4.4
   json_annotation: ^4.9.0
+  carousel_slider: ^5.0.0
   shared_preferences: ^2.3.2
   jwt_decoder: ^2.0.1
   flutter_bloc: ^8.1.6
@@ -39,6 +40,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/streamline/
+    - assets/default/
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
