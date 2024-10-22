@@ -6,6 +6,8 @@ import 'package:presience_app/presentation/pages/registrations/camera.dart';
 import 'package:presience_app/presentation/pages/registrations/change_password.dart';
 import 'package:presience_app/presentation/pages/logins/login.dart';
 import 'package:presience_app/presentation/pages/logins/success.dart';
+import 'package:presience_app/presentation/pages/registrations/camera.dart';
+import 'package:presience_app/presentation/pages/registrations/change_password.dart';
 import 'package:presience_app/presentation/pages/registrations/change_succes.dart';
 import 'package:presience_app/presentation/pages/registrations/register_face.dart';
 
@@ -20,19 +22,19 @@ final GoRouter _router = GoRouter(
         GoRoute(
           path: 'success',
           builder: (BuildContext context, GoRouterState state) {
-            return LoginSuccessPage();
+            return const LoginSuccessPage();
           },
         ),
         GoRoute(
           path: 'first_change_password',
           builder: (BuildContext context, GoRouterState state) {
-            return FirstChangePasswordPage();
+            return const FirstChangePasswordPage();
           },
           routes: <RouteBase>[
             GoRoute(
               path: 'success',
               builder: (BuildContext context, GoRouterState state) {
-                return FirstChangePasswordSuccessPage();
+                return const FirstChangePasswordSuccessPage();
               },
             ),
           ],
@@ -40,7 +42,7 @@ final GoRouter _router = GoRouter(
         GoRoute(
           path: 'register_face',
           builder: (BuildContext context, GoRouterState state) {
-            return RegisterFacePage();
+            return const RegisterFacePage();
           },
         ),
       ],
@@ -48,7 +50,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/camera',
       builder: (BuildContext context, GoRouterState state) {
-        return CameraPage();
+        return const CameraPage();
       },
     ),
     GoRoute(

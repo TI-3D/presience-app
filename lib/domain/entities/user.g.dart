@@ -13,7 +13,7 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       gender: json['gender'] as String?,
       avatar: json['avatar'] as String?,
       major: json['major'] as String?,
-      semester: json['semester'] as String?,
+      semester: (json['semester'] as num?)?.toInt(),
       isVerified: json['isVerified'] as bool?,
       group: json['group'] == null
           ? null

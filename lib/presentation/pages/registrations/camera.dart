@@ -1,10 +1,10 @@
 import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:presience_app/presentation/router/routes.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 
 class CameraPage extends StatefulWidget {
@@ -68,7 +68,7 @@ class _CameraPageState extends State<CameraPage> {
                 ),
                 Column(children: [
                   Expanded(child: Container()),
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     height: 152,
                     child: Expanded(
@@ -89,7 +89,7 @@ class _CameraPageState extends State<CameraPage> {
                                         color: neutralTheme,
                                         borderRadius:
                                             BorderRadius.circular(100)),
-                                    child: Center(
+                                    child: const Center(
                                       child: Icon(
                                         TablerIcons.arrow_left,
                                         size: 32,
@@ -97,7 +97,7 @@ class _CameraPageState extends State<CameraPage> {
                                     ),
                                   ),
                                 ),
-                                Container(
+                                SizedBox(
                                   width: 84,
                                   height: 84,
                                   child: Stack(
@@ -110,7 +110,7 @@ class _CameraPageState extends State<CameraPage> {
                                                 BorderRadius.circular(100)),
                                       ),
                                       Container(
-                                        padding: EdgeInsets.all(8),
+                                        padding: const EdgeInsets.all(8),
                                         child: GestureDetector(
                                           onTap: () {
                                             context.go('/homepage');
@@ -140,7 +140,7 @@ class _CameraPageState extends State<CameraPage> {
                                         color: neutralTheme,
                                         borderRadius:
                                             BorderRadius.circular(100)),
-                                    child: Center(
+                                    child: const Center(
                                       child: Icon(
                                         TablerIcons.camera_rotate,
                                         size: 32,

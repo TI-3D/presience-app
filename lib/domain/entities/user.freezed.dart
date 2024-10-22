@@ -26,7 +26,7 @@ mixin _$User {
   String? get gender => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
   String? get major => throw _privateConstructorUsedError;
-  String? get semester => throw _privateConstructorUsedError;
+  int? get semester => throw _privateConstructorUsedError;
   bool? get isVerified => throw _privateConstructorUsedError;
   Group? get group => throw _privateConstructorUsedError;
 
@@ -51,7 +51,7 @@ abstract class $UserCopyWith<$Res> {
       String? gender,
       String? avatar,
       String? major,
-      String? semester,
+      int? semester,
       bool? isVerified,
       Group? group});
 
@@ -111,7 +111,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
       semester: freezed == semester
           ? _value.semester
           : semester // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       isVerified: freezed == isVerified
           ? _value.isVerified
           : isVerified // ignore: cast_nullable_to_non_nullable
@@ -152,7 +152,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String? gender,
       String? avatar,
       String? major,
-      String? semester,
+      int? semester,
       bool? isVerified,
       Group? group});
 
@@ -210,7 +210,7 @@ class __$$UserImplCopyWithImpl<$Res>
       semester: freezed == semester
           ? _value.semester
           : semester // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       isVerified: freezed == isVerified
           ? _value.isVerified
           : isVerified // ignore: cast_nullable_to_non_nullable
@@ -253,7 +253,7 @@ class _$UserImpl implements _User {
   @override
   final String? major;
   @override
-  final String? semester;
+  final int? semester;
   @override
   final bool? isVerified;
   @override
@@ -312,7 +312,7 @@ abstract class _User implements User {
       final String? gender,
       final String? avatar,
       final String? major,
-      final String? semester,
+      final int? semester,
       final bool? isVerified,
       final Group? group}) = _$UserImpl;
 
@@ -331,7 +331,7 @@ abstract class _User implements User {
   @override
   String? get major;
   @override
-  String? get semester;
+  int? get semester;
   @override
   bool? get isVerified;
   @override

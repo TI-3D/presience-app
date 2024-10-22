@@ -1,25 +1,25 @@
 class LoginDto {
-  final String? email;
+  final String? nim;
   final String? password;
 
   const LoginDto({
-    this.email,
+    this.nim,
     this.password,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'email': email,
+      'username': nim,
       'password': password,
     };
   }
 
   LoginDto copyWith({
-    String? email,
+    String? nim,
     String? password,
   }) {
     return LoginDto(
-      email: email ?? this.email,
+      nim: nim ?? this.nim,
       password: password ?? this.password,
     );
   }
