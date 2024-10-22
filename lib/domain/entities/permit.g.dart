@@ -16,9 +16,6 @@ _$PermitImpl _$$PermitImplFromJson(Map<String, dynamic> json) => _$PermitImpl(
           : DateTime.parse(json['endDate'] as String),
       description: json['description'] as String?,
       evidence: json['evidence'] as String?,
-      user: json['user'] == null
-          ? null
-          : User.fromJson(json['user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$PermitImplToJson(_$PermitImpl instance) =>
@@ -28,5 +25,4 @@ Map<String, dynamic> _$$PermitImplToJson(_$PermitImpl instance) =>
       'endDate': instance.endDate?.toIso8601String(),
       'description': instance.description,
       'evidence': instance.evidence,
-      'user': instance.user,
     };

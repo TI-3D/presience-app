@@ -21,7 +21,7 @@ class LargeFillButton extends StatelessWidget {
       onTap: isDisabled != true ? onPressed : null,
       child: Container(
         height: 48,
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
         // if (width != null) width: width,
         width: width ?? double.infinity,
         decoration: BoxDecoration(
@@ -58,7 +58,7 @@ class SmallFillButton extends StatelessWidget {
       onTap: isDisabled != true ? onPressed : null,
       child: Container(
         height: 36,
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
         // if (width != null) width: width,
         width: width ?? double.infinity,
         decoration: BoxDecoration(
