@@ -95,7 +95,7 @@ final GoRouter _router = GoRouter(
   redirect: (BuildContext context, GoRouterState state) {
     if (state.uri.toString() == '/') {
       // return '/login'; // Redirect to login if trying to access root
-      return '/pengajuan_izin'; // Redirect to login if trying to access root
+      return '/login'; // Redirect to login if trying to access root
     }
     return null; // No redirect otherwise
   },
