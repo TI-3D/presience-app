@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
+import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
 import 'package:presience_app/presentation/pages/presensi/perizinan.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/cards/history_presensi_card.dart';
-import 'package:presience_app/presentation/widgets/cards/last_week_card.dart';
 import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/cards/today_presensi.dart';
 import 'package:presience_app/presentation/widgets/form/dropdown.dart';
@@ -56,13 +57,13 @@ class _TabPresensiStatePage extends State<TabPresensiPage>
                         bottom:
                             BorderSide(color: neutralTheme[200]!, width: 1))),
                 height: 52,
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 width: double.infinity,
                 child: SizedBox(
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: tabs.length,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
@@ -72,12 +73,12 @@ class _TabPresensiStatePage extends State<TabPresensiPage>
                           },
                           child: Container(
                             decoration: _tabController.index == index
-                                ? BoxDecoration(
+                                ? const BoxDecoration(
                                     color: neutralTheme,
                                     border: Border(
                                         bottom: BorderSide(
                                             color: purpleTheme, width: 2)))
-                                : BoxDecoration(color: neutralTheme),
+                                : const BoxDecoration(color: neutralTheme),
                             width: (MediaQuery.of(context).size.width - 64) / 2,
                             margin: const EdgeInsets.symmetric(horizontal: 8),
                             child: Center(
@@ -96,7 +97,7 @@ class _TabPresensiStatePage extends State<TabPresensiPage>
                       }),
                 ),
               ))),
-      body: TabBarView(controller: _tabController, children: [
+      body: TabBarView(controller: _tabController, children: const [
         PresensiPage(),
         PerizinanPage(),
       ]),
@@ -110,19 +111,19 @@ class PresensiPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.only(bottom: 16),
       children: [
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
             children: [
               CustomDropdown(
                   icon: TablerIcons.book_2,
                   width: MediaQuery.of(context).size.width - 183,
-                  items: [
+                  items: const [
                     "Semua Mata Kuliah",
                     "Mata Kuliah1",
                     "Mata Kuliah2",
@@ -140,13 +141,16 @@ class PresensiPage extends StatelessWidget {
               const SizedBox(
                 width: 8,
               ),
-              CustomDropdown(icon: TablerIcons.empathize, width: 133, items: [
-                "Semua Status",
-                "Status 1",
-                "Status 2",
-                "Status 3",
-                "Status 4"
-              ]),
+              const CustomDropdown(
+                  icon: TablerIcons.empathize,
+                  width: 133,
+                  items: [
+                    "Semua Status",
+                    "Status 1",
+                    "Status 2",
+                    "Status 3",
+                    "Status 4"
+                  ]),
             ],
           ),
         ),
@@ -155,26 +159,40 @@ class PresensiPage extends StatelessWidget {
           thickness: 1,
           height: 24,
         ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: TodayPresensiCard(
-              courseName: "Nama MK",
-              lectureName: "Nama Dosen",
-              status: "active",
-              room: "RUANG",
-              floor: "4",
-              startTime: "00:00",
-              endTime: "00:00",
-              absentPercentage: "90"),
+        BlocBuilder<ScheduleBloc, ScheduleState>(
+          builder: (context, state) {
+            return state.maybeWhen(
+              success: (data) {
+                if (data.isEmpty) {
+                  return const Center(
+                    child: Text("Tidak ada data"),
+                  );
+                }
+                return Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: TodayPresensiCard(
+                    scheduleWeek: data[0],
+                  ),
+                );
+              },
+              orElse: () {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            );
+          },
         ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
-        CustomSection(title: "Minggu ke-2", child: ContentofWeekPresensi()),
-        SizedBox(
+        const CustomSection(
+            title: "Minggu ke-2", child: ContentofWeekPresensi()),
+        const SizedBox(
           height: 12,
         ),
-        CustomSection(title: "Minggu ke-1", child: ContentofWeekPresensi()),
+        const CustomSection(
+            title: "Minggu ke-1", child: ContentofWeekPresensi()),
       ],
     );
   }
@@ -271,7 +289,7 @@ class _ContentofWeekPresensiState extends State<ContentofWeekPresensi> {
           izin: lastWeekCourses[index]['izin'],
           onTap: () => context.push('/presensi/detail'),
         );
-        return Text(lastWeekCourses[index]['courseName']);
+        // return Text(lastWeekCourses[index]['courseName']);
       },
       separatorBuilder: (context, index) => const SizedBox(
         height: 8,

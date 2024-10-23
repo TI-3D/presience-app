@@ -5,7 +5,6 @@ import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/cards/card.dart';
 import 'package:presience_app/presentation/widgets/labels/icon_label.dart';
-import 'package:presience_app/presentation/widgets/labels/tag_label.dart';
 
 class HistoryPresensiCard extends StatelessWidget {
   final String courseName;
@@ -52,10 +51,10 @@ class HistoryPresensiCard extends StatelessWidget {
                 ],
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 6,
             ),
-            Container(
+            SizedBox(
               width: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +63,7 @@ class HistoryPresensiCard extends StatelessWidget {
                     courseName,
                     style: mediumBodyTextL,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 4,
                   ),
                   Row(

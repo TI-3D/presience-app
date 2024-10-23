@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:presience_app/domain/entities/schedule.dart';
-import 'package:presience_app/domain/entities/week.dart';
 
 part 'schedule_week.freezed.dart';
 part 'schedule_week.g.dart';
@@ -14,7 +13,6 @@ class ScheduleWeek with _$ScheduleWeek {
     String? status,
     String? openedAt,
     String? closedAt,
-    Week? week,
     Schedule? schedule,
   }) = _ScheduleWeek;
 
@@ -25,7 +23,6 @@ class ScheduleWeek with _$ScheduleWeek {
         status: json['status'],
         openedAt: json['opened_at'],
         closedAt: json['closed_at'],
-        week: Week.fromJson(json['week']),
         schedule: Schedule.fromJson(json['schedule']),
       );
 }

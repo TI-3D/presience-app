@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
+import 'package:presience_app/domain/entities/schedule_week.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
@@ -7,28 +8,13 @@ import 'package:presience_app/presentation/widgets/labels/icon_label.dart';
 import 'package:presience_app/presentation/widgets/labels/tag_label.dart';
 
 class TodayPresensiCard extends StatelessWidget {
-  final String courseName;
-  final String lectureName;
-  final String status;
-  final String room;
-  final String floor;
-  final String startTime;
-  final String endTime;
-  final String absentPercentage;
-
+  final ScheduleWeek scheduleWeek;
   final VoidCallback? onTapPresensi;
   final VoidCallback? onTapAjukanIzin;
 
   const TodayPresensiCard({
     super.key,
-    required this.courseName,
-    required this.lectureName,
-    required this.status,
-    required this.room,
-    required this.floor,
-    required this.startTime,
-    required this.endTime,
-    required this.absentPercentage,
+    required this.scheduleWeek,
     this.onTapPresensi,
     this.onTapAjukanIzin,
   });
@@ -43,8 +29,8 @@ class TodayPresensiCard extends StatelessWidget {
     late bool isAjukanEnable;
     late Widget tagLabel;
 
-    switch (status) {
-      case "nonActive":
+    switch (scheduleWeek.status!) {
+      case "closed":
         backgroundColor = neutralTheme;
         borderColor = neutralTheme[100]!;
         textColor = blackTheme;
@@ -53,7 +39,7 @@ class TodayPresensiCard extends StatelessWidget {
         isPresensiEnable = false;
         tagLabel = const CustomTaglabelGrey(label: "Belum Dibuka");
         break;
-      case "active":
+      case "opened":
         backgroundColor = purpleTheme[50]!;
         borderColor = purpleTheme[200]!;
         textColor = purpleTheme;
@@ -141,7 +127,7 @@ class TodayPresensiCard extends StatelessWidget {
                                 height: 4,
                               ),
                               Text(
-                                courseName,
+                                scheduleWeek.schedule!.course!.name!,
                                 style:
                                     mediumBodyTextL.copyWith(color: textColor),
                               )
@@ -156,7 +142,7 @@ class TodayPresensiCard extends StatelessWidget {
                     height: 4,
                   ),
                   Text(
-                    lectureName,
+                    scheduleWeek.schedule!.lecturer!.name!,
                     style: regularBodyTextXS.copyWith(color: textColor),
                   )
                 ],
@@ -165,33 +151,27 @@ class TodayPresensiCard extends StatelessWidget {
                 height: 12,
               ),
               Opacity(
-                opacity: status == 'nonActive' ? 1 : 0.4,
+                opacity: scheduleWeek.status! == 'closed' ? 1 : 0.4,
                 child: Row(
                   children: [
                     CustomIconLabel(
-                        label: room,
+                        label: scheduleWeek.schedule!.room!.name!,
                         icon: TablerIcons.building,
                         color: secondaryColor),
                     const SizedBox(
                       width: 8,
                     ),
                     CustomIconLabel(
-                        label: "Lantai $floor",
+                        label: "Lantai ${scheduleWeek.schedule!.room!.floor!}",
                         icon: TablerIcons.stairs,
                         color: secondaryColor),
                     const SizedBox(
                       width: 8,
                     ),
                     CustomIconLabel(
-                        label: "$startTime-$endTime",
+                        label:
+                            "${scheduleWeek.schedule!.startTime!}-${scheduleWeek.schedule!.endTime!}",
                         icon: TablerIcons.calendar_time,
-                        color: secondaryColor),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    CustomIconLabel(
-                        label: "$absentPercentage%",
-                        icon: TablerIcons.chart_pie,
                         color: secondaryColor),
                   ],
                 ),

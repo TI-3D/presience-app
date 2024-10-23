@@ -1,17 +1,15 @@
 import 'dart:io';
 
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_launcher_icons/xml_templates.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:presience_app/presentation/utils/text.dart';
-import 'package:presience_app/presentation/utils/theme.dart';
-import 'package:presience_app/presentation/widgets/detail.dart';
-import 'package:presience_app/presentation/widgets/form/text_field.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
+import 'package:presience_app/presentation/utils/text.dart';
+import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
-import 'package:dotted_border/dotted_border.dart';
+import 'package:presience_app/presentation/widgets/detail.dart';
+import 'package:presience_app/presentation/widgets/form/text_field.dart';
 
 class FormPengajuanPage extends StatefulWidget {
   const FormPengajuanPage({super.key});
@@ -47,7 +45,7 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
       child: Scaffold(
         backgroundColor: neutralTheme,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(48),
+          preferredSize: const Size.fromHeight(48),
           child: Container(
             decoration: BoxDecoration(
               border: Border(
@@ -62,8 +60,8 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
               backgroundColor: neutralTheme,
               toolbarHeight: 48,
               leading: Container(
-                margin: EdgeInsets.only(left: 16),
-                child: Icon(
+                margin: const EdgeInsets.only(left: 16),
+                child: const Icon(
                   TablerIcons.arrow_left,
                   size: 24,
                 ),
@@ -89,7 +87,7 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                       'Detail Presensi',
                       style: mediumBodyTextL,
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Container(
@@ -111,7 +109,7 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                           ),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Container(
+                        child: const SizedBox(
                           width: double.infinity,
                           child: Column(
                             children: [
@@ -150,7 +148,7 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                           'Jenis Izin',
                           style: mediumBodyText.copyWith(),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Container(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -169,7 +167,7 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                                     Container(
                                       width: double.infinity,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
+                                        borderRadius: const BorderRadius.only(
                                           topLeft: Radius.circular(8),
                                           topRight: Radius.circular(8),
                                         ),
@@ -181,7 +179,7 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                                         ),
                                         color: purpleTheme[100]!,
                                       ),
-                                      padding: EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(8),
                                       child: Column(
                                         children: [
                                           Row(
@@ -193,7 +191,7 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                                                       mediumBodyText.copyWith(
                                                           color: purpleTheme[
                                                               950])),
-                                              SizedBox(width: 8),
+                                              const SizedBox(width: 8),
                                               Icon(
                                                 TablerIcons.circle_check,
                                                 size: 20,
@@ -207,7 +205,7 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                                       // Text("Sakit", style: mediumBodyText),
                                     ),
                                     Container(
-                                      padding: EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(8),
                                       child: Text(
                                         'Kalau sakit, kamu butuh surat dokter',
                                         style: mediumBodyTextS.copyWith(
@@ -217,7 +215,7 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                                   ],
                                 ),
                               )),
-                              SizedBox(
+                              const SizedBox(
                                 width: 12,
                               ),
                               Expanded(
@@ -234,7 +232,7 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                                     Container(
                                       width: double.infinity,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
+                                        borderRadius: const BorderRadius.only(
                                           topLeft: Radius.circular(8),
                                           topRight: Radius.circular(8),
                                         ),
@@ -245,7 +243,7 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                                           ),
                                         ),
                                       ),
-                                      padding: EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(8),
                                       child: Column(
                                         children: [
                                           Row(
@@ -256,8 +254,8 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                                                   style:
                                                       mediumBodyText.copyWith(
                                                           color: blackTheme)),
-                                              SizedBox(width: 8),
-                                              Icon(
+                                              const SizedBox(width: 8),
+                                              const Icon(
                                                 TablerIcons.circle,
                                                 size: 20,
                                                 color: blackTheme,
@@ -270,7 +268,7 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                                       // Text("Sakit", style: mediumBodyText),
                                     ),
                                     Container(
-                                      padding: EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(8),
                                       child: Text(
                                         'Kamu bisa gunakan surat apapun',
                                         style: mediumBodyTextS.copyWith(
@@ -285,14 +283,14 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                         ),
                       ],
                     )),
-                    SizedBox(height: 28),
+                    const SizedBox(height: 28),
                     Container(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Container(
-                            child: Column(
+                            child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CustomTextField(
@@ -307,8 +305,8 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 30),
-                    Container(
+                    const SizedBox(height: 30),
+                    SizedBox(
                       width: double.infinity,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -317,7 +315,7 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                             'Dokumen',
                             style: mediumBodyText,
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           InkWell(
                               onTap: () async {
                                 final image = await selectImage();
@@ -332,7 +330,7 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                                   ? Column(
                                       children: [
                                         Container(
-                                          padding: EdgeInsets.all(16),
+                                          padding: const EdgeInsets.all(16),
                                           width: double.infinity,
                                           height:
                                               220, // Tambahkan tinggi container agar cukup ruang untuk teks di bawah
@@ -367,7 +365,7 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(height: 16),
+                                              const SizedBox(height: 16),
                                               Align(
                                                 alignment: Alignment.center,
                                                 child: Row(
@@ -387,7 +385,7 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                                                             .ellipsis,
                                                       ),
                                                     ),
-                                                    SizedBox(width: 8),
+                                                    const SizedBox(width: 8),
                                                     Text(
                                                       'Ubah',
                                                       style: mediumBodyTextS
@@ -413,15 +411,15 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                                   : DottedBorder(
                                       borderType: BorderType
                                           .RRect, // Membuat sudut membulat
-                                      radius: Radius.circular(
+                                      radius: const Radius.circular(
                                           8), // Radius sudut sesuai kebutuhan
-                                      dashPattern: [
+                                      dashPattern: const [
                                         8,
                                         8
                                       ], // Mengatur pola garis putus-putus
                                       color: neutralTheme[200]!, // Warna border
                                       strokeWidth: 1, // Ketebalan garis border
-                                      child: Container(
+                                      child: SizedBox(
                                         width: double.infinity,
                                         height: 188,
                                         child: Column(
@@ -461,7 +459,7 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
           ),
         ),
         bottomNavigationBar: Container(
-          padding: EdgeInsets.only(bottom: 16, right: 16, left: 16),
+          padding: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
           child: LargeFillButton(
             label: "Konfirmasi",
             onPressed: () {

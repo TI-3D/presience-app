@@ -15,9 +15,6 @@ _$ScheduleWeekImpl _$$ScheduleWeekImplFromJson(Map<String, dynamic> json) =>
       status: json['status'] as String?,
       openedAt: json['openedAt'] as String?,
       closedAt: json['closedAt'] as String?,
-      week: json['week'] == null
-          ? null
-          : Week.fromJson(json['week'] as Map<String, dynamic>),
       schedule: json['schedule'] == null
           ? null
           : Schedule.fromJson(json['schedule'] as Map<String, dynamic>),
@@ -31,6 +28,5 @@ Map<String, dynamic> _$$ScheduleWeekImplToJson(_$ScheduleWeekImpl instance) =>
       'status': instance.status,
       'openedAt': instance.openedAt,
       'closedAt': instance.closedAt,
-      'week': instance.week,
       'schedule': instance.schedule,
     };
