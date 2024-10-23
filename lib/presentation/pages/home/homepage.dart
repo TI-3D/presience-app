@@ -33,7 +33,7 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
   Widget build(BuildContext context) {
     final List<Widget> pages = <Widget>[
       const HomePage(),
-      const PresensiPage(),
+      const TabPresensiPage(),
       const ProfilPage(),
     ];
     return SafeArea(
@@ -46,7 +46,7 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border(
-              top: BorderSide(color: neutralTheme[200]!, width: 0.5),
+              top: BorderSide(color: neutralTheme[200]!, width: 1.5),
             ),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
