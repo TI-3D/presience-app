@@ -9,11 +9,23 @@ import 'package:presience_app/presentation/widgets/login/heading.dart';
 
 import '../../../data/dto/requests/login_dto.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
-  final TextEditingController nimController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _nimController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nimController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +53,7 @@ class LoginPage extends StatelessWidget {
                     CustomTextField(
                       label: "NIM",
                       hint: "NIM",
-                      controller: nimController,
+                      controller: _nimController,
                     ),
                     const SizedBox(
                       height: 8,
@@ -49,7 +61,7 @@ class LoginPage extends StatelessWidget {
                     CustomPasswordField(
                       label: "Kata Sandi",
                       hint: "Kata Sandi",
-                      controller: passwordController,
+                      controller: _passwordController,
                     ),
                   ],
                 )
@@ -61,7 +73,7 @@ class LoginPage extends StatelessWidget {
           listener: (context, state) {
             state.maybeWhen(
               loginSuccess: (data) {
-                if (data.user!.isVerified! == true) {
+                if (data.user!.isVerified!) {
                   return context.go('/homepage');
                 }
                 return context.go('/login/success');
@@ -89,8 +101,8 @@ class LoginPage extends StatelessWidget {
                       context.read<AuthBloc>().add(
                             AuthEvent.login(
                               LoginDto(
-                                nim: nimController.text,
-                                password: passwordController.text,
+                                nim: _nimController.text,
+                                password: _passwordController.text,
                               ),
                             ),
                           );

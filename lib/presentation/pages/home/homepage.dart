@@ -1,6 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
+import 'package:presience_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:presience_app/presentation/pages/presensi/presensi.dart';
 import 'package:presience_app/presentation/pages/profile/profile.dart';
 import 'package:presience_app/presentation/utils/text.dart';
@@ -9,7 +12,6 @@ import 'package:presience_app/presentation/widgets/cards/last_week_card.dart';
 import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/cards/today_presensi.dart';
 import 'package:presience_app/presentation/widgets/navigations/menu_item.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class NavigationHomePage extends StatefulWidget {
   const NavigationHomePage({super.key});
@@ -92,193 +94,229 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                      height: 52,
-                      width: 52,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          border:
-                              Border.all(color: neutralTheme[100]!, width: 1)),
-                      child:
-                          Image.asset('assets/default/Men-Avatar-Default.png')),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Rahmat Budi Sudarso", style: mediumBodyTextXL),
-                      const SizedBox(
-                        height: 2,
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  loginSuccess: (data) {
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
                       ),
-                      Text(
-                        "2241720000",
-                        style: mediumBodyTextS,
-                      )
-                    ],
-                  ),
-                ],
-              ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 52,
+                            width: 52,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(
+                                  color: neutralTheme[100]!, width: 1),
+                            ),
+                            child: (data.user!.avatar != null)
+                                ? Image.network(
+                                    data.user!.avatar!,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(
+                                    'assets/default/Men-Avatar-Default.png',
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(data.user!.name!, style: mediumBodyTextXL),
+                              const SizedBox(
+                                height: 2,
+                              ),
+                              Text(
+                                data.user!.nim!,
+                                style: mediumBodyTextS,
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  orElse: () {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                );
+              },
             ),
             const SizedBox(
               height: 20,
             ),
             Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                ),
-                child: Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                      color: neutralTheme,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: neutralTheme[100]!, width: 1)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "D4 Teknik Informatika - Semester 5",
-                            style: mediumBodyTextL,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.baseline,
-                            textBaseline: TextBaseline.alphabetic,
-                            children: [
-                              Text(
-                                "90%",
-                                style: mediumBodyTextXL.copyWith(
-                                    fontSize: 40,
-                                    letterSpacing: calculateWordSpacing(40),
-                                    color: greenTheme),
-                              ),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              Text(
-                                "Kehadiran",
-                                style: regularBodyTextS.copyWith(
-                                    color: greenTheme),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: SizedBox(
-                          height: 72,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child: Container(
-                                height: double.infinity,
-                                color: neutralTheme[50],
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "4",
-                                        style: heading2,
-                                      ),
-                                      Text(
-                                        "Sakit",
-                                        style: mediumBodyTextS.copyWith(
-                                            color: neutralTheme[300]),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )),
-                              Expanded(
-                                  child: Container(
-                                height: double.infinity,
-                                color: neutralTheme[50],
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "4",
-                                        style: heading2,
-                                      ),
-                                      Text(
-                                        "Izin",
-                                        style: mediumBodyTextS.copyWith(
-                                            color: neutralTheme[300]),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )),
-                              Expanded(
-                                  child: Container(
-                                height: double.infinity,
-                                color: neutralTheme[50],
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "4",
-                                        style: heading2,
-                                      ),
-                                      Text(
-                                        "Alpha",
-                                        style: mediumBodyTextS.copyWith(
-                                            color: neutralTheme[300]),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )),
-                              Expanded(
-                                  child: Container(
-                                decoration: BoxDecoration(
-                                  color: redTheme[100]!,
-                                  border: Border(
-                                      left: BorderSide(
-                                          color: redTheme[200]!, width: 1)),
-                                ),
-                                height: double.infinity,
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "4",
-                                        style:
-                                            heading2.copyWith(color: redTheme),
-                                      ),
-                                      Text(
-                                        "Kompen",
-                                        style: mediumBodyTextS.copyWith(
-                                            color: redTheme[400]!),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )),
-                            ],
-                          ),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+              ),
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                    color: neutralTheme,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: neutralTheme[100]!, width: 1)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        BlocBuilder<AuthBloc, AuthState>(
+                          builder: (context, state) {
+                            return state.maybeWhen(
+                              loginSuccess: (data) {
+                                return Text(
+                                  "D4 ${data.user!.major!} - Semester ${data.user!.semester!}",
+                                  style: mediumBodyTextL,
+                                );
+                              },
+                              orElse: () {
+                                return Text(
+                                  "Loading...",
+                                  style: mediumBodyTextL,
+                                );
+                              },
+                            );
+                          },
                         ),
-                      )
-                    ],
-                  ),
-                ))
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: [
+                            Text(
+                              "90%",
+                              style: mediumBodyTextXL.copyWith(
+                                  fontSize: 40,
+                                  letterSpacing: calculateWordSpacing(40),
+                                  color: greenTheme),
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              "Kehadiran",
+                              style:
+                                  regularBodyTextS.copyWith(color: greenTheme),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: SizedBox(
+                        height: 72,
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: Container(
+                              height: double.infinity,
+                              color: neutralTheme[50],
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "4",
+                                      style: heading2,
+                                    ),
+                                    Text(
+                                      "Sakit",
+                                      style: mediumBodyTextS.copyWith(
+                                          color: neutralTheme[300]),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )),
+                            Expanded(
+                                child: Container(
+                              height: double.infinity,
+                              color: neutralTheme[50],
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "4",
+                                      style: heading2,
+                                    ),
+                                    Text(
+                                      "Izin",
+                                      style: mediumBodyTextS.copyWith(
+                                          color: neutralTheme[300]),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )),
+                            Expanded(
+                                child: Container(
+                              height: double.infinity,
+                              color: neutralTheme[50],
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "4",
+                                      style: heading2,
+                                    ),
+                                    Text(
+                                      "Alpha",
+                                      style: mediumBodyTextS.copyWith(
+                                          color: neutralTheme[300]),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )),
+                            Expanded(
+                                child: Container(
+                              decoration: BoxDecoration(
+                                color: redTheme[100]!,
+                                border: Border(
+                                    left: BorderSide(
+                                        color: redTheme[200]!, width: 1)),
+                              ),
+                              height: double.infinity,
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "4",
+                                      style: heading2.copyWith(color: redTheme),
+                                    ),
+                                    Text(
+                                      "Kompen",
+                                      style: mediumBodyTextS.copyWith(
+                                          color: redTheme[400]!),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),

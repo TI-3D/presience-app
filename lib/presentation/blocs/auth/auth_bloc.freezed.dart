@@ -20,6 +20,7 @@ mixin _$AuthEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(LoginDto params) login,
+    required TResult Function(ChangePasswordDto params) changePassword,
     required TResult Function() logout,
   }) =>
       throw _privateConstructorUsedError;
@@ -27,6 +28,7 @@ mixin _$AuthEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(LoginDto params)? login,
+    TResult? Function(ChangePasswordDto params)? changePassword,
     TResult? Function()? logout,
   }) =>
       throw _privateConstructorUsedError;
@@ -34,6 +36,7 @@ mixin _$AuthEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(LoginDto params)? login,
+    TResult Function(ChangePasswordDto params)? changePassword,
     TResult Function()? logout,
     required TResult orElse(),
   }) =>
@@ -42,6 +45,7 @@ mixin _$AuthEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_Login value) login,
+    required TResult Function(_ChangePassword value) changePassword,
     required TResult Function(_Logout value) logout,
   }) =>
       throw _privateConstructorUsedError;
@@ -49,6 +53,7 @@ mixin _$AuthEvent {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_Login value)? login,
+    TResult? Function(_ChangePassword value)? changePassword,
     TResult? Function(_Logout value)? logout,
   }) =>
       throw _privateConstructorUsedError;
@@ -56,6 +61,7 @@ mixin _$AuthEvent {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_Login value)? login,
+    TResult Function(_ChangePassword value)? changePassword,
     TResult Function(_Logout value)? logout,
     required TResult orElse(),
   }) =>
@@ -125,6 +131,7 @@ class _$StartedImpl implements _Started {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(LoginDto params) login,
+    required TResult Function(ChangePasswordDto params) changePassword,
     required TResult Function() logout,
   }) {
     return started();
@@ -135,6 +142,7 @@ class _$StartedImpl implements _Started {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(LoginDto params)? login,
+    TResult? Function(ChangePasswordDto params)? changePassword,
     TResult? Function()? logout,
   }) {
     return started?.call();
@@ -145,6 +153,7 @@ class _$StartedImpl implements _Started {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(LoginDto params)? login,
+    TResult Function(ChangePasswordDto params)? changePassword,
     TResult Function()? logout,
     required TResult orElse(),
   }) {
@@ -159,6 +168,7 @@ class _$StartedImpl implements _Started {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_Login value) login,
+    required TResult Function(_ChangePassword value) changePassword,
     required TResult Function(_Logout value) logout,
   }) {
     return started(this);
@@ -169,6 +179,7 @@ class _$StartedImpl implements _Started {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_Login value)? login,
+    TResult? Function(_ChangePassword value)? changePassword,
     TResult? Function(_Logout value)? logout,
   }) {
     return started?.call(this);
@@ -179,6 +190,7 @@ class _$StartedImpl implements _Started {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_Login value)? login,
+    TResult Function(_ChangePassword value)? changePassword,
     TResult Function(_Logout value)? logout,
     required TResult orElse(),
   }) {
@@ -263,6 +275,7 @@ class _$LoginImpl implements _Login {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(LoginDto params) login,
+    required TResult Function(ChangePasswordDto params) changePassword,
     required TResult Function() logout,
   }) {
     return login(params);
@@ -273,6 +286,7 @@ class _$LoginImpl implements _Login {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(LoginDto params)? login,
+    TResult? Function(ChangePasswordDto params)? changePassword,
     TResult? Function()? logout,
   }) {
     return login?.call(params);
@@ -283,6 +297,7 @@ class _$LoginImpl implements _Login {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(LoginDto params)? login,
+    TResult Function(ChangePasswordDto params)? changePassword,
     TResult Function()? logout,
     required TResult orElse(),
   }) {
@@ -297,6 +312,7 @@ class _$LoginImpl implements _Login {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_Login value) login,
+    required TResult Function(_ChangePassword value) changePassword,
     required TResult Function(_Logout value) logout,
   }) {
     return login(this);
@@ -307,6 +323,7 @@ class _$LoginImpl implements _Login {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_Login value)? login,
+    TResult? Function(_ChangePassword value)? changePassword,
     TResult? Function(_Logout value)? logout,
   }) {
     return login?.call(this);
@@ -317,6 +334,7 @@ class _$LoginImpl implements _Login {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_Login value)? login,
+    TResult Function(_ChangePassword value)? changePassword,
     TResult Function(_Logout value)? logout,
     required TResult orElse(),
   }) {
@@ -336,6 +354,160 @@ abstract class _Login implements AuthEvent {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LoginImplCopyWith<_$LoginImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ChangePasswordImplCopyWith<$Res> {
+  factory _$$ChangePasswordImplCopyWith(_$ChangePasswordImpl value,
+          $Res Function(_$ChangePasswordImpl) then) =
+      __$$ChangePasswordImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({ChangePasswordDto params});
+}
+
+/// @nodoc
+class __$$ChangePasswordImplCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$ChangePasswordImpl>
+    implements _$$ChangePasswordImplCopyWith<$Res> {
+  __$$ChangePasswordImplCopyWithImpl(
+      _$ChangePasswordImpl _value, $Res Function(_$ChangePasswordImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? params = null,
+  }) {
+    return _then(_$ChangePasswordImpl(
+      null == params
+          ? _value.params
+          : params // ignore: cast_nullable_to_non_nullable
+              as ChangePasswordDto,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ChangePasswordImpl implements _ChangePassword {
+  const _$ChangePasswordImpl(this.params);
+
+  @override
+  final ChangePasswordDto params;
+
+  @override
+  String toString() {
+    return 'AuthEvent.changePassword(params: $params)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChangePasswordImpl &&
+            (identical(other.params, params) || other.params == params));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, params);
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChangePasswordImplCopyWith<_$ChangePasswordImpl> get copyWith =>
+      __$$ChangePasswordImplCopyWithImpl<_$ChangePasswordImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(LoginDto params) login,
+    required TResult Function(ChangePasswordDto params) changePassword,
+    required TResult Function() logout,
+  }) {
+    return changePassword(params);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(LoginDto params)? login,
+    TResult? Function(ChangePasswordDto params)? changePassword,
+    TResult? Function()? logout,
+  }) {
+    return changePassword?.call(params);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(LoginDto params)? login,
+    TResult Function(ChangePasswordDto params)? changePassword,
+    TResult Function()? logout,
+    required TResult orElse(),
+  }) {
+    if (changePassword != null) {
+      return changePassword(params);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_Login value) login,
+    required TResult Function(_ChangePassword value) changePassword,
+    required TResult Function(_Logout value) logout,
+  }) {
+    return changePassword(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_Login value)? login,
+    TResult? Function(_ChangePassword value)? changePassword,
+    TResult? Function(_Logout value)? logout,
+  }) {
+    return changePassword?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_Login value)? login,
+    TResult Function(_ChangePassword value)? changePassword,
+    TResult Function(_Logout value)? logout,
+    required TResult orElse(),
+  }) {
+    if (changePassword != null) {
+      return changePassword(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _ChangePassword implements AuthEvent {
+  const factory _ChangePassword(final ChangePasswordDto params) =
+      _$ChangePasswordImpl;
+
+  ChangePasswordDto get params;
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ChangePasswordImplCopyWith<_$ChangePasswordImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -382,6 +554,7 @@ class _$LogoutImpl implements _Logout {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(LoginDto params) login,
+    required TResult Function(ChangePasswordDto params) changePassword,
     required TResult Function() logout,
   }) {
     return logout();
@@ -392,6 +565,7 @@ class _$LogoutImpl implements _Logout {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(LoginDto params)? login,
+    TResult? Function(ChangePasswordDto params)? changePassword,
     TResult? Function()? logout,
   }) {
     return logout?.call();
@@ -402,6 +576,7 @@ class _$LogoutImpl implements _Logout {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(LoginDto params)? login,
+    TResult Function(ChangePasswordDto params)? changePassword,
     TResult Function()? logout,
     required TResult orElse(),
   }) {
@@ -416,6 +591,7 @@ class _$LogoutImpl implements _Logout {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_Login value) login,
+    required TResult Function(_ChangePassword value) changePassword,
     required TResult Function(_Logout value) logout,
   }) {
     return logout(this);
@@ -426,6 +602,7 @@ class _$LogoutImpl implements _Logout {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_Login value)? login,
+    TResult? Function(_ChangePassword value)? changePassword,
     TResult? Function(_Logout value)? logout,
   }) {
     return logout?.call(this);
@@ -436,6 +613,7 @@ class _$LogoutImpl implements _Logout {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_Login value)? login,
+    TResult Function(_ChangePassword value)? changePassword,
     TResult Function(_Logout value)? logout,
     required TResult orElse(),
   }) {
@@ -956,10 +1134,10 @@ class __$$SuccessLoginImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? model = freezed,
+    Object? model = null,
   }) {
     return _then(_$SuccessLoginImpl(
-      freezed == model
+      null == model
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as AuthDto,
@@ -985,12 +1163,11 @@ class _$SuccessLoginImpl implements _SuccessLogin {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SuccessLoginImpl &&
-            const DeepCollectionEquality().equals(other.model, model));
+            (identical(other.model, model) || other.model == model));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(model));
+  int get hashCode => Object.hash(runtimeType, model);
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
