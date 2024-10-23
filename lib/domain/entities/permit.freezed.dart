@@ -25,7 +25,6 @@ mixin _$Permit {
   DateTime? get endDate => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get evidence => throw _privateConstructorUsedError;
-  User? get user => throw _privateConstructorUsedError;
 
   /// Serializes this Permit to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -46,10 +45,7 @@ abstract class $PermitCopyWith<$Res> {
       DateTime? startDate,
       DateTime? endDate,
       String? description,
-      String? evidence,
-      User? user});
-
-  $UserCopyWith<$Res>? get user;
+      String? evidence});
 }
 
 /// @nodoc
@@ -72,7 +68,6 @@ class _$PermitCopyWithImpl<$Res, $Val extends Permit>
     Object? endDate = freezed,
     Object? description = freezed,
     Object? evidence = freezed,
-    Object? user = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -95,25 +90,7 @@ class _$PermitCopyWithImpl<$Res, $Val extends Permit>
           ? _value.evidence
           : evidence // ignore: cast_nullable_to_non_nullable
               as String?,
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User?,
     ) as $Val);
-  }
-
-  /// Create a copy of Permit
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res>? get user {
-    if (_value.user == null) {
-      return null;
-    }
-
-    return $UserCopyWith<$Res>(_value.user!, (value) {
-      return _then(_value.copyWith(user: value) as $Val);
-    });
   }
 }
 
@@ -129,11 +106,7 @@ abstract class _$$PermitImplCopyWith<$Res> implements $PermitCopyWith<$Res> {
       DateTime? startDate,
       DateTime? endDate,
       String? description,
-      String? evidence,
-      User? user});
-
-  @override
-  $UserCopyWith<$Res>? get user;
+      String? evidence});
 }
 
 /// @nodoc
@@ -154,7 +127,6 @@ class __$$PermitImplCopyWithImpl<$Res>
     Object? endDate = freezed,
     Object? description = freezed,
     Object? evidence = freezed,
-    Object? user = freezed,
   }) {
     return _then(_$PermitImpl(
       id: freezed == id
@@ -177,10 +149,6 @@ class __$$PermitImplCopyWithImpl<$Res>
           ? _value.evidence
           : evidence // ignore: cast_nullable_to_non_nullable
               as String?,
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User?,
     ));
   }
 }
@@ -189,12 +157,7 @@ class __$$PermitImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PermitImpl implements _Permit {
   const _$PermitImpl(
-      {this.id,
-      this.startDate,
-      this.endDate,
-      this.description,
-      this.evidence,
-      this.user});
+      {this.id, this.startDate, this.endDate, this.description, this.evidence});
 
   factory _$PermitImpl.fromJson(Map<String, dynamic> json) =>
       _$$PermitImplFromJson(json);
@@ -209,12 +172,10 @@ class _$PermitImpl implements _Permit {
   final String? description;
   @override
   final String? evidence;
-  @override
-  final User? user;
 
   @override
   String toString() {
-    return 'Permit(id: $id, startDate: $startDate, endDate: $endDate, description: $description, evidence: $evidence, user: $user)';
+    return 'Permit(id: $id, startDate: $startDate, endDate: $endDate, description: $description, evidence: $evidence)';
   }
 
   @override
@@ -229,14 +190,13 @@ class _$PermitImpl implements _Permit {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.evidence, evidence) ||
-                other.evidence == evidence) &&
-            (identical(other.user, user) || other.user == user));
+                other.evidence == evidence));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, startDate, endDate, description, evidence, user);
+  int get hashCode =>
+      Object.hash(runtimeType, id, startDate, endDate, description, evidence);
 
   /// Create a copy of Permit
   /// with the given fields replaced by the non-null parameter values.
@@ -260,8 +220,7 @@ abstract class _Permit implements Permit {
       final DateTime? startDate,
       final DateTime? endDate,
       final String? description,
-      final String? evidence,
-      final User? user}) = _$PermitImpl;
+      final String? evidence}) = _$PermitImpl;
 
   factory _Permit.fromJson(Map<String, dynamic> json) = _$PermitImpl.fromJson;
 
@@ -275,8 +234,6 @@ abstract class _Permit implements Permit {
   String? get description;
   @override
   String? get evidence;
-  @override
-  User? get user;
 
   /// Create a copy of Permit
   /// with the given fields replaced by the non-null parameter values.

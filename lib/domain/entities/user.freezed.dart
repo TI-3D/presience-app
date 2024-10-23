@@ -22,11 +22,13 @@ User _$UserFromJson(Map<String, dynamic> json) {
 mixin _$User {
   String? get nim => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'birth_date')
   String? get birthDate => throw _privateConstructorUsedError;
   String? get gender => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
   String? get major => throw _privateConstructorUsedError;
-  String? get semester => throw _privateConstructorUsedError;
+  int? get semester => throw _privateConstructorUsedError;
+  @JsonKey(name: 'verified')
   bool? get isVerified => throw _privateConstructorUsedError;
   Group? get group => throw _privateConstructorUsedError;
 
@@ -47,12 +49,12 @@ abstract class $UserCopyWith<$Res> {
   $Res call(
       {String? nim,
       String? name,
-      String? birthDate,
+      @JsonKey(name: 'birth_date') String? birthDate,
       String? gender,
       String? avatar,
       String? major,
-      String? semester,
-      bool? isVerified,
+      int? semester,
+      @JsonKey(name: 'verified') bool? isVerified,
       Group? group});
 
   $GroupCopyWith<$Res>? get group;
@@ -111,7 +113,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
       semester: freezed == semester
           ? _value.semester
           : semester // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       isVerified: freezed == isVerified
           ? _value.isVerified
           : isVerified // ignore: cast_nullable_to_non_nullable
@@ -148,12 +150,12 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   $Res call(
       {String? nim,
       String? name,
-      String? birthDate,
+      @JsonKey(name: 'birth_date') String? birthDate,
       String? gender,
       String? avatar,
       String? major,
-      String? semester,
-      bool? isVerified,
+      int? semester,
+      @JsonKey(name: 'verified') bool? isVerified,
       Group? group});
 
   @override
@@ -210,7 +212,7 @@ class __$$UserImplCopyWithImpl<$Res>
       semester: freezed == semester
           ? _value.semester
           : semester // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       isVerified: freezed == isVerified
           ? _value.isVerified
           : isVerified // ignore: cast_nullable_to_non_nullable
@@ -229,12 +231,12 @@ class _$UserImpl implements _User {
   const _$UserImpl(
       {this.nim,
       this.name,
-      this.birthDate,
+      @JsonKey(name: 'birth_date') this.birthDate,
       this.gender,
       this.avatar,
       this.major,
       this.semester,
-      this.isVerified,
+      @JsonKey(name: 'verified') this.isVerified,
       this.group});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
@@ -245,6 +247,7 @@ class _$UserImpl implements _User {
   @override
   final String? name;
   @override
+  @JsonKey(name: 'birth_date')
   final String? birthDate;
   @override
   final String? gender;
@@ -253,8 +256,9 @@ class _$UserImpl implements _User {
   @override
   final String? major;
   @override
-  final String? semester;
+  final int? semester;
   @override
+  @JsonKey(name: 'verified')
   final bool? isVerified;
   @override
   final Group? group;
@@ -308,12 +312,12 @@ abstract class _User implements User {
   const factory _User(
       {final String? nim,
       final String? name,
-      final String? birthDate,
+      @JsonKey(name: 'birth_date') final String? birthDate,
       final String? gender,
       final String? avatar,
       final String? major,
-      final String? semester,
-      final bool? isVerified,
+      final int? semester,
+      @JsonKey(name: 'verified') final bool? isVerified,
       final Group? group}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
@@ -323,6 +327,7 @@ abstract class _User implements User {
   @override
   String? get name;
   @override
+  @JsonKey(name: 'birth_date')
   String? get birthDate;
   @override
   String? get gender;
@@ -331,8 +336,9 @@ abstract class _User implements User {
   @override
   String? get major;
   @override
-  String? get semester;
+  int? get semester;
   @override
+  @JsonKey(name: 'verified')
   bool? get isVerified;
   @override
   Group? get group;

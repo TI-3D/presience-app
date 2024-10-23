@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:presience_app/domain/entities/group.dart';
 
@@ -9,12 +11,12 @@ class User with _$User {
   const factory User({
     String? nim,
     String? name,
-    String? birthDate,
+    @JsonKey(name: 'birth_date') String? birthDate,
     String? gender,
     String? avatar,
     String? major,
-    String? semester,
-    bool? isVerified,
+    int? semester,
+    @JsonKey(name: 'verified') bool? isVerified,
     Group? group,
   }) = _User;
 
@@ -27,6 +29,21 @@ class User with _$User {
         major: json['major'],
         semester: json['semester'],
         isVerified: json['verified'],
-        group: Group.fromJson(json['group']),
+        group: json['group'] != null ? Group.fromJson(json['group']) : null,
       );
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'nim': nim,
+      'name': name,
+      'birth_date': birthDate,
+      'gender': gender,
+      'avatar': avatar,
+      'major': major,
+      'semester': semester,
+      'verified': isVerified,
+      'group': group?.toJson(),
+    };
+  }
 }

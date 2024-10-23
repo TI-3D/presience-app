@@ -11,18 +11,18 @@ class CustomTextField extends StatelessWidget {
   final String? errorMessage;
   final bool? isMultiline;
   // final ValueChanged<String> onChanged;
-  // final TextEditingController controller;
+  final TextEditingController? controller;
 
   const CustomTextField({
-    Key? key,
+    super.key,
     required this.label,
     required this.hint,
     this.isOptional,
     this.errorMessage,
     this.isMultiline = false,
     // required this.onChanged,
-    // required this.controller,
-  }) : super(key: key);
+    this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class CustomTextField extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           FieldLabel(label: label, isOptional: isOptional),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           TextField(
@@ -40,12 +40,13 @@ class CustomTextField extends StatelessWidget {
                 ? TextInputType.text
                 : TextInputType.multiline,
             maxLines: (isMultiline == false) ? 1 : 3,
+            controller: controller,
             decoration: InputDecoration(
               // Focused
-              focusedBorder: OutlineInputBorder(
+              focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(width: 1, color: blackTheme),
                   borderRadius: BorderRadius.all(Radius.circular(8))),
-              focusedErrorBorder: OutlineInputBorder(
+              focusedErrorBorder: const OutlineInputBorder(
                   borderSide: BorderSide(width: 1, color: blackTheme),
                   borderRadius: BorderRadius.all(Radius.circular(8))),
 
@@ -53,19 +54,19 @@ class CustomTextField extends StatelessWidget {
               hintText: hint,
               hintStyle: mediumBodyText.copyWith(color: neutralTheme[200]),
               contentPadding:
-                  EdgeInsets.symmetric(horizontal: 12, vertical: 13.5),
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 13.5),
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                       width: 1,
                       color:
                           errorMessage != null ? redTheme : neutralTheme[200]!),
-                  borderRadius: BorderRadius.all(Radius.circular(8))),
-              border: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(8))),
+              border: const OutlineInputBorder(
                   borderSide: BorderSide(width: 1, color: blackTheme),
                   borderRadius: BorderRadius.all(Radius.circular(8))),
 
               // Error
-              errorBorder: OutlineInputBorder(
+              errorBorder: const OutlineInputBorder(
                   borderSide: BorderSide(width: 1, color: redTheme),
                   borderRadius: BorderRadius.all(Radius.circular(8))),
             ),
@@ -91,17 +92,17 @@ class CustomPasswordField extends StatefulWidget {
   final bool? isOptional;
   final String? errorMessage;
   // final ValueChanged<String> onChanged;
-  // final TextEditingController controller;
+  final TextEditingController? controller;
 
   const CustomPasswordField({
-    Key? key,
+    super.key,
     required this.label,
     required this.hint,
     this.isOptional,
     this.errorMessage,
     // required this.onChanged,
-    // required this.controller,
-  }) : super(key: key);
+    this.controller,
+  });
 
   @override
   State<CustomPasswordField> createState() => _CustomPasswordFieldState();
@@ -117,17 +118,18 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           FieldLabel(label: widget.label, isOptional: widget.isOptional),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           TextField(
+            controller: widget.controller,
             obscureText: _isObscured,
             decoration: InputDecoration(
               // Focused
-              focusedBorder: OutlineInputBorder(
+              focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(width: 1, color: blackTheme),
                   borderRadius: BorderRadius.all(Radius.circular(8))),
-              focusedErrorBorder: OutlineInputBorder(
+              focusedErrorBorder: const OutlineInputBorder(
                   borderSide: BorderSide(width: 1, color: blackTheme),
                   borderRadius: BorderRadius.all(Radius.circular(8))),
 
@@ -135,20 +137,20 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
               hintText: widget.hint,
               hintStyle: mediumBodyText.copyWith(color: neutralTheme[200]),
               contentPadding:
-                  EdgeInsets.symmetric(horizontal: 12, vertical: 13.5),
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 13.5),
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                       width: 1,
                       color: widget.errorMessage != null
                           ? redTheme
                           : neutralTheme[200]!),
-                  borderRadius: BorderRadius.all(Radius.circular(8))),
-              border: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(8))),
+              border: const OutlineInputBorder(
                   borderSide: BorderSide(width: 1, color: blackTheme),
                   borderRadius: BorderRadius.all(Radius.circular(8))),
 
               // Error
-              errorBorder: OutlineInputBorder(
+              errorBorder: const OutlineInputBorder(
                   borderSide: BorderSide(width: 1, color: redTheme),
                   borderRadius: BorderRadius.all(Radius.circular(8))),
 
