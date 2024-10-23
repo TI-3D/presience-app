@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   final String hint;
   final bool? isOptional;
   final String? errorMessage;
+  final bool? isMultiline;
   // final ValueChanged<String> onChanged;
   // final TextEditingController controller;
 
@@ -18,6 +19,7 @@ class CustomTextField extends StatelessWidget {
     required this.hint,
     this.isOptional,
     this.errorMessage,
+    this.isMultiline = false,
     // required this.onChanged,
     // required this.controller,
   }) : super(key: key);
@@ -25,7 +27,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 97,
+      height: (isMultiline == false) ? 97 : 139,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -34,6 +36,10 @@ class CustomTextField extends StatelessWidget {
             height: 8,
           ),
           TextField(
+            keyboardType: (isMultiline == false)
+                ? TextInputType.text
+                : TextInputType.multiline,
+            maxLines: (isMultiline == false) ? 1 : 3,
             decoration: InputDecoration(
               // Focused
               focusedBorder: OutlineInputBorder(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:presience_app/presentation/pages/ajukan_izin/form_pengajuan.dart';
 import 'package:presience_app/presentation/pages/homepage.dart';
 import 'package:presience_app/presentation/pages/registrations/camera.dart';
 import 'package:presience_app/presentation/pages/registrations/change_password.dart';
@@ -56,10 +57,17 @@ final GoRouter _router = GoRouter(
         return HomePage();
       },
     ),
+    GoRoute(
+      path: '/pengajuan_izin',
+      builder: (BuildContext context, GoRouterState state) {
+        return FormPengajuanPage();
+      },
+    ),
   ],
   redirect: (BuildContext context, GoRouterState state) {
     if (state.uri.toString() == '/') {
-      return '/login'; // Redirect to login if trying to access root
+      // return '/login'; // Redirect to login if trying to access root
+      return '/pengajuan_izin'; // Redirect to login if trying to access root
     }
     return null; // No redirect otherwise
   },
