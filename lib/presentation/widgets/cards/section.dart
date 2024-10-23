@@ -13,7 +13,9 @@ class CustomSection extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(title, style: mediumBodyTextL),
+        Text(title,
+            style:
+                mediumBodyTextXL.copyWith(fontWeight: fontWeight['SemiBold'])),
         const SizedBox(
           height: 8,
         ),

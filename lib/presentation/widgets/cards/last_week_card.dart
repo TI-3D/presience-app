@@ -4,6 +4,7 @@ import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/cards/card.dart';
 import 'package:presience_app/presentation/widgets/labels/tag_label.dart';
+import 'package:presience_app/presentation/utils/methods.dart';
 
 class CustomLastWeekCard extends StatelessWidget {
   final String courseName;
@@ -26,44 +27,13 @@ class CustomLastWeekCard extends StatelessWidget {
 
   late Widget tagLabel;
   late Icon? additionIcon;
-
   @override
   Widget build(BuildContext context) {
-    if (alpha == courseTime) {
-      tagLabel = const CustomTaglabelRed(label: "Alpha");
-      additionIcon = const Icon(
-        TablerIcons.alert_circle,
-        color: redTheme,
-        size: 16,
-      );
-    } else if (izin == courseTime) {
-      tagLabel = const CustomTaglabelOrange(label: "Izin");
-      additionIcon = null;
-    } else if (sakit == courseTime) {
-      tagLabel = const CustomTaglabelOrange(label: "Sakit");
-      additionIcon = null;
-    } else if (izin == 0 && sakit == 0 && alpha == 0) {
-      tagLabel = const CustomTaglabelGreen(label: "Hadir");
-      additionIcon = null;
-    } else if (alpha == 0 && (izin > 0 || sakit > 0)) {
-      if (izin > 0 && izin < courseTime && sakit == 0) {
-        tagLabel = const CustomTaglabelGreen(label: "Hadir");
-      } else if (sakit > 0 && sakit < courseTime && izin == 0) {
-        tagLabel = const CustomTaglabelGreen(label: "Hadir");
-      }
-      additionIcon = const Icon(
-        TablerIcons.alarm,
-        color: orangeTheme,
-        size: 16,
-      );
-    } else if (alpha > 0 && alpha != courseTime) {
-      tagLabel = const CustomTaglabelGreen(label: "Hadir");
-      additionIcon = const Icon(
-        TablerIcons.alert_circle,
-        color: redTheme,
-        size: 16,
-      );
-    }
+    Map<String, dynamic> widgets = getWidgetStatus(
+        izin: izin, sakit: sakit, alpha: alpha, courseTime: courseTime);
+    tagLabel = widgets['tagLabel']!;
+    additionIcon = widgets['additionIcon'];
+
     return CustomCard(
       onTap: onTap,
       child: Column(
@@ -91,7 +61,7 @@ class CustomLastWeekCard extends StatelessWidget {
               )
             ],
           ),
-          Text(lectureName, style: regularBodyTextS)
+          Text(lectureName, style: regularBodyText)
         ],
       ),
     );

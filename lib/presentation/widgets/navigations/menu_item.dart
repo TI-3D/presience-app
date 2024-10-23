@@ -31,15 +31,15 @@ class CustomButtomNavigationMenuItem extends StatelessWidget {
               color:
                   selectedPageIndex == index ? blackTheme : neutralTheme[400]!,
             ),
-            const SizedBox(
+            SizedBox(
               height: 4,
             ),
             Text(
               label,
               style: selectedPageIndex == index
-                  ? mediumBodyTextS.copyWith(
-                      color: blackTheme, fontWeight: FontWeight.w600)
-                  : regularBodyTextS.copyWith(
+                  ? mediumBodyText.copyWith(
+                      color: blackTheme, fontWeight: FontWeight.w700)
+                  : regularBodyText.copyWith(
                       color: neutralTheme[400]!, fontWeight: FontWeight.w500),
             )
           ],

@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:presience_app/presentation/pages/home/homepage.dart';
 import 'package:presience_app/presentation/pages/presensi/detail.dart';
+import 'package:presience_app/presentation/pages/presensi/pengajuan/detail.dart';
 import 'package:presience_app/presentation/pages/registrations/camera.dart';
 import 'package:presience_app/presentation/pages/registrations/change_password.dart';
 import 'package:presience_app/presentation/pages/logins/login.dart';
 import 'package:presience_app/presentation/pages/logins/success.dart';
-import 'package:presience_app/presentation/pages/registrations/camera.dart';
-import 'package:presience_app/presentation/pages/registrations/change_password.dart';
 import 'package:presience_app/presentation/pages/registrations/change_succes.dart';
 import 'package:presience_app/presentation/pages/registrations/register_face.dart';
 
@@ -69,6 +68,19 @@ final GoRouter _router = GoRouter(
             path: '/detail',
             builder: (BuildContext context, GoRouterState state) {
               return DetailPresensiPage();
+            },
+          ),
+        ]),
+    GoRoute(
+        path: '/pengajuan',
+        redirect: (BuildContext context, GoRouterState state) {
+          return '/presensi/detail';
+        },
+        routes: [
+          GoRoute(
+            path: '/detail',
+            builder: (BuildContext context, GoRouterState state) {
+              return DetailPengajuanPage();
             },
           ),
         ]),
