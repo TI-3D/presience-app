@@ -110,40 +110,30 @@ class TodayPresensiCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                              child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                TablerIcons.award_filled,
-                                color: textColor,
-                              ),
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              Text(
-                                scheduleWeek.schedule!.course!.name!,
-                                style:
-                                    mediumBodyTextL.copyWith(color: textColor),
-                              )
-                            ],
-                          )),
-                          tagLabel
-                        ],
-                      )
+                      Icon(
+                        TablerIcons.award_filled,
+                        color: textColor,
+                        size: 28,
+                      ),
+                      tagLabel
                     ],
                   ),
                   const SizedBox(
                     height: 4,
                   ),
                   Text(
+                    scheduleWeek.schedule!.course!.name!,
+                    style: mediumBodyTextXL.copyWith(
+                      color: textColor,
+                    ),
+                  ),
+                  Text(
                     scheduleWeek.schedule!.lecturer!.name!,
-                    style: regularBodyTextXS.copyWith(color: textColor),
+                    style: regularBodyText.copyWith(color: textColor),
                   )
                 ],
               ),

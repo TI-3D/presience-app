@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:presience_app/presentation/utils/text.dart';
+import 'package:presience_app/presentation/widgets/cards/title_section.dart';
 
 class CustomSection extends StatelessWidget {
   final String title;
@@ -13,9 +13,7 @@ class CustomSection extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(title,
-            style:
-                mediumBodyTextXL.copyWith(fontWeight: fontWeight['SemiBold'])),
+        TitleSection(title: title),
         const SizedBox(
           height: 8,
         ),
