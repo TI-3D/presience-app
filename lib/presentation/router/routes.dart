@@ -82,7 +82,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/pengajuan',
       redirect: (BuildContext context, GoRouterState state) {
-        return '/presensi/detail';
+        return '/pengajuan/detail';
       },
       routes: [
         GoRoute(
