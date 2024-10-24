@@ -5,6 +5,7 @@ import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
 import 'package:presience_app/presentation/widgets/cards/perizinan_card.dart';
 import 'package:presience_app/presentation/widgets/cards/section.dart';
+import 'package:presience_app/presentation/widgets/skeletons/perizinan_card.dart';
 
 class PerizinanPage extends StatelessWidget {
   const PerizinanPage({super.key});
@@ -97,6 +98,7 @@ class _ContentofPerizinanState extends State<ContentofPerizinan> {
           typePermission: lastWeekCourses[index]['typePermission'],
           onTap: () => context.push('/pengajuan/detail'),
         );
+        // PerizinanPresensiSkeleton();
         // return Text(lastWeekCourses[index]['courseName']);
       },
       separatorBuilder: (context, index) => const SizedBox(

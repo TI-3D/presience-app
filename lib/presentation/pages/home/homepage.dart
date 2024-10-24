@@ -3,16 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
+import 'package:presience_app/data/dto/requests/auth_dto.dart';
 import 'package:presience_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
 import 'package:presience_app/presentation/pages/presensi/presensi.dart';
 import 'package:presience_app/presentation/pages/profile/profile.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
+import 'package:presience_app/presentation/widgets/cards/card.dart';
+import 'package:presience_app/presentation/widgets/cards/attendance.dart';
 import 'package:presience_app/presentation/widgets/cards/last_week_card.dart';
 import 'package:presience_app/presentation/widgets/cards/section.dart';
+import 'package:presience_app/presentation/widgets/cards/title_section.dart';
 import 'package:presience_app/presentation/widgets/cards/today_presensi.dart';
 import 'package:presience_app/presentation/widgets/navigations/menu_item.dart';
+import 'package:presience_app/presentation/widgets/skeletons/attendance.dart';
+import 'package:presience_app/presentation/widgets/skeletons/last_week_skeleton.dart';
+import 'package:presience_app/presentation/widgets/skeletons/today_presensi_skeleton.dart';
 
 class NavigationHomePage extends StatefulWidget {
   const NavigationHomePage({super.key});
@@ -159,165 +166,21 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                 horizontal: 16,
               ),
-              child: Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                    color: neutralTheme,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: neutralTheme[100]!, width: 1)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        BlocBuilder<AuthBloc, AuthState>(
-                          builder: (context, state) {
-                            return state.maybeWhen(
-                              loginSuccess: (data) {
-                                return Text(
-                                  "D4 ${data.user!.major!} - Semester ${data.user!.semester!}",
-                                  style: mediumBodyTextL,
-                                );
-                              },
-                              orElse: () {
-                                return Text(
-                                  "Loading...",
-                                  style: mediumBodyTextL,
-                                );
-                              },
-                            );
-                          },
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: [
-                            Text(
-                              "90%",
-                              style: mediumBodyTextXL.copyWith(
-                                  fontSize: 40,
-                                  letterSpacing: calculateWordSpacing(40),
-                                  color: greenTheme),
-                            ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            Text(
-                              "Kehadiran",
-                              style:
-                                  regularBodyTextS.copyWith(color: greenTheme),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: SizedBox(
-                        height: 72,
-                        child: Row(
-                          children: [
-                            Expanded(
-                                child: Container(
-                              height: double.infinity,
-                              color: neutralTheme[50],
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "4",
-                                      style: heading2,
-                                    ),
-                                    Text(
-                                      "Sakit",
-                                      style: mediumBodyTextS.copyWith(
-                                          color: neutralTheme[300]),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )),
-                            Expanded(
-                                child: Container(
-                              height: double.infinity,
-                              color: neutralTheme[50],
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "4",
-                                      style: heading2,
-                                    ),
-                                    Text(
-                                      "Izin",
-                                      style: mediumBodyTextS.copyWith(
-                                          color: neutralTheme[300]),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )),
-                            Expanded(
-                                child: Container(
-                              height: double.infinity,
-                              color: neutralTheme[50],
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "4",
-                                      style: heading2,
-                                    ),
-                                    Text(
-                                      "Alpha",
-                                      style: mediumBodyTextS.copyWith(
-                                          color: neutralTheme[300]),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )),
-                            Expanded(
-                                child: Container(
-                              decoration: BoxDecoration(
-                                color: redTheme[100]!,
-                                border: Border(
-                                    left: BorderSide(
-                                        color: redTheme[200]!, width: 1)),
-                              ),
-                              height: double.infinity,
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "4",
-                                      style: heading2.copyWith(color: redTheme),
-                                    ),
-                                    Text(
-                                      "Kompen",
-                                      style: mediumBodyTextS.copyWith(
-                                          color: redTheme[400]!),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+              child: BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    loginSuccess: (data) {
+                      return AttendanceCard(
+                        data: data,
+                      );
+                    },
+                    orElse: () {
+                      return AttendanceSkeleton();
+                    },
+                  );
+                },
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -340,7 +203,7 @@ class HomePage extends StatelessWidget {
                   children: [
                     Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Text("Hari Ini", style: mediumBodyTextL)),
+                        child: TitleSection(title: "Hari Ini")),
                     const SizedBox(
                       height: 8,
                     ),
@@ -439,6 +302,7 @@ class _ContentofRiwayatPresensiState extends State<ContentofRiwayatPresensi> {
       shrinkWrap: true,
       itemCount: lastWeekCourses.length,
       itemBuilder: (context, index) {
+        // return CustomLastWeekSkeleton();
         return CustomLastWeekCard(
           courseName: lastWeekCourses[index]['courseName'],
           lectureName: lastWeekCourses[index]['lectureName'],
@@ -529,13 +393,15 @@ class _ContentofHariIni2State extends State<ContentofHariIni2> {
                     return SizedBox(
                       width: MediaQuery.of(context).size.width -
                           32, // 80% of screen width
-                      child: TodayPresensiCard(
+                      child:
+                          //  TodayPresensiSkeleton()
+                          TodayPresensiCard(
                         scheduleWeek: data[itemIndex],
                       ),
                     );
                   },
                   options: CarouselOptions(
-                    height: 218,
+                    // height: 218,
                     enableInfiniteScroll: false,
                     viewportFraction: 1,
                     padEnds: false,
@@ -546,22 +412,25 @@ class _ContentofHariIni2State extends State<ContentofHariIni2> {
                     },
                   ),
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(data.length, (index) {
-                    return indicator(index);
-                  }),
-                )
+                if (data.length > 1) ...[
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(data.length, (index) {
+                      return indicator(index);
+                    }),
+                  )
+                ]
               ],
             );
           },
           orElse: () {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return Container(
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: TodayPresensiSkeleton());
           },
         );
       },

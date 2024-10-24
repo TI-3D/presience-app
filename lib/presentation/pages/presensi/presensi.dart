@@ -10,6 +10,7 @@ import 'package:presience_app/presentation/widgets/cards/history_presensi_card.d
 import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/cards/today_presensi.dart';
 import 'package:presience_app/presentation/widgets/form/dropdown.dart';
+import 'package:presience_app/presentation/widgets/skeletons/history_presensi_skeleton.dart';
 
 class TabPresensiPage extends StatefulWidget {
   const TabPresensiPage({super.key});
@@ -278,7 +279,9 @@ class _ContentofWeekPresensiState extends State<ContentofWeekPresensi> {
       shrinkWrap: true,
       itemCount: lastWeekCourses.length,
       itemBuilder: (context, index) {
-        return HistoryPresensiCard(
+        return
+            //  HistoryPresensiSkeleton();
+            HistoryPresensiCard(
           courseName: lastWeekCourses[index]['courseName'],
           date: lastWeekCourses[index]['date'],
           openedTime: lastWeekCourses[index]['openedTime'],
