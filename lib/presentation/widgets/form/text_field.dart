@@ -27,7 +27,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: (isMultiline == false) ? 97 : 139,
+      height: (isMultiline == false) ? 97 : 154,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

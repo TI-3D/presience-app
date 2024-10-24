@@ -397,11 +397,14 @@ class _ContentofHariIni2State extends State<ContentofHariIni2> {
                           //  TodayPresensiSkeleton()
                           TodayPresensiCard(
                         scheduleWeek: data[itemIndex],
+                        onTapAjukanIzin: () {
+                          context.push('/pengajuan_izin');
+                        },
                       ),
                     );
                   },
                   options: CarouselOptions(
-                    // height: 218,
+                    height: 234,
                     enableInfiniteScroll: false,
                     viewportFraction: 1,
                     padEnds: false,
