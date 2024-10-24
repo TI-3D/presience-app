@@ -26,7 +26,7 @@ class Schedule with _$Schedule {
         startTime: json['start_time'],
         endTime: json['end_time'],
         lecturer: Lecturer.fromJson(json['lecturer']),
-        group: Group.fromJson(json['group']),
+        group: json['group'] != null ? Group.fromJson(json['group']) : null,
         room: Room.fromJson(json['room']),
         course: Course.fromJson(json['course']),
       );

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:presience_app/presentation/blocs/auth/auth_bloc.dart';
+import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
 import 'package:presience_app/presentation/pages/presensi/presensi.dart';
 import 'package:presience_app/presentation/pages/profile/profile.dart';
 import 'package:presience_app/presentation/utils/text.dart';
@@ -489,8 +490,6 @@ class _ContentofHariIni2State extends State<ContentofHariIni2> {
 
   late final List<Map<String, String>> matkulList = [matkul1, matkul2];
 
-  late List<Widget> _todayCards;
-
   int currentCard = 0;
 
   Widget indicator(int index) {
@@ -508,52 +507,64 @@ class _ContentofHariIni2State extends State<ContentofHariIni2> {
   @override
   void initState() {
     super.initState();
-    _todayCards = List.generate(matkulList.length, (index) {
-      Map<String, String> matkul = matkulList[index];
-
-      return TodayPresensiCard(
-          courseName: matkul['courseName']!,
-          lectureName: matkul['lectureName']!,
-          status: matkul['status']!,
-          room: matkul['room']!,
-          floor: matkul['floor']!,
-          startTime: matkul['startTime']!,
-          endTime: matkul['endTime']!,
-          absentPercentage: matkul['absentPercentage']!);
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      CarouselSlider.builder(
-        itemCount: matkulList.length,
-        itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
-          return SizedBox(
-              width:
-                  MediaQuery.of(context).size.width - 32, // 80% of screen width
-              child: _todayCards[itemIndex]);
-        },
-        options: CarouselOptions(
-            height: 218,
-            enableInfiniteScroll: false,
-            viewportFraction: 1,
-            padEnds: false,
-            onPageChanged: (index, reason) {
-              setState(() {
-                currentCard = index;
-              });
-            }),
-      ),
-      const SizedBox(
-        height: 8,
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(matkulList.length, (index) {
-          return indicator(index);
-        }),
-      )
-    ]);
+    return BlocBuilder<ScheduleBloc, ScheduleState>(
+      builder: (context, state) {
+        return state.maybeWhen(
+          success: (data) {
+            if (data.isEmpty) {
+              return const Center(
+                child: Text("Tidak ada data"),
+              );
+            }
+            return Column(
+              children: [
+                CarouselSlider.builder(
+                  itemCount: data.length,
+                  itemBuilder:
+                      (BuildContext context, int itemIndex, int pageViewIndex) {
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width -
+                          32, // 80% of screen width
+                      child: TodayPresensiCard(
+                        scheduleWeek: data[itemIndex],
+                      ),
+                    );
+                  },
+                  options: CarouselOptions(
+                    height: 218,
+                    enableInfiniteScroll: false,
+                    viewportFraction: 1,
+                    padEnds: false,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        currentCard = index;
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(data.length, (index) {
+                    return indicator(index);
+                  }),
+                )
+              ],
+            );
+          },
+          orElse: () {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        );
+      },
+    );
   }
 }

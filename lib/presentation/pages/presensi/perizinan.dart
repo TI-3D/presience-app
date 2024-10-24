@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
-import 'package:presience_app/presentation/widgets/cards/history_presensi_card.dart';
 import 'package:presience_app/presentation/widgets/cards/perizinan_card.dart';
 import 'package:presience_app/presentation/widgets/cards/section.dart';
 
@@ -13,15 +12,15 @@ class PerizinanPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.only(top: 12, bottom: 16),
+      padding: const EdgeInsets.only(top: 12, bottom: 16),
       children: [
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           width: double.infinity,
           child: Column(
             children: [
               Text("Pengajuan Izin", style: mediumBodyTextXL),
-              SizedBox(
+              const SizedBox(
                 height: 4,
               ),
               Text(
@@ -29,7 +28,7 @@ class PerizinanPage extends StatelessWidget {
                 style: regularBodyText.copyWith(color: neutralTheme[700]),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               SmallFillButton(label: "Ajukan Izin", onPressed: () {})
@@ -41,13 +40,13 @@ class PerizinanPage extends StatelessWidget {
           thickness: 1,
           color: neutralTheme[100],
         ),
-        CustomSection(title: "Pengajuan", child: ContentofPerizinan()),
+        const CustomSection(title: "Pengajuan", child: ContentofPerizinan()),
         Divider(
           height: 24,
           thickness: 1,
           color: neutralTheme[100],
         ),
-        CustomSection(title: "Perubahan", child: ContentofPerizinan()),
+        const CustomSection(title: "Perubahan", child: ContentofPerizinan()),
       ],
     );
   }
@@ -98,7 +97,7 @@ class _ContentofPerizinanState extends State<ContentofPerizinan> {
           typePermission: lastWeekCourses[index]['typePermission'],
           onTap: () => context.push('/pengajuan/detail'),
         );
-        return Text(lastWeekCourses[index]['courseName']);
+        // return Text(lastWeekCourses[index]['courseName']);
       },
       separatorBuilder: (context, index) => const SizedBox(
         height: 8,
