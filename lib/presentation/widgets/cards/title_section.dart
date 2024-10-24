@@ -7,7 +7,6 @@ class TitleSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(title,
-        style: mediumBodyTextXL.copyWith(fontWeight: fontWeight['SemiBold']));
+    return Text(title, style: mediumBodyTextXL.copyWith());
   }
 }

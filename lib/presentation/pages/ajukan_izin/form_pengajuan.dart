@@ -3,13 +3,22 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
+import 'package:presience_app/presentation/pages/home/homepage.dart';
+import 'package:presience_app/presentation/utils/methods.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
-import 'package:presience_app/presentation/widgets/detail.dart';
+import 'package:presience_app/presentation/widgets/cards/section.dart';
+import 'package:presience_app/presentation/widgets/cards/title_section.dart';
+import 'package:presience_app/presentation/widgets/containers/content.dart';
+import 'package:presience_app/presentation/widgets/containers/detail.dart';
+import 'package:presience_app/presentation/widgets/form/label.dart';
+import 'package:presience_app/presentation/widgets/form/radio_desc.dart';
 import 'package:presience_app/presentation/widgets/form/text_field.dart';
+import 'package:presience_app/presentation/widgets/navigations/app_bar.dart';
 
 class FormPengajuanPage extends StatefulWidget {
   const FormPengajuanPage({super.key});
@@ -21,7 +30,7 @@ class FormPengajuanPage extends StatefulWidget {
 class _FormPengajuanPageState extends State<FormPengajuanPage> {
   String? profilePicture;
   String? pathImage;
-
+  String selectedPermission = "sakit";
   @override
   Widget build(BuildContext context) {
     Future<XFile?> selectImage() async {
@@ -44,266 +53,112 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: neutralTheme,
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(48),
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: neutralTheme[200]!,
-                  width: 1.0, // Ketebalan garis
-                ),
-              ),
-            ),
-            child: AppBar(
-              scrolledUnderElevation: 0,
-              backgroundColor: neutralTheme,
-              toolbarHeight: 48,
-              leading: Container(
-                margin: const EdgeInsets.only(left: 16),
-                child: const Icon(
-                  TablerIcons.arrow_left,
-                  size: 24,
-                ),
-              ),
-              title: Text(
-                'Pengajuan',
-                style: mediumBodyTextL,
-              ),
-              centerTitle: true,
-            ),
-          ),
+        appBar: const CustomAppBar(
+          title: "Pengajuan",
         ),
         body: SingleChildScrollView(
+          padding: const EdgeInsets.only(top: 12, bottom: 16),
           child: Column(
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0, vertical: 12.0),
+              const CustomSection(
+                title: "Detail Presensi",
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Detail Presensi',
-                      style: mediumBodyTextL,
+                    CustomFirstDetailContainer(
+                      children: [
+                        TitleDetail(title: "Mata Kuliah"),
+                        ValueDetail(
+                            content: "Administrasi dan Keamanan Jaringan")
+                      ],
                     ),
-                    const SizedBox(height: 12),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          border: Border(
-                            top: BorderSide(
-                              color: neutralTheme[100]!,
-                              width: 1.0,
-                            ),
-                            left: BorderSide(
-                              color: neutralTheme[100]!,
-                              width: 1.0,
-                            ),
-                            right: BorderSide(
-                              color: neutralTheme[100]!,
-                              width: 1.0,
-                            ),
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: const SizedBox(
-                          width: double.infinity,
-                          child: Column(
-                            children: [
-                              CustomDetailContainer(
-                                  title: 'Mata Kuliah',
-                                  content: 'Pemrograman Mobile'),
-                              CustomDetailContainer(
-                                  title: 'Minggu', content: 'Minggu ke-7'),
-                              CustomDetailContainer(
-                                  title: 'Tanggal', content: '07/10/2024'),
-                            ],
-                          ),
-                        ),
-                      ),
+                    CustomMiddleDetailContainer(
+                      children: [
+                        TitleDetail(title: "Minggu"),
+                        ValueDetail(content: "7")
+                      ],
+                    ),
+                    CustomLastDetailContainer(
+                      children: [
+                        TitleDetail(title: "Tanggal"),
+                        ValueDetail(content: "07/10/2024")
+                      ],
                     ),
                   ],
                 ),
               ),
               Divider(
                 thickness: 1,
-                color: neutralTheme[200],
-                height: 1,
+                color: neutralTheme[100],
+                height: 24,
               ),
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                        child: Column(
+                    const TitleSection(title: "Detail Perizinan"),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Jenis Izin',
-                          style: mediumBodyText.copyWith(),
-                        ),
+                        const FieldLabel(label: "Jenis Izin"),
                         const SizedBox(height: 8),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                  child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(
-                                    color: purpleTheme[200]!,
-                                    width: 1.0,
-                                  ),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(8),
-                                          topRight: Radius.circular(8),
-                                        ),
-                                        border: Border(
-                                          bottom: BorderSide(
-                                            color: purpleTheme[200]!,
-                                            width: 1.0,
-                                          ),
-                                        ),
-                                        color: purpleTheme[100]!,
-                                      ),
-                                      padding: const EdgeInsets.all(8),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text("Sakit",
-                                                  style:
-                                                      mediumBodyText.copyWith(
-                                                          color: purpleTheme[
-                                                              950])),
-                                              const SizedBox(width: 8),
-                                              Icon(
-                                                TablerIcons.circle_check,
-                                                size: 20,
-                                                color: purpleTheme[950],
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-
-                                      // Text("Sakit", style: mediumBodyText),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Text(
-                                        'Kalau sakit, kamu butuh surat dokter',
-                                        style: mediumBodyTextS.copyWith(
-                                            color: neutralTheme[500]!),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )),
-                              const SizedBox(
-                                width: 12,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: CustomRadioDesc(
+                                value: "sakit",
+                                description:
+                                    "Kalau sakit, kamu butuh menyertakan surat dokter",
+                                isSelected: selectedPermission == "sakit",
+                                onTap: () {
+                                  setState(() {
+                                    selectedPermission = "sakit";
+                                  });
+                                },
                               ),
-                              Expanded(
-                                  child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(
-                                    color: neutralTheme[200]!,
-                                    width: 1.0,
-                                  ),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(8),
-                                          topRight: Radius.circular(8),
-                                        ),
-                                        border: Border(
-                                          bottom: BorderSide(
-                                            color: neutralTheme[200]!,
-                                            width: 1.0,
-                                          ),
-                                        ),
-                                      ),
-                                      padding: const EdgeInsets.all(8),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text("Izin",
-                                                  style:
-                                                      mediumBodyText.copyWith(
-                                                          color: blackTheme)),
-                                              const SizedBox(width: 8),
-                                              const Icon(
-                                                TablerIcons.circle,
-                                                size: 20,
-                                                color: blackTheme,
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-
-                                      // Text("Sakit", style: mediumBodyText),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Text(
-                                        'Kamu bisa gunakan surat apapun',
-                                        style: mediumBodyTextS.copyWith(
-                                            color: neutralTheme[500]!),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(
+                              width: 12,
+                            ),
+                            Expanded(
+                              child: CustomRadioDesc(
+                                value: "izin",
+                                description:
+                                    "Kamu bisa menggunakan surat apapun",
+                                isSelected: selectedPermission == "izin",
+                                onTap: () {
+                                  setState(() {
+                                    selectedPermission = "izin";
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ],
-                    )),
-                    const SizedBox(height: 28),
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 8),
-                          Container(
-                            child: const Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CustomTextField(
-                                  label: 'Deskripsi',
-                                  hint: 'Deskripsi',
-                                  isMultiline: true,
-                                  errorMessage: "Masukkan Deskripsi",
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 8),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomTextField(
+                              label: 'Deskripsi',
+                              hint: 'Deskripsi',
+                              isMultiline: true,
+                              errorMessage: "Masukkan Deskripsi",
+                            )
+                          ],
+                        )
+                      ],
                     ),
                     const SizedBox(height: 30),
                     SizedBox(
@@ -373,17 +228,15 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     // Path Image
-                                                    Container(
-                                                      child: Text(
-                                                        pathImage!,
-                                                        style: regularBodyTextS
-                                                            .copyWith(
-                                                          color:
-                                                              neutralTheme[300],
-                                                        ),
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
+                                                    Text(
+                                                      pathImage!,
+                                                      style: regularBodyTextS
+                                                          .copyWith(
+                                                        color:
+                                                            neutralTheme[300],
                                                       ),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
                                                     ),
                                                     const SizedBox(width: 8),
                                                     Text(
@@ -397,12 +250,6 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                                                   ],
                                                 ),
                                               ),
-
-                                              // Padding(
-                                              //   padding: EdgeInsets.fromLTRB(
-                                              //       89.5, 0, 89.5, 0),
-
-                                              // ),
                                             ],
                                           ),
                                         ),
