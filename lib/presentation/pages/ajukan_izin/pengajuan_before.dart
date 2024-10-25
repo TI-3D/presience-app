@@ -6,8 +6,6 @@ import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
-import 'package:presience_app/presentation/pages/home/homepage.dart';
-import 'package:presience_app/presentation/utils/methods.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
@@ -20,17 +18,46 @@ import 'package:presience_app/presentation/widgets/form/radio_desc.dart';
 import 'package:presience_app/presentation/widgets/form/text_field.dart';
 import 'package:presience_app/presentation/widgets/navigations/app_bar.dart';
 
-class FormPengajuanPage extends StatefulWidget {
-  const FormPengajuanPage({super.key});
+class FormPengajuanBeforeClassPage extends StatefulWidget {
+  const FormPengajuanBeforeClassPage({super.key});
 
   @override
-  State<FormPengajuanPage> createState() => _FormPengajuanPageState();
+  State<FormPengajuanBeforeClassPage> createState() =>
+      _FormPengajuanBeforeClassPageState();
 }
 
-class _FormPengajuanPageState extends State<FormPengajuanPage> {
+class _FormPengajuanBeforeClassPageState
+    extends State<FormPengajuanBeforeClassPage> {
   String? profilePicture;
   String? pathImage;
   String selectedPermission = "sakit";
+  final List<String> _options = [
+    'Option 1',
+    'Option 2',
+    'Option 3',
+  ];
+
+  // Keep track of the selected options
+  Map<String, bool> _selectedOptions = {};
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize all options as not selected
+    for (String option in _options) {
+      _selectedOptions[option] = true;
+    }
+  }
+
+  void _submitForm() {
+    // Print selected options
+    final selected = _selectedOptions.entries
+        .where((entry) => entry.value)
+        .map((entry) => entry.key)
+        .toList();
+    print('Selected options: $selected');
+  }
+
   @override
   Widget build(BuildContext context) {
     Future<XFile?> selectImage() async {
@@ -60,29 +87,21 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
           padding: const EdgeInsets.only(top: 12, bottom: 16),
           child: Column(
             children: [
-              const CustomSection(
-                title: "Detail Presensi",
-                child: Column(
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CustomFirstDetailContainer(
-                      children: [
-                        TitleDetail(title: "Mata Kuliah"),
-                        ValueDetail(
-                            content: "Administrasi dan Keamanan Jaringan")
-                      ],
+                    const Icon(
+                      TablerIcons.calendar,
+                      size: 18,
+                      color: blackTheme,
                     ),
-                    CustomMiddleDetailContainer(
-                      children: [
-                        TitleDetail(title: "Minggu"),
-                        ValueDetail(content: "7")
-                      ],
-                    ),
-                    CustomLastDetailContainer(
-                      children: [
-                        TitleDetail(title: "Tanggal"),
-                        ValueDetail(content: "07/10/2024")
-                      ],
-                    ),
+                    const SizedBox(width: 4),
+                    Text("31 Oktober 2022 - 31 Oktober 2022",
+                        style: mediumBodyText),
                   ],
                 ),
               ),
@@ -101,44 +120,111 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                     const SizedBox(
                       height: 8,
                     ),
+                    const FieldLabel(label: "Mata Kuliah"),
+                    const SizedBox(height: 8),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const FieldLabel(label: "Jenis Izin"),
-                        const SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: CustomRadioDesc(
-                                value: "sakit",
-                                description:
-                                    "Kalau sakit, kamu butuh menyertakan surat dokter",
-                                isSelected: selectedPermission == "sakit",
-                                onTap: () {
-                                  setState(() {
-                                    selectedPermission = "sakit";
-                                  });
-                                },
+                        ..._options.map((option) {
+                          BorderRadius borderRadius;
+                          if (option == _options[0]) {
+                            borderRadius =
+                                BorderRadius.vertical(top: Radius.circular(8));
+                          } else if (option == _options[_options.length - 1]) {
+                            borderRadius = BorderRadius.vertical(
+                                bottom: Radius.circular(8));
+                          } else {
+                            borderRadius = BorderRadius.zero;
+                          }
+
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selectedOptions[option] =
+                                    !_selectedOptions[option]!;
+                              });
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                borderRadius: borderRadius,
+                                border: Border(
+                                  right: BorderSide(
+                                      color: neutralTheme[100]!, width: 1),
+                                  left: BorderSide(
+                                      color: neutralTheme[100]!, width: 1),
+                                  top: option == _options[0]
+                                      ? BorderSide(
+                                          color: neutralTheme[100]!, width: 1)
+                                      : BorderSide.none,
+                                  bottom: BorderSide(
+                                      color: neutralTheme[100]!, width: 1),
+                                ),
+                                color: _selectedOptions[option]!
+                                    ? purpleTheme[100]
+                                    : neutralTheme,
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    _selectedOptions[option]!
+                                        ? TablerIcons.square_check
+                                        : TablerIcons.square,
+                                    color: _selectedOptions[option]!
+                                        ? purpleTheme
+                                        : blackTheme,
+                                    size: 18,
+                                  ),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    option,
+                                    style: mediumBodyText.copyWith(
+                                      color: _selectedOptions[option]!
+                                          ? purpleTheme
+                                          : blackTheme,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            const SizedBox(
-                              width: 12,
-                            ),
-                            Expanded(
-                              child: CustomRadioDesc(
-                                value: "izin",
-                                description:
-                                    "Kamu bisa menggunakan surat apapun",
-                                isSelected: selectedPermission == "izin",
-                                onTap: () {
-                                  setState(() {
-                                    selectedPermission = "izin";
-                                  });
-                                },
-                              ),
-                            ),
-                          ],
+                          );
+                        }).toList(),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    const FieldLabel(label: "Jenis Izin"),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: CustomRadioDesc(
+                            value: "sakit",
+                            description:
+                                "Kalau sakit, kamu butuh menyertakan surat dokter",
+                            isSelected: selectedPermission == "sakit",
+                            onTap: () {
+                              setState(() {
+                                selectedPermission = "sakit";
+                              });
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        Expanded(
+                          child: CustomRadioDesc(
+                            value: "izin",
+                            description: "Kamu bisa menggunakan surat apapun",
+                            isSelected: selectedPermission == "izin",
+                            onTap: () {
+                              setState(() {
+                                selectedPermission = "izin";
+                              });
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -160,7 +246,7 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
                         )
                       ],
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 8),
                     SizedBox(
                       width: double.infinity,
                       child: Column(
@@ -310,7 +396,7 @@ class _FormPengajuanPageState extends State<FormPengajuanPage> {
           child: LargeFillButton(
             label: "Konfirmasi",
             onPressed: () {
-              // context.go('/login/success');
+              context.push('/camera');
             },
           ),
         ),

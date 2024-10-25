@@ -398,7 +398,7 @@ class _ContentofHariIni2State extends State<ContentofHariIni2> {
                           TodayPresensiCard(
                         scheduleWeek: data[itemIndex],
                         onTapAjukanIzin: () {
-                          context.push('/pengajuan_izin');
+                          context.push('/pengajuan_izin/during');
                         },
                       ),
                     );
