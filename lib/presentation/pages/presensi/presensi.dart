@@ -50,14 +50,14 @@ class _TabPresensiStatePage extends State<TabPresensiPage>
       appBar: AppBar(
           toolbarHeight: 0,
           bottom: PreferredSize(
-              preferredSize: Size(MediaQuery.of(context).size.width, 52),
+              preferredSize: Size(MediaQuery.of(context).size.width, 60),
               child: Container(
                 decoration: BoxDecoration(
                     color: neutralTheme,
                     border: Border(
                         bottom:
                             BorderSide(color: neutralTheme[200]!, width: 1))),
-                height: 52,
+                height: 60,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 width: double.infinity,
                 child: SizedBox(

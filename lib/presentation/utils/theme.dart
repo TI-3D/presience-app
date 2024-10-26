@@ -87,6 +87,8 @@ const MaterialColor orangeTheme = MaterialColor(
 
 const Color blackTheme = Color(0xFF1B1B1B);
 
+final Color modalBackground = blackTheme.withOpacity(0.4);
+
 final ThemeData appTheme = ThemeData(
     fontFamily: typeFace,
     primarySwatch: purpleTheme, // Atur primarySwatch ke warna purpleTheme

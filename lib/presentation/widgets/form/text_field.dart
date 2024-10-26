@@ -10,8 +10,12 @@ class CustomTextField extends StatelessWidget {
   final bool? isOptional;
   final String? errorMessage;
   final bool? isMultiline;
+  final bool? readonly;
+  final bool? readonlyFilled;
+  final Widget? suffix;
   // final ValueChanged<String> onChanged;
   final TextEditingController? controller;
+  final GestureTapCallback? onTap;
 
   const CustomTextField({
     super.key,
@@ -22,6 +26,10 @@ class CustomTextField extends StatelessWidget {
     this.isMultiline = false,
     // required this.onChanged,
     this.controller,
+    this.readonly = false,
+    this.readonlyFilled = false,
+    this.suffix,
+    this.onTap,
   });
 
   @override
@@ -42,35 +50,41 @@ class CustomTextField extends StatelessWidget {
             maxLines: (isMultiline == false) ? 1 : 3,
             controller: controller,
             decoration: InputDecoration(
-              // Focused
-              focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: blackTheme),
-                  borderRadius: BorderRadius.all(Radius.circular(8))),
-              focusedErrorBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: blackTheme),
-                  borderRadius: BorderRadius.all(Radius.circular(8))),
+                // Focused
+                focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(width: 1, color: blackTheme),
+                    borderRadius: BorderRadius.all(Radius.circular(8))),
+                focusedErrorBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(width: 1, color: blackTheme),
+                    borderRadius: BorderRadius.all(Radius.circular(8))),
 
-              // Enabled
-              hintText: hint,
-              hintStyle: mediumBodyText.copyWith(color: neutralTheme[200]),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 13.5),
-              enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      width: 1,
-                      color:
-                          errorMessage != null ? redTheme : neutralTheme[200]!),
-                  borderRadius: const BorderRadius.all(Radius.circular(8))),
-              border: const OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: blackTheme),
-                  borderRadius: BorderRadius.all(Radius.circular(8))),
+                // Enabled
+                hintText: hint,
+                hintStyle: mediumBodyText.copyWith(
+                    color: readonlyFilled! ? blackTheme : neutralTheme[200]),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 13.5),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        width: 1,
+                        color: errorMessage != null
+                            ? redTheme
+                            : neutralTheme[200]!),
+                    borderRadius: const BorderRadius.all(Radius.circular(8))),
+                border: const OutlineInputBorder(
+                    borderSide: BorderSide(width: 1, color: blackTheme),
+                    borderRadius: BorderRadius.all(Radius.circular(8))),
 
-              // Error
-              errorBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: redTheme),
-                  borderRadius: BorderRadius.all(Radius.circular(8))),
-            ),
+                // Error
+                errorBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(width: 1, color: redTheme),
+                    borderRadius: BorderRadius.all(Radius.circular(8))),
+
+                // Suffix Icon
+                suffixIcon: suffix),
+            readOnly: readonly!,
             style: mediumBodyText,
+            onTap: onTap,
           ),
           if (errorMessage != null)
             Padding(

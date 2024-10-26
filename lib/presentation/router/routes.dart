@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:presience_app/presentation/pages/ajukan_izin/form_pengajuan.dart';
+import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_after.dart';
+import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_before.dart';
+import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_during.dart';
 import 'package:presience_app/presentation/pages/home/homepage.dart';
 import 'package:presience_app/presentation/pages/logins/login.dart';
 import 'package:presience_app/presentation/pages/logins/success.dart';
@@ -61,9 +63,29 @@ final GoRouter _router = GoRouter(
     ),
     GoRoute(
       path: '/pengajuan_izin',
-      builder: (BuildContext context, GoRouterState state) {
-        return const FormPengajuanPage();
+      redirect: (BuildContext context, GoRouterState state) {
+        return '/pengajuan_izin/before';
       },
+      routes: [
+        GoRoute(
+          path: 'before',
+          builder: (BuildContext context, GoRouterState state) {
+            return const FormPengajuanBeforeClassPage();
+          },
+        ),
+        GoRoute(
+          path: 'during',
+          builder: (BuildContext context, GoRouterState state) {
+            return const FormPengajuanDuringClassPage();
+          },
+        ),
+        GoRoute(
+          path: 'during',
+          builder: (BuildContext context, GoRouterState state) {
+            return const FormPengajuanAfterClassPage();
+          },
+        ),
+      ],
     ),
     GoRoute(
       path: '/presensi',
