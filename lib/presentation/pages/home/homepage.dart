@@ -397,6 +397,9 @@ class _ContentofHariIni2State extends State<ContentofHariIni2> {
                           //  TodayPresensiSkeleton()
                           TodayPresensiCard(
                         scheduleWeek: data[itemIndex],
+                        onTapPresensi: () {
+                          context.push('/camera/presensi');
+                        },
                         onTapAjukanIzin: () {
                           context.push('/pengajuan_izin/during');
                         },
