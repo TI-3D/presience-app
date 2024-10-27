@@ -3,12 +3,13 @@ import 'package:go_router/go_router.dart';
 import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_after.dart';
 import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_before.dart';
 import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_during.dart';
+import 'package:presience_app/presentation/pages/cameras/camera_presensi.dart';
 import 'package:presience_app/presentation/pages/home/homepage.dart';
 import 'package:presience_app/presentation/pages/logins/login.dart';
 import 'package:presience_app/presentation/pages/logins/success.dart';
 import 'package:presience_app/presentation/pages/presensi/detail.dart';
 import 'package:presience_app/presentation/pages/presensi/pengajuan/detail.dart';
-import 'package:presience_app/presentation/pages/registrations/camera.dart';
+import 'package:presience_app/presentation/pages/cameras/camera_registration.dart';
 import 'package:presience_app/presentation/pages/registrations/change_password.dart';
 import 'package:presience_app/presentation/pages/registrations/change_succes.dart';
 import 'package:presience_app/presentation/pages/registrations/register_face.dart';
@@ -50,11 +51,18 @@ final GoRouter _router = GoRouter(
       ],
     ),
     GoRoute(
-      path: '/camera',
-      builder: (BuildContext context, GoRouterState state) {
-        return const CameraPage();
-      },
-    ),
+        path: '/camera',
+        builder: (BuildContext context, GoRouterState state) {
+          return const CameraRegistrationPage();
+        },
+        routes: [
+          GoRoute(
+            path: '/presensi',
+            builder: (BuildContext context, GoRouterState state) {
+              return const CameraPresensiPage();
+            },
+          ),
+        ]),
     GoRoute(
       path: '/homepage',
       builder: (BuildContext context, GoRouterState state) {
@@ -80,7 +88,7 @@ final GoRouter _router = GoRouter(
           },
         ),
         GoRoute(
-          path: 'during',
+          path: 'after',
           builder: (BuildContext context, GoRouterState state) {
             return const FormPengajuanAfterClassPage();
           },
