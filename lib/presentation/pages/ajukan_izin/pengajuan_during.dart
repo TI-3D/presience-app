@@ -15,6 +15,7 @@ import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/cards/title_section.dart';
 import 'package:presience_app/presentation/widgets/containers/content.dart';
 import 'package:presience_app/presentation/widgets/containers/detail.dart';
+import 'package:presience_app/presentation/widgets/form/input_image.dart';
 import 'package:presience_app/presentation/widgets/form/label.dart';
 import 'package:presience_app/presentation/widgets/form/radio_desc.dart';
 import 'package:presience_app/presentation/widgets/form/text_field.dart';
@@ -103,44 +104,39 @@ class _FormPengajuanDuringClassPageState
                     const SizedBox(
                       height: 8,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    const FieldLabel(label: "Jenis Izin"),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const FieldLabel(label: "Jenis Izin"),
-                        const SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: CustomRadioDesc(
-                                value: "sakit",
-                                description:
-                                    "Kalau sakit, kamu butuh menyertakan surat dokter",
-                                isSelected: selectedPermission == "sakit",
-                                onTap: () {
-                                  setState(() {
-                                    selectedPermission = "sakit";
-                                  });
-                                },
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 12,
-                            ),
-                            Expanded(
-                              child: CustomRadioDesc(
-                                value: "izin",
-                                description:
-                                    "Kamu bisa menggunakan surat apapun",
-                                isSelected: selectedPermission == "izin",
-                                onTap: () {
-                                  setState(() {
-                                    selectedPermission = "izin";
-                                  });
-                                },
-                              ),
-                            ),
-                          ],
+                        Expanded(
+                          child: CustomRadioDesc(
+                            value: "sakit",
+                            description:
+                                "Kalau sakit, kamu butuh menyertakan surat dokter",
+                            isSelected: selectedPermission == "sakit",
+                            onTap: () {
+                              setState(() {
+                                selectedPermission = "sakit";
+                              });
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        Expanded(
+                          child: CustomRadioDesc(
+                            value: "izin",
+                            description:
+                                "Kamu bisa menggunakan surat apapun",
+                            isSelected: selectedPermission == "izin",
+                            onTap: () {
+                              setState(() {
+                                selectedPermission = "izin";
+                              });
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -163,144 +159,26 @@ class _FormPengajuanDuringClassPageState
                       ],
                     ),
                     const SizedBox(height: 8),
-                    SizedBox(
-                      width: double.infinity,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Dokumen',
-                            style: mediumBodyText,
-                          ),
-                          const SizedBox(height: 8),
-                          InkWell(
-                              onTap: () async {
-                                final image = await selectImage();
-                                setState(() {
-                                  profilePicture = image!.path;
-                                  pathImage = path.basename(image.path);
-                                });
-                                print(profilePicture);
-                                print(pathImage);
-                              },
-                              child: (profilePicture != null)
-                                  ? Column(
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.all(16),
-                                          width: double.infinity,
-                                          height:
-                                              220, // Tambahkan tinggi container agar cukup ruang untuk teks di bawah
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            border: Border.all(
-                                              color: neutralTheme[200]!,
-                                              style: BorderStyle.solid,
-                                              width: 1.0,
-                                            ),
-                                            color: neutralTheme[100],
-                                          ),
-                                          // Column untuk menempatkan gambar dan teks secara vertikal
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              // Container untuk gambar
-                                              Container(
-                                                height:
-                                                    150, // Batasi tinggi gambar
-                                                width: double.infinity,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(4),
-                                                  image: DecorationImage(
-                                                    image: imageProvider,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(height: 16),
-                                              Align(
-                                                alignment: Alignment.center,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    // Path Image
-                                                    Text(
-                                                      pathImage!,
-                                                      style: regularBodyTextS
-                                                          .copyWith(
-                                                        color:
-                                                            neutralTheme[300],
-                                                      ),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    ),
-                                                    const SizedBox(width: 8),
-                                                    Text(
-                                                      'Ubah',
-                                                      style: mediumBodyTextS
-                                                          .copyWith(
-                                                        color:
-                                                            neutralTheme[300],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : DottedBorder(
-                                      borderType: BorderType
-                                          .RRect, // Membuat sudut membulat
-                                      radius: const Radius.circular(
-                                          8), // Radius sudut sesuai kebutuhan
-                                      dashPattern: const [
-                                        8,
-                                        8
-                                      ], // Mengatur pola garis putus-putus
-                                      color: neutralTheme[200]!, // Warna border
-                                      strokeWidth: 1, // Ketebalan garis border
-                                      child: SizedBox(
-                                        width: double.infinity,
-                                        height: 188,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              TablerIcons.photo_up,
-                                              size: 48,
-                                              color: purpleTheme[950],
-                                            ),
-                                            Text(
-                                              'Unggah Gambar',
-                                              style: mediumBodyText.copyWith(
-                                                color: purpleTheme[950],
-                                              ),
-                                            ),
-                                            Text(
-                                              'Ukuran gambar maksimal 2MB',
-                                              style: mediumBodyTextS.copyWith(
-                                                color: neutralTheme[300],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ))
-                        ],
-                      ),
+                    Text(
+                      'Dokumen',
+                      style: mediumBodyText,
                     ),
+                    const SizedBox(height: 8),
+                    InkWell(
+                        onTap: () async {
+                          final image = await selectImage();
+                          setState(() {
+                            profilePicture = image!.path;
+                            pathImage = path.basename(image.path);
+                          });
+                          print(profilePicture);
+                          print(pathImage);
+                        },
+                        child: (profilePicture != null)
+                            ? CustomImageInputFill(
+                                imageProvider: imageProvider,
+                                pathImage: pathImage)
+                            : const CustomImageInputEmpty()),
                   ],
                 ),
               ),
