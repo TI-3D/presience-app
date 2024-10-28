@@ -44,7 +44,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           Center(
             child: Text(
-              'Pengajuan',
+              title,
               style: mediumBodyTextXL.copyWith(
                 color: blackTheme,
               ),
