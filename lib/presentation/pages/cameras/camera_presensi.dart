@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:presience_app/presentation/pages/cameras/camera_registration.dart';
+import 'package:presience_app/presentation/utils/methods.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
@@ -19,6 +20,9 @@ import 'package:presience_app/presentation/widgets/form/label.dart';
 import 'package:presience_app/presentation/widgets/form/text_field.dart';
 import 'package:path/path.dart' as path;
 import 'package:presience_app/presentation/widgets/form/input_image.dart';
+import 'package:presience_app/presentation/widgets/modal/button.dart';
+import 'package:presience_app/presentation/widgets/modal/dialog.dart';
+import 'package:presience_app/presentation/widgets/modal/loading.dart';
 
 class CameraPresensiPage extends StatefulWidget {
   const CameraPresensiPage({super.key});
@@ -94,7 +98,54 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                   CameraFullRatio(controller: controller),
                   CameraButtons(
                     onTapCamera: () {
-                      context.go('/homepage');
+                      // context.go('/homepage');
+                      showCustomDialog(
+                        context,
+                        isLoading: true,
+                        getResponse: () async {
+                          await Future.delayed(const Duration(seconds: 5));
+                          return true; // change to false to simulate failure
+                        },
+                        onResponse: (response) {
+                          if (response) {
+                            context.pop();
+                            context.push('/homepage');
+                            // showCustomDialog(
+                            //   context,
+                            //   child: CustomDialog(
+                            //     child: DialogContentButton(
+                            //       title: "Pengajuan Berhasil",
+                            //       subtitle:
+                            //           "Perizinan kamu sedang diproses. Periksa lagi ketika dosen sudah menutup presensi.",
+                            //       label: 'OK',
+                            //       onPressed: () {
+                            //         context.pop();
+                            //       },
+                            //     ),
+                            //   ),
+                            // );
+                          } else {
+                            context.pop();
+                            showCustomDialog(context,
+                                child: CustomDialog(
+                                  child: DialogContentButton(
+                                      title:
+                                          "Wajah Tidak Dikenali / Lokasi Tidak Valid",
+                                      subtitle:
+                                          "Kami tidak dapat mengenali wajahmu. / Sepertinya kamu sedang tidak di kampus.",
+                                      label: "Ulangi",
+                                      onPressed: () {
+                                        context.pop();
+                                      }),
+                                ));
+                          }
+                        },
+                        child: CustomDialog(
+                          child: DialogContentLoading(
+                              title: "Tunggu sebentar",
+                              subtitle: "Wajah kamu sedang di proses"),
+                        ),
+                      );
                     },
                     onTapRotateCamera: () {
                       setState(() {

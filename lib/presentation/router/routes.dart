@@ -66,7 +66,14 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/homepage',
       builder: (BuildContext context, GoRouterState state) {
-        return const NavigationHomePage();
+        final args = state.extra as Map<String, dynamic>? ?? {};
+        final selectedPageIndex = args['selectedPageIndex'] ?? 0;
+        final selectedTab = args['selectedTab'] ?? 0;
+        // return NavigationHomePage(
+        //   selectedPageIndex: selectedPageIndex,
+        //   selectedTab: selectedTab,
+        // );
+        return NavigationHomePage();
       },
     ),
     GoRoute(
@@ -120,7 +127,7 @@ final GoRouter _router = GoRouter(
   ],
   redirect: (BuildContext context, GoRouterState state) {
     if (state.uri.toString() == '/') {
-      return '/pengajuan_izin/after'; // Redirect to login if trying to access root
+      return '/login'; // Redirect to login if trying to access root
     }
     return null; // No redirect otherwise
   },

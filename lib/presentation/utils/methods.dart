@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
+import 'package:presience_app/presentation/pages/home/homepage.dart';
+import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
+import 'package:presience_app/presentation/widgets/buttons/button.dart';
 import 'package:presience_app/presentation/widgets/labels/tag_label.dart';
+import 'package:presience_app/presentation/widgets/modal/dialog.dart';
 
 Map<String, dynamic> getWidgetStatus(
     {required int izin,
@@ -55,8 +61,28 @@ Map<String, dynamic> getWidgetStatus(
   return widgets;
 }
 
-
 String capitalize(String input) {
   if (input.isEmpty) return input;
   return input[0].toUpperCase() + input.substring(1).toLowerCase();
+}
+
+void showCustomDialog(BuildContext context,
+    {bool isLoading = false,
+    required CustomDialog child,
+    Future<bool> Function()? getResponse,
+    void Function(bool response)? onResponse}) {
+  showDialog(
+    barrierDismissible: !isLoading,
+    context: context,
+    builder: (BuildContext context) {
+      return child;
+    },
+  );
+
+  // Simulate a backend call
+  if (isLoading) {
+    getResponse!().then((response) {
+      onResponse!(response);
+    });
+  }
 }

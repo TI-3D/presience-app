@@ -197,7 +197,8 @@ class _FormPengajuanAfterClassPageState
           child: LargeFillButton(
             label: "Konfirmasi",
             onPressed: () {
-              // context.go('/login/success');
+              context.go('/homepage',
+                  extra: {'selectedPageIndex': 1, 'selectedTab': 1});
             },
           ),
         ),

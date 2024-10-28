@@ -287,7 +287,8 @@ class _FormPengajuanBeforeClassPageState
           child: LargeFillButton(
             label: "Konfirmasi",
             onPressed: () {
-              context.push('/camera');
+              context.go('/homepage',
+                  extra: {'selectedPageIndex': 1, 'selectedTab': 1});
             },
           ),
         ),

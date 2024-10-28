@@ -22,18 +22,19 @@ import 'package:presience_app/presentation/widgets/skeletons/last_week_skeleton.
 import 'package:presience_app/presentation/widgets/skeletons/today_presensi_skeleton.dart';
 
 class NavigationHomePage extends StatefulWidget {
-  const NavigationHomePage({super.key});
+  int? selectedPageIndex;
+  int? selectedTab;
+
+  NavigationHomePage({super.key, this.selectedPageIndex = 0, this.selectedTab = 0});
 
   @override
   State<NavigationHomePage> createState() => _NavigationHomePageState();
 }
 
 class _NavigationHomePageState extends State<NavigationHomePage> {
-  int _selectedPageIndex = 0;
-
   void _onItemTapped(int index) {
     setState(() {
-      _selectedPageIndex = index;
+      widget.selectedPageIndex = index;
     });
   }
 
@@ -41,13 +42,13 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
   Widget build(BuildContext context) {
     final List<Widget> pages = <Widget>[
       const HomePage(),
-      const TabPresensiPage(),
+      TabPresensiPage(selectedTab: widget.selectedTab),
       const ProfilPage(),
     ];
     return SafeArea(
       child: Scaffold(
         backgroundColor: neutralTheme,
-        body: pages[_selectedPageIndex],
+        body: pages[widget.selectedPageIndex!],
         bottomNavigationBar: Container(
           height: 72,
           width: double.infinity,
@@ -65,19 +66,19 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
                   label: "Beranda",
                   icon: TablerIcons.home,
                   index: 0,
-                  selectedPageIndex: _selectedPageIndex,
+                  selectedPageIndex: widget.selectedPageIndex!,
                   onTap: _onItemTapped),
               CustomButtomNavigationMenuItem(
                   label: "Presensi",
                   icon: TablerIcons.news,
                   index: 1,
-                  selectedPageIndex: _selectedPageIndex,
+                  selectedPageIndex: widget.selectedPageIndex!,
                   onTap: _onItemTapped),
               CustomButtomNavigationMenuItem(
                   label: "Profil",
                   icon: TablerIcons.user_circle,
                   index: 2,
-                  selectedPageIndex: _selectedPageIndex,
+                  selectedPageIndex: widget.selectedPageIndex!,
                   onTap: _onItemTapped),
             ],
           ),

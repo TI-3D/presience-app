@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 
 double calculateWordSpacing(dynamic fontSize) {
-  return -(fontSize * 0.02);
+  // return -(fontSize * 0.02);
+  return 0;
 }
 
 const String typeFace = "InterTight";
