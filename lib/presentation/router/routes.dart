@@ -66,7 +66,14 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/homepage',
       builder: (BuildContext context, GoRouterState state) {
-        return const NavigationHomePage();
+        final args = state.extra as Map<String, dynamic>? ?? {};
+        final selectedPageIndex = args['selectedPageIndex'] ?? 0;
+        final selectedTab = args['selectedTab'] ?? 0;
+        // return NavigationHomePage(
+        //   selectedPageIndex: selectedPageIndex,
+        //   selectedTab: selectedTab,
+        // );
+        return NavigationHomePage();
       },
     ),
     GoRoute(

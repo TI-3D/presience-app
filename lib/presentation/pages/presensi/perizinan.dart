@@ -213,7 +213,7 @@ class _FormDateState extends State<FormDate> {
                   label: "Lanjut",
                   onPressed: () {
                     context.pop();
-                    context.push('/pengajuan_izin/before');
+                    context.push('/pengajuan_izin');
                   })
             ]),
       ),

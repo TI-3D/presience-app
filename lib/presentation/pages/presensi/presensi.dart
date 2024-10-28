@@ -13,7 +13,8 @@ import 'package:presience_app/presentation/widgets/form/dropdown.dart';
 import 'package:presience_app/presentation/widgets/skeletons/history_presensi_skeleton.dart';
 
 class TabPresensiPage extends StatefulWidget {
-  const TabPresensiPage({super.key});
+  int? selectedTab;
+  TabPresensiPage({super.key, this.selectedTab = 0});
   @override
   State<TabPresensiPage> createState() => _TabPresensiStatePage();
 }
@@ -26,12 +27,12 @@ class _TabPresensiStatePage extends State<TabPresensiPage>
   ];
 
   late TabController _tabController;
-  int currentTab = 0;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(vsync: this, length: tabs.length);
+    _tabController = TabController(
+        vsync: this, length: tabs.length, initialIndex: widget.selectedTab!);
     _tabController.addListener(() {
       setState(() {}); // Untuk merender ulang saat tab berubah
     });

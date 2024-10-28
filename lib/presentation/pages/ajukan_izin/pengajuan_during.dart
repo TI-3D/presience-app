@@ -128,8 +128,7 @@ class _FormPengajuanDuringClassPageState
                         Expanded(
                           child: CustomRadioDesc(
                             value: "izin",
-                            description:
-                                "Kamu bisa menggunakan surat apapun",
+                            description: "Kamu bisa menggunakan surat apapun",
                             isSelected: selectedPermission == "izin",
                             onTap: () {
                               setState(() {
@@ -190,7 +189,7 @@ class _FormPengajuanDuringClassPageState
           child: LargeFillButton(
             label: "Konfirmasi",
             onPressed: () {
-              // context.go('/login/success');
+              context.go('/homepage');
             },
           ),
         ),
