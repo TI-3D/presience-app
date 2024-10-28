@@ -6,7 +6,6 @@ import 'package:presience_app/presentation/utils/theme.dart';
 
 import 'input_image.dart';
 
-
 class CustomImageInputEmpty extends StatelessWidget {
   const CustomImageInputEmpty({
     super.key,
@@ -72,11 +71,6 @@ class CustomImageInputFill extends StatelessWidget {
               220, // Tambahkan tinggi container agar cukup ruang untuk teks di bawah
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: neutralTheme[200]!,
-              style: BorderStyle.solid,
-              width: 1.0,
-            ),
             color: neutralTheme[100],
           ),
           // Column untuk menempatkan gambar dan teks secara vertikal
@@ -114,7 +108,7 @@ class CustomImageInputFill extends StatelessWidget {
                     Text(
                       'Ubah',
                       style: mediumBodyTextS.copyWith(
-                        color: neutralTheme[300],
+                        color: neutralTheme[400],
                       ),
                     ),
                   ],

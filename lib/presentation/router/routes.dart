@@ -71,16 +71,10 @@ final GoRouter _router = GoRouter(
     ),
     GoRoute(
       path: '/pengajuan_izin',
-      redirect: (BuildContext context, GoRouterState state) {
-        return '/pengajuan_izin/before';
+      builder: (BuildContext context, GoRouterState state) {
+        return const FormPengajuanBeforeClassPage();
       },
       routes: [
-        GoRoute(
-          path: 'before',
-          builder: (BuildContext context, GoRouterState state) {
-            return const FormPengajuanBeforeClassPage();
-          },
-        ),
         GoRoute(
           path: 'during',
           builder: (BuildContext context, GoRouterState state) {
@@ -126,7 +120,7 @@ final GoRouter _router = GoRouter(
   ],
   redirect: (BuildContext context, GoRouterState state) {
     if (state.uri.toString() == '/') {
-      return '/login'; // Redirect to login if trying to access root
+      return '/pengajuan_izin/after'; // Redirect to login if trying to access root
     }
     return null; // No redirect otherwise
   },
