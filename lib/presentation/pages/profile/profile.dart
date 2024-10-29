@@ -8,6 +8,7 @@ import 'package:presience_app/presentation/widgets/cards/card.dart';
 import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/labels/icon_label.dart';
 import 'package:presience_app/presentation/widgets/labels/text_label.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class ProfilPage extends StatelessWidget {
   const ProfilPage({super.key});
@@ -121,8 +122,95 @@ class ProfilPage extends StatelessWidget {
                 );
               },
               orElse: () {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Container(
+                  padding: const EdgeInsets.only(top: 32, bottom: 12),
+                  color: neutralTheme[50],
+                  child: CustomSection(
+                    title: "Profil Pengguna",
+                    child: Skeletonizer(
+                      containersColor: neutralTheme,
+                      enabled: true, // Flag to toggle skeleton
+                      enableSwitchAnimation: true, //
+                      child: CustomCard(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 60,
+                              width: 60,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                border: Border.all(
+                                    color: neutralTheme[100]!, width: 1),
+                              ),
+                              child: Bone.circle(),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              BoneMock.name,
+                              style: heading3.copyWith(
+                                fontWeight: fontWeight['SemiBold'],
+                              ),
+                            ),
+                            Text(
+                              BoneMock.phone,
+                              style: mediumBodyText.copyWith(
+                                color: neutralTheme[500],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(8)),
+                                  color: neutralTheme[50]),
+                              width: double.infinity,
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: CustomTextLabel(
+                                            label: BoneMock.title,
+                                            value: BoneMock.title),
+                                      ),
+                                      Expanded(
+                                        child: CustomTextLabel(
+                                            label: BoneMock.title,
+                                            value: BoneMock.title),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: CustomTextLabel(
+                                            label: BoneMock.title,
+                                            value: BoneMock.title),
+                                      ),
+                                      Expanded(
+                                        child: CustomTextLabel(
+                                            label: BoneMock.title,
+                                            value: BoneMock.title),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 );
               },
             );
