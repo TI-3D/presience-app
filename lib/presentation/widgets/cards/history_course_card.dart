@@ -34,7 +34,11 @@ class HistoryCourseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> widgets = getWidgetStatus(
-        izin: izin, sakit: sakit, alpha: alpha, courseTime: courseTime, );
+      izin: izin,
+      sakit: sakit,
+      alpha: alpha,
+      courseTime: courseTime,
+    );
 
     return CustomCard(
       child: GestureDetector(
@@ -71,7 +75,7 @@ class HistoryCourseCard extends StatelessWidget {
                   Row(
                     children: [
                       CustomIconLabel(
-                          label: courseWeek.toString(),
+                          label: 'Minggu ke-$courseWeek',
                           icon: TablerIcons.calendar,
                           color: neutralTheme[400]!),
                       const SizedBox(

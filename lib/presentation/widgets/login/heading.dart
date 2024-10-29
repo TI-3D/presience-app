@@ -27,7 +27,7 @@ class LoginHeading extends StatelessWidget {
             ),
             Text(
               subheading,
-              style: regularBodyTextL.copyWith(color: neutralTheme[300]),
+              style: regularBodyText.copyWith(color: neutralTheme[500]),
             ),
           ],
         )

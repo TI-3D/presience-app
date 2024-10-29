@@ -4,7 +4,6 @@ import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/cards/card.dart';
 
-
 class AttendanceCard extends StatelessWidget {
   final AuthDto data;
   const AttendanceCard({
@@ -25,25 +24,8 @@ class AttendanceCard extends StatelessWidget {
                 "D4 ${data.user!.major!} - Semester ${data.user!.semester!}",
                 style: mediumBodyTextL,
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.alphabetic,
-                children: [
-                  Text(
-                    "90%",
-                    style: mediumBodyTextXL.copyWith(
-                        fontSize: 40,
-                        letterSpacing: calculateWordSpacing(40),
-                        color: greenTheme),
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Text(
-                    "Kehadiran",
-                    style: regularBodyTextS.copyWith(color: greenTheme),
-                  ),
-                ],
+              AttendancePercentage(
+                attendancePercentage: 100,
               )
             ],
           ),
@@ -150,6 +132,46 @@ class AttendanceCard extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class AttendancePercentage extends StatelessWidget {
+  final int attendancePercentage;
+  const AttendancePercentage({
+    super.key,
+    required this.attendancePercentage,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    Color? color;
+    if (attendancePercentage >= 80) {
+      color = greenTheme;
+    } else if (attendancePercentage >= 75) {
+      color = orangeTheme;
+    } else {
+      color = redTheme;
+    }
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.baseline,
+      textBaseline: TextBaseline.alphabetic,
+      children: [
+        Text(
+          "$attendancePercentage%",
+          style: mediumBodyTextXL.copyWith(
+              fontSize: 40,
+              letterSpacing: calculateWordSpacing(40),
+              color: color),
+        ),
+        const SizedBox(
+          width: 4,
+        ),
+        Text(
+          "Kehadiran",
+          style: regularBodyTextS.copyWith(color: color),
+        ),
+      ],
     );
   }
 }
