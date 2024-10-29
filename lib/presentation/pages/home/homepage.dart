@@ -20,12 +20,14 @@ import 'package:presience_app/presentation/widgets/navigations/menu_item.dart';
 import 'package:presience_app/presentation/widgets/skeletons/attendance.dart';
 import 'package:presience_app/presentation/widgets/skeletons/last_week_skeleton.dart';
 import 'package:presience_app/presentation/widgets/skeletons/today_presensi_skeleton.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class NavigationHomePage extends StatefulWidget {
   int? selectedPageIndex;
   int? selectedTab;
 
-  NavigationHomePage({super.key, this.selectedPageIndex = 0, this.selectedTab = 0});
+  NavigationHomePage(
+      {super.key, this.selectedPageIndex = 0, this.selectedTab = 0});
 
   @override
   State<NavigationHomePage> createState() => _NavigationHomePageState();
@@ -153,8 +155,43 @@ class HomePage extends StatelessWidget {
                     );
                   },
                   orElse: () {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return Skeletonizer(
+                      enabled: true, // Flag to toggle skeleton
+                      enableSwitchAnimation: true, //
+                      child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                          ),
+                          child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                    height: 52,
+                                    width: 52,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      border: Border.all(
+                                          color: neutralTheme[100]!, width: 1),
+                                    ),
+                                    child: Bone.circle()),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(BoneMock.name,
+                                        style: mediumBodyTextXL),
+                                    const SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      BoneMock.phone,
+                                      style: mediumBodyTextS,
+                                    )
+                                  ],
+                                )
+                              ])),
                     );
                   },
                 );

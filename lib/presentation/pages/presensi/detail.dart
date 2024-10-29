@@ -13,6 +13,10 @@ import 'package:presience_app/presentation/widgets/form/label.dart';
 import 'package:presience_app/presentation/widgets/labels/icon_label.dart';
 import 'package:presience_app/presentation/widgets/labels/tag_label.dart';
 import 'package:presience_app/presentation/widgets/navigations/app_bar.dart';
+import 'package:presience_app/presentation/widgets/skeletons/detail_container.dart';
+import 'package:presience_app/presentation/widgets/skeletons/history_course_skeleton.dart';
+import 'package:presience_app/presentation/widgets/skeletons/page_detail_presensi.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class DetailPresensiPage extends StatelessWidget {
   const DetailPresensiPage({super.key});
@@ -27,7 +31,11 @@ class DetailPresensiPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(top: 12, bottom: 16),
-        child: Column(
+        child:
+            // SKELETON
+            // DetailPresensiSkeletonPage(),
+            // END SKELETON
+            Column(
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
