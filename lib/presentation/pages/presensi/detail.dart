@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
+import 'package:go_router/go_router.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
+import 'package:presience_app/presentation/widgets/cards/attendance.dart';
 import 'package:presience_app/presentation/widgets/cards/history_course_card.dart';
 import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/cards/title_section.dart';
@@ -24,10 +26,11 @@ class DetailPresensiPage extends StatelessWidget {
         title: 'Detail Presensi',
       ),
       body: SingleChildScrollView(
+        padding: EdgeInsets.only(top: 12, bottom: 16),
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,12 +83,12 @@ class DetailPresensiPage extends StatelessWidget {
               ),
             ),
             Divider(
-              height: 0,
+              height: 24,
               thickness: 1,
               color: neutralTheme![100],
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,28 +98,9 @@ class DetailPresensiPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TitleSection(title: 'Total Presentase Kehadiran'),
-                          SizedBox.fromSize(size: Size.fromHeight(8)),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.baseline,
-                            textBaseline: TextBaseline.alphabetic,
-                            children: [
-                              Text('82%',
-                                  style: TextStyle(
-                                    fontFamily: typeFace,
-                                    fontSize: 32,
-                                    color: orangeTheme[500],
-                                  )),
-                              SizedBox(
-                                width: 4,
-                              ),
-                              Text(
-                                'Kehadiranmu',
-                                style: regularBodyTextS.copyWith(
-                                    color: orangeTheme![500]),
-                              )
-                            ],
-                          )
+                          AttendancePercentage(
+                            attendancePercentage: 82,
+                          ),
                         ],
                       ),
                     ),
@@ -125,13 +109,11 @@ class DetailPresensiPage extends StatelessWidget {
               ),
             ),
             Divider(
-              height: 0,
+              height: 24,
               thickness: 1,
               color: neutralTheme![100],
             ),
-            SizedBox(
-              height: 12,
-            ),
+
             //status->hadir
             CustomSection(
               title: 'Detail Presensi',
@@ -140,7 +122,7 @@ class DetailPresensiPage extends StatelessWidget {
                   CustomFirstDetailContainer(
                     children: [
                       TitleDetail(title: 'Minggu'),
-                      ValueDetail(content: 'Minggu ke-7'),
+                      ValueDetail(content: '7'),
                     ],
                   ),
                   CustomMiddleDetailContainer(
@@ -169,65 +151,38 @@ class DetailPresensiPage extends StatelessWidget {
                   ),
                   CustomLastDetailContainer(
                     children: [
-                      TitleDetail(title: 'Status'),
-                      CustomTaglabelGreen(label: 'Hadir')
-                    ],
-                  ),
-                  CustomLastDetailContainer(
-                    children: [
-                      Expanded(
+                      TitleDetail(
+                        title: 'Status',
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment
-                                  .start, // Aligns "Status" to the left
-                              children: [
-                                Text(
-                                  'Status',
-                                  style: regularBodyText.copyWith(
-                                    color: neutralTheme[500],
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 2,
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      TablerIcons.alert_circle,
-                                      color: redTheme[600],
-                                      size: 12,
-                                    ),
-                                    SizedBox(width: 2),
-                                    Text(
-                                      'Status dapat diubah dalam 7 hari lagi',
-                                      style: regularSmallText.copyWith(
-                                        color: redTheme[600],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                            Icon(
+                              TablerIcons.alert_circle,
+                              color: redTheme,
+                              size: 14,
                             ),
-                            Row(
-                              children: [
-                                const CustomTaglabelRed(label: 'Alpha'),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Icon(
-                                  TablerIcons.refresh,
-                                  color: neutralTheme[300],
-                                  size: 20,
-                                ),
-                              ],
+                            SizedBox(width: 2),
+                            Text(
+                              'Status dapat diubah dalam 7 hari lagi',
+                              style: regularBodyTextXS.copyWith(
+                                color: redTheme,
+                              ),
                             ),
                           ],
                         ),
+                      ),
+                      Row(
+                        children: [
+                          const CustomTaglabelRed(label: 'Alpha'),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Icon(
+                            TablerIcons.refresh,
+                            color: neutralTheme[300],
+                            size: 24,
+                          ),
+                        ],
                       )
-
-                      // ValueDetail(content: 'Tidak ada keterangan')
                     ],
                   ),
                   CustomMiddleDetailContainer(
@@ -238,32 +193,26 @@ class DetailPresensiPage extends StatelessWidget {
                   ),
                   CustomLastDetailContainer(
                     children: [
-                      TitleDetail(title: 'Status'),
+                      TitleDetail(title: 'Status terlambat'),
                       CustomTaglabelOrange(label: 'Izin')
                     ],
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 12),
             Divider(
-              height: 0,
+              height: 24,
               thickness: 1,
               color: neutralTheme![100],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment
-                      .start, // Menambahkan ini untuk rata kiri
-                  children: [
-                    CustomSection(
-                        title: 'Riwayat Presensi', child: ContentofWeekCourse())
-                  ],
-                ),
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment:
+                  MainAxisAlignment.start, // Menambahkan ini untuk rata kiri
+              children: [
+                CustomSection(
+                    title: 'Riwayat Presensi', child: ContentofWeekCourse())
+              ],
             )
           ],
         ),
@@ -292,7 +241,7 @@ class _ContentofWeekCourseState extends State<ContentofWeekCourse> {
       'alpha': 0,
       'izin': 3,
       'sakit': 0,
-      'minggu': 6,
+      'courseWeek': 6,
     },
     {
       'courseName': "Pembelajaran Mesin",
@@ -303,7 +252,7 @@ class _ContentofWeekCourseState extends State<ContentofWeekCourse> {
       'alpha': 0,
       'izin': 0,
       'sakit': 3,
-      'minggu': 5,
+      'courseWeek': 5,
     },
     {
       'courseName': "Pembelajaran Mesin",
@@ -314,7 +263,7 @@ class _ContentofWeekCourseState extends State<ContentofWeekCourse> {
       'alpha': 3,
       'izin': 0,
       'sakit': 0,
-      'minggu': 4,
+      'courseWeek': 4,
     },
     {
       'courseName': "Pembelajaran Mesin",
@@ -325,7 +274,7 @@ class _ContentofWeekCourseState extends State<ContentofWeekCourse> {
       'alpha': 0,
       'izin': 0,
       'sakit': 0,
-      'minggu': 3,
+      'courseWeek': 3,
     },
     {
       'courseName': "Pembelajaran Mesin",
@@ -336,7 +285,7 @@ class _ContentofWeekCourseState extends State<ContentofWeekCourse> {
       'alpha': 0,
       'izin': 0,
       'sakit': 6,
-      'minggu': 2,
+      'courseWeek': 2,
     },
     {
       'courseName': "Pembelajaran Mesin",
@@ -347,7 +296,7 @@ class _ContentofWeekCourseState extends State<ContentofWeekCourse> {
       'alpha': 0,
       'izin': 0,
       'sakit': 0,
-      'minggu': 1,
+      'courseWeek': 1,
     },
   ];
 
@@ -369,8 +318,8 @@ class _ContentofWeekCourseState extends State<ContentofWeekCourse> {
           alpha: lastWeekCourses[index]['alpha'],
           sakit: lastWeekCourses[index]['sakit'],
           izin: lastWeekCourses[index]['izin'],
-          courseWeek: 'Minggu ke-${lastWeekCourses[index]['minggu']}',
-
+          courseWeek: lastWeekCourses[index]['courseWeek'].toString(),
+          onTap: () => context.push('/presensi/detail'),
           // onTap: () => context.push('/presensi/detail'),
         );
         // return Text(lastWeekCourses[index]['courseName']);
