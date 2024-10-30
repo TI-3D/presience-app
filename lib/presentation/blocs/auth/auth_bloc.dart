@@ -28,8 +28,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       AuthDto? user;
       state.maybeWhen(
         loginSuccess: (model) => user = model,
-        orElse: () {},
+        orElse: () => emit(const _Failure('User not logged in')),
       );
+
+      // Pastikan data `user` sudah terisi sebelum melanjutkan
+      if (user == null) {
+        emit(const _Failure('User data not available'));
+        return;
+      }
 
       emit(const _Loading());
 

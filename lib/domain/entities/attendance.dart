@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:presience_app/domain/entities/schedule_week.dart';
 
 part 'attendance.freezed.dart';
 part 'attendance.g.dart';
@@ -14,7 +13,6 @@ class Attendance with _$Attendance {
     String? entryTime,
     bool? isChanged,
     bool? lecturerVerified,
-    ScheduleWeek? scheduleWeek,
   }) = _Attendance;
 
   factory Attendance.fromJson(Map<String, dynamic> json) => Attendance(
@@ -25,6 +23,5 @@ class Attendance with _$Attendance {
         entryTime: json['entry_time'],
         isChanged: json['is_changed'],
         lecturerVerified: json['lecturer_verified'],
-        scheduleWeek: ScheduleWeek.fromJson(json['schedule_week']),
       );
 }

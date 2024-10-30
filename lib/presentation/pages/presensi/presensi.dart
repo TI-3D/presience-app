@@ -1,7 +1,11 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
+import 'package:presience_app/domain/entities/schedule_week.dart';
 import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
 import 'package:presience_app/presentation/pages/presensi/perizinan.dart';
 import 'package:presience_app/presentation/utils/text.dart';
@@ -10,7 +14,7 @@ import 'package:presience_app/presentation/widgets/cards/history_presensi_card.d
 import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/cards/today_presensi.dart';
 import 'package:presience_app/presentation/widgets/form/dropdown.dart';
-import 'package:presience_app/presentation/widgets/skeletons/history_presensi_skeleton.dart';
+import 'package:presience_app/presentation/widgets/skeletons/today_presensi_skeleton.dart';
 
 class TabPresensiPage extends StatefulWidget {
   int? selectedTab;
@@ -170,16 +174,32 @@ class PresensiPage extends StatelessWidget {
                     child: Text("Tidak ada data"),
                   );
                 }
+
+                // Filter for the first schedule with status "opened and no attendance"
+                final ScheduleWeek? openedSchedule = data.firstWhereOrNull(
+                  (schedule) =>
+                      schedule.status == 'opened' &&
+                      schedule.attendance == null,
+                );
+
+                if (openedSchedule == null) {
+                  return const Center(
+                    child: Text("Tidak ada data"),
+                  );
+                }
+
                 return Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: TodayPresensiCard(
-                    scheduleWeek: data[0],
+                    scheduleWeek: openedSchedule,
                   ),
                 );
               },
               orElse: () {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: const TodayPresensiSkeleton(),
                 );
               },
             );

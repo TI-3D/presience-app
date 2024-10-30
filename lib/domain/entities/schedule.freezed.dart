@@ -24,6 +24,7 @@ mixin _$Schedule {
   String? get day => throw _privateConstructorUsedError;
   String? get startTime => throw _privateConstructorUsedError;
   String? get endTime => throw _privateConstructorUsedError;
+  Week? get week => throw _privateConstructorUsedError;
   Lecturer? get lecturer => throw _privateConstructorUsedError;
   Group? get group => throw _privateConstructorUsedError;
   Room? get room => throw _privateConstructorUsedError;
@@ -49,11 +50,13 @@ abstract class $ScheduleCopyWith<$Res> {
       String? day,
       String? startTime,
       String? endTime,
+      Week? week,
       Lecturer? lecturer,
       Group? group,
       Room? room,
       Course? course});
 
+  $WeekCopyWith<$Res>? get week;
   $LecturerCopyWith<$Res>? get lecturer;
   $GroupCopyWith<$Res>? get group;
   $RoomCopyWith<$Res>? get room;
@@ -79,6 +82,7 @@ class _$ScheduleCopyWithImpl<$Res, $Val extends Schedule>
     Object? day = freezed,
     Object? startTime = freezed,
     Object? endTime = freezed,
+    Object? week = freezed,
     Object? lecturer = freezed,
     Object? group = freezed,
     Object? room = freezed,
@@ -101,6 +105,10 @@ class _$ScheduleCopyWithImpl<$Res, $Val extends Schedule>
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
               as String?,
+      week: freezed == week
+          ? _value.week
+          : week // ignore: cast_nullable_to_non_nullable
+              as Week?,
       lecturer: freezed == lecturer
           ? _value.lecturer
           : lecturer // ignore: cast_nullable_to_non_nullable
@@ -118,6 +126,20 @@ class _$ScheduleCopyWithImpl<$Res, $Val extends Schedule>
           : course // ignore: cast_nullable_to_non_nullable
               as Course?,
     ) as $Val);
+  }
+
+  /// Create a copy of Schedule
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $WeekCopyWith<$Res>? get week {
+    if (_value.week == null) {
+      return null;
+    }
+
+    return $WeekCopyWith<$Res>(_value.week!, (value) {
+      return _then(_value.copyWith(week: value) as $Val);
+    });
   }
 
   /// Create a copy of Schedule
@@ -190,11 +212,14 @@ abstract class _$$ScheduleImplCopyWith<$Res>
       String? day,
       String? startTime,
       String? endTime,
+      Week? week,
       Lecturer? lecturer,
       Group? group,
       Room? room,
       Course? course});
 
+  @override
+  $WeekCopyWith<$Res>? get week;
   @override
   $LecturerCopyWith<$Res>? get lecturer;
   @override
@@ -222,6 +247,7 @@ class __$$ScheduleImplCopyWithImpl<$Res>
     Object? day = freezed,
     Object? startTime = freezed,
     Object? endTime = freezed,
+    Object? week = freezed,
     Object? lecturer = freezed,
     Object? group = freezed,
     Object? room = freezed,
@@ -244,6 +270,10 @@ class __$$ScheduleImplCopyWithImpl<$Res>
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
               as String?,
+      week: freezed == week
+          ? _value.week
+          : week // ignore: cast_nullable_to_non_nullable
+              as Week?,
       lecturer: freezed == lecturer
           ? _value.lecturer
           : lecturer // ignore: cast_nullable_to_non_nullable
@@ -272,6 +302,7 @@ class _$ScheduleImpl implements _Schedule {
       this.day,
       this.startTime,
       this.endTime,
+      this.week,
       this.lecturer,
       this.group,
       this.room,
@@ -289,6 +320,8 @@ class _$ScheduleImpl implements _Schedule {
   @override
   final String? endTime;
   @override
+  final Week? week;
+  @override
   final Lecturer? lecturer;
   @override
   final Group? group;
@@ -299,7 +332,7 @@ class _$ScheduleImpl implements _Schedule {
 
   @override
   String toString() {
-    return 'Schedule(id: $id, day: $day, startTime: $startTime, endTime: $endTime, lecturer: $lecturer, group: $group, room: $room, course: $course)';
+    return 'Schedule(id: $id, day: $day, startTime: $startTime, endTime: $endTime, week: $week, lecturer: $lecturer, group: $group, room: $room, course: $course)';
   }
 
   @override
@@ -312,6 +345,7 @@ class _$ScheduleImpl implements _Schedule {
             (identical(other.startTime, startTime) ||
                 other.startTime == startTime) &&
             (identical(other.endTime, endTime) || other.endTime == endTime) &&
+            (identical(other.week, week) || other.week == week) &&
             (identical(other.lecturer, lecturer) ||
                 other.lecturer == lecturer) &&
             (identical(other.group, group) || other.group == group) &&
@@ -321,8 +355,8 @@ class _$ScheduleImpl implements _Schedule {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, day, startTime, endTime, lecturer, group, room, course);
+  int get hashCode => Object.hash(runtimeType, id, day, startTime, endTime,
+      week, lecturer, group, room, course);
 
   /// Create a copy of Schedule
   /// with the given fields replaced by the non-null parameter values.
@@ -346,6 +380,7 @@ abstract class _Schedule implements Schedule {
       final String? day,
       final String? startTime,
       final String? endTime,
+      final Week? week,
       final Lecturer? lecturer,
       final Group? group,
       final Room? room,
@@ -362,6 +397,8 @@ abstract class _Schedule implements Schedule {
   String? get startTime;
   @override
   String? get endTime;
+  @override
+  Week? get week;
   @override
   Lecturer? get lecturer;
   @override

@@ -4,7 +4,7 @@ import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/form/label.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   final String label;
   final String hint;
   final bool? isOptional;
@@ -16,6 +16,7 @@ class CustomTextField extends StatelessWidget {
   // final ValueChanged<String> onChanged;
   final TextEditingController? controller;
   final GestureTapCallback? onTap;
+  final ValueChanged<String>? onChanged;
 
   const CustomTextField({
     super.key,
@@ -30,25 +31,32 @@ class CustomTextField extends StatelessWidget {
     this.readonlyFilled = false,
     this.suffix,
     this.onTap,
+    this.onChanged,
   });
 
   @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: (isMultiline == false) ? 97 : 154,
+      height: (widget.isMultiline == false) ? 97 : 154,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          FieldLabel(label: label, isOptional: isOptional),
+          FieldLabel(label: widget.label, isOptional: widget.isOptional),
           const SizedBox(
             height: 8,
           ),
           TextField(
-            keyboardType: (isMultiline == false)
+            onChanged: widget.onChanged,
+            keyboardType: (widget.isMultiline == false)
                 ? TextInputType.text
                 : TextInputType.multiline,
-            maxLines: (isMultiline == false) ? 1 : 3,
-            controller: controller,
+            maxLines: (widget.isMultiline == false) ? 1 : 3,
+            controller: widget.controller,
             decoration: InputDecoration(
                 // Focused
                 focusedBorder: const OutlineInputBorder(
@@ -59,15 +67,17 @@ class CustomTextField extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(8))),
 
                 // Enabled
-                hintText: hint,
+                hintText: widget.hint,
                 hintStyle: mediumBodyText.copyWith(
-                    color: readonlyFilled! ? blackTheme : neutralTheme[200]),
+                    color: widget.readonlyFilled!
+                        ? blackTheme
+                        : neutralTheme[200]),
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 13.5),
                 enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                         width: 1,
-                        color: errorMessage != null
+                        color: widget.errorMessage != null
                             ? redTheme
                             : neutralTheme[200]!),
                     borderRadius: const BorderRadius.all(Radius.circular(8))),
@@ -81,16 +91,16 @@ class CustomTextField extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(8))),
 
                 // Suffix Icon
-                suffixIcon: suffix),
-            readOnly: readonly!,
+                suffixIcon: widget.suffix),
+            readOnly: widget.readonly!,
             style: mediumBodyText,
-            onTap: onTap,
+            onTap: widget.onTap,
           ),
-          if (errorMessage != null)
+          if (widget.errorMessage != null)
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
               child: Text(
-                errorMessage!,
+                widget.errorMessage!,
                 style: mediumBodyTextS.copyWith(color: redTheme),
               ),
             ),

@@ -27,6 +27,7 @@ mixin _$ScheduleWeek {
   String? get openedAt => throw _privateConstructorUsedError;
   String? get closedAt => throw _privateConstructorUsedError;
   Schedule? get schedule => throw _privateConstructorUsedError;
+  Attendance? get attendance => throw _privateConstructorUsedError;
 
   /// Serializes this ScheduleWeek to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -51,9 +52,11 @@ abstract class $ScheduleWeekCopyWith<$Res> {
       String? status,
       String? openedAt,
       String? closedAt,
-      Schedule? schedule});
+      Schedule? schedule,
+      Attendance? attendance});
 
   $ScheduleCopyWith<$Res>? get schedule;
+  $AttendanceCopyWith<$Res>? get attendance;
 }
 
 /// @nodoc
@@ -78,6 +81,7 @@ class _$ScheduleWeekCopyWithImpl<$Res, $Val extends ScheduleWeek>
     Object? openedAt = freezed,
     Object? closedAt = freezed,
     Object? schedule = freezed,
+    Object? attendance = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -108,6 +112,10 @@ class _$ScheduleWeekCopyWithImpl<$Res, $Val extends ScheduleWeek>
           ? _value.schedule
           : schedule // ignore: cast_nullable_to_non_nullable
               as Schedule?,
+      attendance: freezed == attendance
+          ? _value.attendance
+          : attendance // ignore: cast_nullable_to_non_nullable
+              as Attendance?,
     ) as $Val);
   }
 
@@ -122,6 +130,20 @@ class _$ScheduleWeekCopyWithImpl<$Res, $Val extends ScheduleWeek>
 
     return $ScheduleCopyWith<$Res>(_value.schedule!, (value) {
       return _then(_value.copyWith(schedule: value) as $Val);
+    });
+  }
+
+  /// Create a copy of ScheduleWeek
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AttendanceCopyWith<$Res>? get attendance {
+    if (_value.attendance == null) {
+      return null;
+    }
+
+    return $AttendanceCopyWith<$Res>(_value.attendance!, (value) {
+      return _then(_value.copyWith(attendance: value) as $Val);
     });
   }
 }
@@ -141,10 +163,13 @@ abstract class _$$ScheduleWeekImplCopyWith<$Res>
       String? status,
       String? openedAt,
       String? closedAt,
-      Schedule? schedule});
+      Schedule? schedule,
+      Attendance? attendance});
 
   @override
   $ScheduleCopyWith<$Res>? get schedule;
+  @override
+  $AttendanceCopyWith<$Res>? get attendance;
 }
 
 /// @nodoc
@@ -167,6 +192,7 @@ class __$$ScheduleWeekImplCopyWithImpl<$Res>
     Object? openedAt = freezed,
     Object? closedAt = freezed,
     Object? schedule = freezed,
+    Object? attendance = freezed,
   }) {
     return _then(_$ScheduleWeekImpl(
       id: freezed == id
@@ -197,6 +223,10 @@ class __$$ScheduleWeekImplCopyWithImpl<$Res>
           ? _value.schedule
           : schedule // ignore: cast_nullable_to_non_nullable
               as Schedule?,
+      attendance: freezed == attendance
+          ? _value.attendance
+          : attendance // ignore: cast_nullable_to_non_nullable
+              as Attendance?,
     ));
   }
 }
@@ -211,7 +241,8 @@ class _$ScheduleWeekImpl implements _ScheduleWeek {
       this.status,
       this.openedAt,
       this.closedAt,
-      this.schedule});
+      this.schedule,
+      this.attendance});
 
   factory _$ScheduleWeekImpl.fromJson(Map<String, dynamic> json) =>
       _$$ScheduleWeekImplFromJson(json);
@@ -230,10 +261,12 @@ class _$ScheduleWeekImpl implements _ScheduleWeek {
   final String? closedAt;
   @override
   final Schedule? schedule;
+  @override
+  final Attendance? attendance;
 
   @override
   String toString() {
-    return 'ScheduleWeek(id: $id, date: $date, isOnline: $isOnline, status: $status, openedAt: $openedAt, closedAt: $closedAt, schedule: $schedule)';
+    return 'ScheduleWeek(id: $id, date: $date, isOnline: $isOnline, status: $status, openedAt: $openedAt, closedAt: $closedAt, schedule: $schedule, attendance: $attendance)';
   }
 
   @override
@@ -251,13 +284,15 @@ class _$ScheduleWeekImpl implements _ScheduleWeek {
             (identical(other.closedAt, closedAt) ||
                 other.closedAt == closedAt) &&
             (identical(other.schedule, schedule) ||
-                other.schedule == schedule));
+                other.schedule == schedule) &&
+            (identical(other.attendance, attendance) ||
+                other.attendance == attendance));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, date, isOnline, status, openedAt, closedAt, schedule);
+  int get hashCode => Object.hash(runtimeType, id, date, isOnline, status,
+      openedAt, closedAt, schedule, attendance);
 
   /// Create a copy of ScheduleWeek
   /// with the given fields replaced by the non-null parameter values.
@@ -283,7 +318,8 @@ abstract class _ScheduleWeek implements ScheduleWeek {
       final String? status,
       final String? openedAt,
       final String? closedAt,
-      final Schedule? schedule}) = _$ScheduleWeekImpl;
+      final Schedule? schedule,
+      final Attendance? attendance}) = _$ScheduleWeekImpl;
 
   factory _ScheduleWeek.fromJson(Map<String, dynamic> json) =
       _$ScheduleWeekImpl.fromJson;
@@ -302,6 +338,8 @@ abstract class _ScheduleWeek implements ScheduleWeek {
   String? get closedAt;
   @override
   Schedule? get schedule;
+  @override
+  Attendance? get attendance;
 
   /// Create a copy of ScheduleWeek
   /// with the given fields replaced by the non-null parameter values.

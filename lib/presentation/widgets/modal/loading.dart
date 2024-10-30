@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:presience_app/presentation/widgets/modal/dialog.dart';
 import 'package:presience_app/presentation/widgets/modal/text.dart';
 
 class DialogContentLoading extends StatelessWidget {
