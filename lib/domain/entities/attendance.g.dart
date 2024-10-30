@@ -15,9 +15,6 @@ _$AttendanceImpl _$$AttendanceImplFromJson(Map<String, dynamic> json) =>
       entryTime: json['entryTime'] as String?,
       isChanged: json['isChanged'] as bool?,
       lecturerVerified: json['lecturerVerified'] as bool?,
-      scheduleWeek: json['scheduleWeek'] == null
-          ? null
-          : ScheduleWeek.fromJson(json['scheduleWeek'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$AttendanceImplToJson(_$AttendanceImpl instance) =>
@@ -29,5 +26,4 @@ Map<String, dynamic> _$$AttendanceImplToJson(_$AttendanceImpl instance) =>
       'entryTime': instance.entryTime,
       'isChanged': instance.isChanged,
       'lecturerVerified': instance.lecturerVerified,
-      'scheduleWeek': instance.scheduleWeek,
     };

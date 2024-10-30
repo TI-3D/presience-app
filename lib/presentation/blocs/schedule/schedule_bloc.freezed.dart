@@ -20,18 +20,24 @@ mixin _$ScheduleEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() getSchedulesToday,
+    required TResult Function(AttendanceDto params) storeAttendance,
+    required TResult Function(PermitDto params) storeCurrentPermit,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? getSchedulesToday,
+    TResult? Function(AttendanceDto params)? storeAttendance,
+    TResult? Function(PermitDto params)? storeCurrentPermit,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? getSchedulesToday,
+    TResult Function(AttendanceDto params)? storeAttendance,
+    TResult Function(PermitDto params)? storeCurrentPermit,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -39,18 +45,24 @@ mixin _$ScheduleEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetSchedulesToday value) getSchedulesToday,
+    required TResult Function(_StoreAttendance value) storeAttendance,
+    required TResult Function(_StoreCurrentPermit value) storeCurrentPermit,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetSchedulesToday value)? getSchedulesToday,
+    TResult? Function(_StoreAttendance value)? storeAttendance,
+    TResult? Function(_StoreCurrentPermit value)? storeCurrentPermit,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetSchedulesToday value)? getSchedulesToday,
+    TResult Function(_StoreAttendance value)? storeAttendance,
+    TResult Function(_StoreCurrentPermit value)? storeCurrentPermit,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -120,6 +132,8 @@ class _$StartedImpl implements _Started {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() getSchedulesToday,
+    required TResult Function(AttendanceDto params) storeAttendance,
+    required TResult Function(PermitDto params) storeCurrentPermit,
   }) {
     return started();
   }
@@ -129,6 +143,8 @@ class _$StartedImpl implements _Started {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? getSchedulesToday,
+    TResult? Function(AttendanceDto params)? storeAttendance,
+    TResult? Function(PermitDto params)? storeCurrentPermit,
   }) {
     return started?.call();
   }
@@ -138,6 +154,8 @@ class _$StartedImpl implements _Started {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? getSchedulesToday,
+    TResult Function(AttendanceDto params)? storeAttendance,
+    TResult Function(PermitDto params)? storeCurrentPermit,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -151,6 +169,8 @@ class _$StartedImpl implements _Started {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetSchedulesToday value) getSchedulesToday,
+    required TResult Function(_StoreAttendance value) storeAttendance,
+    required TResult Function(_StoreCurrentPermit value) storeCurrentPermit,
   }) {
     return started(this);
   }
@@ -160,6 +180,8 @@ class _$StartedImpl implements _Started {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetSchedulesToday value)? getSchedulesToday,
+    TResult? Function(_StoreAttendance value)? storeAttendance,
+    TResult? Function(_StoreCurrentPermit value)? storeCurrentPermit,
   }) {
     return started?.call(this);
   }
@@ -169,6 +191,8 @@ class _$StartedImpl implements _Started {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetSchedulesToday value)? getSchedulesToday,
+    TResult Function(_StoreAttendance value)? storeAttendance,
+    TResult Function(_StoreCurrentPermit value)? storeCurrentPermit,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -225,6 +249,8 @@ class _$GetSchedulesTodayImpl implements _GetSchedulesToday {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() getSchedulesToday,
+    required TResult Function(AttendanceDto params) storeAttendance,
+    required TResult Function(PermitDto params) storeCurrentPermit,
   }) {
     return getSchedulesToday();
   }
@@ -234,6 +260,8 @@ class _$GetSchedulesTodayImpl implements _GetSchedulesToday {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? getSchedulesToday,
+    TResult? Function(AttendanceDto params)? storeAttendance,
+    TResult? Function(PermitDto params)? storeCurrentPermit,
   }) {
     return getSchedulesToday?.call();
   }
@@ -243,6 +271,8 @@ class _$GetSchedulesTodayImpl implements _GetSchedulesToday {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? getSchedulesToday,
+    TResult Function(AttendanceDto params)? storeAttendance,
+    TResult Function(PermitDto params)? storeCurrentPermit,
     required TResult orElse(),
   }) {
     if (getSchedulesToday != null) {
@@ -256,6 +286,8 @@ class _$GetSchedulesTodayImpl implements _GetSchedulesToday {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetSchedulesToday value) getSchedulesToday,
+    required TResult Function(_StoreAttendance value) storeAttendance,
+    required TResult Function(_StoreCurrentPermit value) storeCurrentPermit,
   }) {
     return getSchedulesToday(this);
   }
@@ -265,6 +297,8 @@ class _$GetSchedulesTodayImpl implements _GetSchedulesToday {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetSchedulesToday value)? getSchedulesToday,
+    TResult? Function(_StoreAttendance value)? storeAttendance,
+    TResult? Function(_StoreCurrentPermit value)? storeCurrentPermit,
   }) {
     return getSchedulesToday?.call(this);
   }
@@ -274,6 +308,8 @@ class _$GetSchedulesTodayImpl implements _GetSchedulesToday {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetSchedulesToday value)? getSchedulesToday,
+    TResult Function(_StoreAttendance value)? storeAttendance,
+    TResult Function(_StoreCurrentPermit value)? storeCurrentPermit,
     required TResult orElse(),
   }) {
     if (getSchedulesToday != null) {
@@ -285,6 +321,314 @@ class _$GetSchedulesTodayImpl implements _GetSchedulesToday {
 
 abstract class _GetSchedulesToday implements ScheduleEvent {
   const factory _GetSchedulesToday() = _$GetSchedulesTodayImpl;
+}
+
+/// @nodoc
+abstract class _$$StoreAttendanceImplCopyWith<$Res> {
+  factory _$$StoreAttendanceImplCopyWith(_$StoreAttendanceImpl value,
+          $Res Function(_$StoreAttendanceImpl) then) =
+      __$$StoreAttendanceImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({AttendanceDto params});
+}
+
+/// @nodoc
+class __$$StoreAttendanceImplCopyWithImpl<$Res>
+    extends _$ScheduleEventCopyWithImpl<$Res, _$StoreAttendanceImpl>
+    implements _$$StoreAttendanceImplCopyWith<$Res> {
+  __$$StoreAttendanceImplCopyWithImpl(
+      _$StoreAttendanceImpl _value, $Res Function(_$StoreAttendanceImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ScheduleEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? params = null,
+  }) {
+    return _then(_$StoreAttendanceImpl(
+      null == params
+          ? _value.params
+          : params // ignore: cast_nullable_to_non_nullable
+              as AttendanceDto,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$StoreAttendanceImpl implements _StoreAttendance {
+  const _$StoreAttendanceImpl(this.params);
+
+  @override
+  final AttendanceDto params;
+
+  @override
+  String toString() {
+    return 'ScheduleEvent.storeAttendance(params: $params)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$StoreAttendanceImpl &&
+            (identical(other.params, params) || other.params == params));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, params);
+
+  /// Create a copy of ScheduleEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$StoreAttendanceImplCopyWith<_$StoreAttendanceImpl> get copyWith =>
+      __$$StoreAttendanceImplCopyWithImpl<_$StoreAttendanceImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() getSchedulesToday,
+    required TResult Function(AttendanceDto params) storeAttendance,
+    required TResult Function(PermitDto params) storeCurrentPermit,
+  }) {
+    return storeAttendance(params);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? getSchedulesToday,
+    TResult? Function(AttendanceDto params)? storeAttendance,
+    TResult? Function(PermitDto params)? storeCurrentPermit,
+  }) {
+    return storeAttendance?.call(params);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? getSchedulesToday,
+    TResult Function(AttendanceDto params)? storeAttendance,
+    TResult Function(PermitDto params)? storeCurrentPermit,
+    required TResult orElse(),
+  }) {
+    if (storeAttendance != null) {
+      return storeAttendance(params);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_GetSchedulesToday value) getSchedulesToday,
+    required TResult Function(_StoreAttendance value) storeAttendance,
+    required TResult Function(_StoreCurrentPermit value) storeCurrentPermit,
+  }) {
+    return storeAttendance(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_GetSchedulesToday value)? getSchedulesToday,
+    TResult? Function(_StoreAttendance value)? storeAttendance,
+    TResult? Function(_StoreCurrentPermit value)? storeCurrentPermit,
+  }) {
+    return storeAttendance?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_GetSchedulesToday value)? getSchedulesToday,
+    TResult Function(_StoreAttendance value)? storeAttendance,
+    TResult Function(_StoreCurrentPermit value)? storeCurrentPermit,
+    required TResult orElse(),
+  }) {
+    if (storeAttendance != null) {
+      return storeAttendance(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _StoreAttendance implements ScheduleEvent {
+  const factory _StoreAttendance(final AttendanceDto params) =
+      _$StoreAttendanceImpl;
+
+  AttendanceDto get params;
+
+  /// Create a copy of ScheduleEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$StoreAttendanceImplCopyWith<_$StoreAttendanceImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$StoreCurrentPermitImplCopyWith<$Res> {
+  factory _$$StoreCurrentPermitImplCopyWith(_$StoreCurrentPermitImpl value,
+          $Res Function(_$StoreCurrentPermitImpl) then) =
+      __$$StoreCurrentPermitImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({PermitDto params});
+}
+
+/// @nodoc
+class __$$StoreCurrentPermitImplCopyWithImpl<$Res>
+    extends _$ScheduleEventCopyWithImpl<$Res, _$StoreCurrentPermitImpl>
+    implements _$$StoreCurrentPermitImplCopyWith<$Res> {
+  __$$StoreCurrentPermitImplCopyWithImpl(_$StoreCurrentPermitImpl _value,
+      $Res Function(_$StoreCurrentPermitImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ScheduleEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? params = null,
+  }) {
+    return _then(_$StoreCurrentPermitImpl(
+      null == params
+          ? _value.params
+          : params // ignore: cast_nullable_to_non_nullable
+              as PermitDto,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$StoreCurrentPermitImpl implements _StoreCurrentPermit {
+  const _$StoreCurrentPermitImpl(this.params);
+
+  @override
+  final PermitDto params;
+
+  @override
+  String toString() {
+    return 'ScheduleEvent.storeCurrentPermit(params: $params)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$StoreCurrentPermitImpl &&
+            (identical(other.params, params) || other.params == params));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, params);
+
+  /// Create a copy of ScheduleEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$StoreCurrentPermitImplCopyWith<_$StoreCurrentPermitImpl> get copyWith =>
+      __$$StoreCurrentPermitImplCopyWithImpl<_$StoreCurrentPermitImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() getSchedulesToday,
+    required TResult Function(AttendanceDto params) storeAttendance,
+    required TResult Function(PermitDto params) storeCurrentPermit,
+  }) {
+    return storeCurrentPermit(params);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? getSchedulesToday,
+    TResult? Function(AttendanceDto params)? storeAttendance,
+    TResult? Function(PermitDto params)? storeCurrentPermit,
+  }) {
+    return storeCurrentPermit?.call(params);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? getSchedulesToday,
+    TResult Function(AttendanceDto params)? storeAttendance,
+    TResult Function(PermitDto params)? storeCurrentPermit,
+    required TResult orElse(),
+  }) {
+    if (storeCurrentPermit != null) {
+      return storeCurrentPermit(params);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_GetSchedulesToday value) getSchedulesToday,
+    required TResult Function(_StoreAttendance value) storeAttendance,
+    required TResult Function(_StoreCurrentPermit value) storeCurrentPermit,
+  }) {
+    return storeCurrentPermit(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_GetSchedulesToday value)? getSchedulesToday,
+    TResult? Function(_StoreAttendance value)? storeAttendance,
+    TResult? Function(_StoreCurrentPermit value)? storeCurrentPermit,
+  }) {
+    return storeCurrentPermit?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_GetSchedulesToday value)? getSchedulesToday,
+    TResult Function(_StoreAttendance value)? storeAttendance,
+    TResult Function(_StoreCurrentPermit value)? storeCurrentPermit,
+    required TResult orElse(),
+  }) {
+    if (storeCurrentPermit != null) {
+      return storeCurrentPermit(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _StoreCurrentPermit implements ScheduleEvent {
+  const factory _StoreCurrentPermit(final PermitDto params) =
+      _$StoreCurrentPermitImpl;
+
+  PermitDto get params;
+
+  /// Create a copy of ScheduleEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$StoreCurrentPermitImplCopyWith<_$StoreCurrentPermitImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc

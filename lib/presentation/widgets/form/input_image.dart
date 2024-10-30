@@ -4,8 +4,6 @@ import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 
-import 'input_image.dart';
-
 class CustomImageInputEmpty extends StatelessWidget {
   const CustomImageInputEmpty({
     super.key,

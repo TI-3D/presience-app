@@ -24,7 +24,6 @@ mixin _$Week {
   String? get name => throw _privateConstructorUsedError;
   DateTime? get startDate => throw _privateConstructorUsedError;
   DateTime? get endDate => throw _privateConstructorUsedError;
-  ScheduleWeek? get scheduleWeek => throw _privateConstructorUsedError;
 
   /// Serializes this Week to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,14 +39,7 @@ abstract class $WeekCopyWith<$Res> {
   factory $WeekCopyWith(Week value, $Res Function(Week) then) =
       _$WeekCopyWithImpl<$Res, Week>;
   @useResult
-  $Res call(
-      {int? id,
-      String? name,
-      DateTime? startDate,
-      DateTime? endDate,
-      ScheduleWeek? scheduleWeek});
-
-  $ScheduleWeekCopyWith<$Res>? get scheduleWeek;
+  $Res call({int? id, String? name, DateTime? startDate, DateTime? endDate});
 }
 
 /// @nodoc
@@ -69,7 +61,6 @@ class _$WeekCopyWithImpl<$Res, $Val extends Week>
     Object? name = freezed,
     Object? startDate = freezed,
     Object? endDate = freezed,
-    Object? scheduleWeek = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -88,25 +79,7 @@ class _$WeekCopyWithImpl<$Res, $Val extends Week>
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      scheduleWeek: freezed == scheduleWeek
-          ? _value.scheduleWeek
-          : scheduleWeek // ignore: cast_nullable_to_non_nullable
-              as ScheduleWeek?,
     ) as $Val);
-  }
-
-  /// Create a copy of Week
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $ScheduleWeekCopyWith<$Res>? get scheduleWeek {
-    if (_value.scheduleWeek == null) {
-      return null;
-    }
-
-    return $ScheduleWeekCopyWith<$Res>(_value.scheduleWeek!, (value) {
-      return _then(_value.copyWith(scheduleWeek: value) as $Val);
-    });
   }
 }
 
@@ -117,15 +90,7 @@ abstract class _$$WeekImplCopyWith<$Res> implements $WeekCopyWith<$Res> {
       __$$WeekImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int? id,
-      String? name,
-      DateTime? startDate,
-      DateTime? endDate,
-      ScheduleWeek? scheduleWeek});
-
-  @override
-  $ScheduleWeekCopyWith<$Res>? get scheduleWeek;
+  $Res call({int? id, String? name, DateTime? startDate, DateTime? endDate});
 }
 
 /// @nodoc
@@ -144,7 +109,6 @@ class __$$WeekImplCopyWithImpl<$Res>
     Object? name = freezed,
     Object? startDate = freezed,
     Object? endDate = freezed,
-    Object? scheduleWeek = freezed,
   }) {
     return _then(_$WeekImpl(
       id: freezed == id
@@ -163,10 +127,6 @@ class __$$WeekImplCopyWithImpl<$Res>
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      scheduleWeek: freezed == scheduleWeek
-          ? _value.scheduleWeek
-          : scheduleWeek // ignore: cast_nullable_to_non_nullable
-              as ScheduleWeek?,
     ));
   }
 }
@@ -174,8 +134,7 @@ class __$$WeekImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$WeekImpl implements _Week {
-  const _$WeekImpl(
-      {this.id, this.name, this.startDate, this.endDate, this.scheduleWeek});
+  const _$WeekImpl({this.id, this.name, this.startDate, this.endDate});
 
   factory _$WeekImpl.fromJson(Map<String, dynamic> json) =>
       _$$WeekImplFromJson(json);
@@ -188,12 +147,10 @@ class _$WeekImpl implements _Week {
   final DateTime? startDate;
   @override
   final DateTime? endDate;
-  @override
-  final ScheduleWeek? scheduleWeek;
 
   @override
   String toString() {
-    return 'Week(id: $id, name: $name, startDate: $startDate, endDate: $endDate, scheduleWeek: $scheduleWeek)';
+    return 'Week(id: $id, name: $name, startDate: $startDate, endDate: $endDate)';
   }
 
   @override
@@ -205,15 +162,12 @@ class _$WeekImpl implements _Week {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
-            (identical(other.endDate, endDate) || other.endDate == endDate) &&
-            (identical(other.scheduleWeek, scheduleWeek) ||
-                other.scheduleWeek == scheduleWeek));
+            (identical(other.endDate, endDate) || other.endDate == endDate));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, name, startDate, endDate, scheduleWeek);
+  int get hashCode => Object.hash(runtimeType, id, name, startDate, endDate);
 
   /// Create a copy of Week
   /// with the given fields replaced by the non-null parameter values.
@@ -236,8 +190,7 @@ abstract class _Week implements Week {
       {final int? id,
       final String? name,
       final DateTime? startDate,
-      final DateTime? endDate,
-      final ScheduleWeek? scheduleWeek}) = _$WeekImpl;
+      final DateTime? endDate}) = _$WeekImpl;
 
   factory _Week.fromJson(Map<String, dynamic> json) = _$WeekImpl.fromJson;
 
@@ -249,8 +202,6 @@ abstract class _Week implements Week {
   DateTime? get startDate;
   @override
   DateTime? get endDate;
-  @override
-  ScheduleWeek? get scheduleWeek;
 
   /// Create a copy of Week
   /// with the given fields replaced by the non-null parameter values.

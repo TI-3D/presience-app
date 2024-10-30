@@ -15,9 +15,6 @@ _$WeekImpl _$$WeekImplFromJson(Map<String, dynamic> json) => _$WeekImpl(
       endDate: json['endDate'] == null
           ? null
           : DateTime.parse(json['endDate'] as String),
-      scheduleWeek: json['scheduleWeek'] == null
-          ? null
-          : ScheduleWeek.fromJson(json['scheduleWeek'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$WeekImplToJson(_$WeekImpl instance) =>
@@ -26,5 +23,4 @@ Map<String, dynamic> _$$WeekImplToJson(_$WeekImpl instance) =>
       'name': instance.name,
       'startDate': instance.startDate?.toIso8601String(),
       'endDate': instance.endDate?.toIso8601String(),
-      'scheduleWeek': instance.scheduleWeek,
     };

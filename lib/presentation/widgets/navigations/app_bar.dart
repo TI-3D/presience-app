@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
-import 'package:go_router/go_router.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final GestureTapCallback? onTap;
+
   const CustomAppBar({
     super.key,
     required this.title,
+    this.onTap,
   });
 
   @override
@@ -19,7 +21,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return PreferredSize(
       preferredSize: Size(MediaQuery.of(context).size.width, 120),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         height: 120,
         decoration: BoxDecoration(
           border: Border(
@@ -31,12 +33,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         child: Stack(children: [
           GestureDetector(
-            onTap: () {
-              context.pop();
-            },
-            child: Container(
+            onTap: onTap,
+            child: const SizedBox(
               height: double.infinity,
-              child: const Icon(
+              child: Icon(
                 TablerIcons.arrow_left,
                 size: 28,
               ),

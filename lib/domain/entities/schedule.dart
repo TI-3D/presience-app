@@ -3,6 +3,7 @@ import 'package:presience_app/domain/entities/course.dart';
 import 'package:presience_app/domain/entities/group.dart';
 import 'package:presience_app/domain/entities/lecturer.dart';
 import 'package:presience_app/domain/entities/room.dart';
+import 'package:presience_app/domain/entities/week.dart';
 
 part 'schedule.freezed.dart';
 part 'schedule.g.dart';
@@ -14,6 +15,7 @@ class Schedule with _$Schedule {
     String? day,
     String? startTime,
     String? endTime,
+    Week? week,
     Lecturer? lecturer,
     Group? group,
     Room? room,
@@ -25,6 +27,7 @@ class Schedule with _$Schedule {
         day: json['day'],
         startTime: json['start_time'],
         endTime: json['end_time'],
+        week: json['week'] != null ? Week.fromJson(json['week']) : null,
         lecturer: Lecturer.fromJson(json['lecturer']),
         group: json['group'] != null ? Group.fromJson(json['group']) : null,
         room: Room.fromJson(json['room']),

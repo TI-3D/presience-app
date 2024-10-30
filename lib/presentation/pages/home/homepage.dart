@@ -1,11 +1,11 @@
-import 'dart:ffi';
+// ignore_for_file: must_be_immutable
 
+import 'dart:ffi';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
-import 'package:presience_app/data/dto/requests/auth_dto.dart';
 import 'package:presience_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
 import 'package:presience_app/presentation/pages/presensi/presensi.dart';
@@ -26,9 +26,10 @@ import 'package:presience_app/presentation/widgets/empty_state/types/empty_histo
 import 'package:presience_app/presentation/widgets/empty_state/types/empty_presensi.dart';
 import 'package:presience_app/presentation/widgets/navigations/menu_item.dart';
 import 'package:presience_app/presentation/widgets/skeletons/attendance.dart';
-import 'package:presience_app/presentation/widgets/skeletons/last_week_skeleton.dart';
 import 'package:presience_app/presentation/widgets/skeletons/today_presensi_skeleton.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+
+import '../../widgets/cards/today_presensi.dart';
 
 class NavigationHomePage extends StatefulWidget {
   int? selectedPageIndex;
@@ -167,39 +168,40 @@ class HomePage extends StatelessWidget {
                       enabled: true, // Flag to toggle skeleton
                       enableSwitchAnimation: true, //
                       child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                          ),
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                    height: 52,
-                                    width: 52,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100),
-                                      border: Border.all(
-                                          color: neutralTheme[100]!, width: 1),
-                                    ),
-                                    child: Bone.circle()),
-                                const SizedBox(
-                                  width: 8,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                                height: 52,
+                                width: 52,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  border: Border.all(
+                                      color: neutralTheme[100]!, width: 1),
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(BoneMock.name,
-                                        style: mediumBodyTextXL),
-                                    const SizedBox(
-                                      height: 2,
-                                    ),
-                                    Text(
-                                      BoneMock.phone,
-                                      style: mediumBodyTextS,
-                                    )
-                                  ],
+                                child: const Bone.circle()),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(BoneMock.name, style: mediumBodyTextXL),
+                                const SizedBox(
+                                  height: 2,
+                                ),
+                                Text(
+                                  BoneMock.phone,
+                                  style: mediumBodyTextS,
                                 )
-                              ])),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
                     );
                   },
                 );
@@ -221,7 +223,7 @@ class HomePage extends StatelessWidget {
                       );
                     },
                     orElse: () {
-                      return AttendanceSkeleton();
+                      return const AttendanceSkeleton();
                     },
                   );
                 },
@@ -249,7 +251,7 @@ class HomePage extends StatelessWidget {
                   children: [
                     Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: TitleSection(title: "Hari Ini")),
+                        child: const TitleSection(title: "Hari Ini")),
                     const SizedBox(
                       height: 8,
                     ),
@@ -380,34 +382,11 @@ class ContentofHariIni2 extends StatefulWidget {
 }
 
 class _ContentofHariIni2State extends State<ContentofHariIni2> {
-  final Map<String, String> matkul1 = {
-    'courseName': "Nama Mata Kuliah 1",
-    'lectureName': "Nama Dosen 1 S.Kom., M.Kom",
-    'status': "hadir",
-    'room': "RUANG",
-    'floor': "6",
-    'startTime': "00:00",
-    'endTime': "00:00",
-    'absentPercentage': "00"
-  };
-  final Map<String, String> matkul2 = {
-    'courseName': "Nama Mata Kuliah 2",
-    'lectureName': "Nama Dosen 2 S.Kom., M.Kom",
-    'status': "nonActive",
-    'room': "RUANG",
-    'floor': "6",
-    'startTime': "00:00",
-    'endTime': "00:00",
-    'absentPercentage': "00"
-  };
-
-  late final List<Map<String, String>> matkulList = [matkul1, matkul2];
-
   int currentCard = 0;
 
-  Widget indicator(int index) {
+  Widget indicator(int index, int length) {
     return Container(
-      margin: EdgeInsets.only(right: index < matkulList.length - 1 ? 4.0 : 0),
+      margin: EdgeInsets.only(right: index < length - 1 ? 4.0 : 0),
       width: currentCard == index ? 16 : 6,
       height: 6,
       decoration: BoxDecoration(
@@ -444,15 +423,18 @@ class _ContentofHariIni2State extends State<ContentofHariIni2> {
                     return SizedBox(
                       width: MediaQuery.of(context).size.width -
                           32, // 80% of screen width
-                      child:
-                          //  TodayPresensiSkeleton()
-                          TodayPresensiCard(
+                      child: TodayPresensiCard(
                         scheduleWeek: data[itemIndex],
                         onTapPresensi: () {
-                          context.push('/camera/presensi');
+                          context.push('/camera/presensi', extra: {
+                            'openedAt': data[itemIndex].openedAt,
+                            'scheduleWeekId': data[itemIndex].id,
+                          });
                         },
                         onTapAjukanIzin: () {
-                          context.push('/pengajuan_izin/during');
+                          context.push('/pengajuan_izin/during', extra: {
+                            'scheduleWeek': data[itemIndex],
+                          });
                         },
                       ),
                     );
@@ -476,7 +458,7 @@ class _ContentofHariIni2State extends State<ContentofHariIni2> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(data.length, (index) {
-                      return indicator(index);
+                      return indicator(index, data.length);
                     }),
                   )
                 ]
@@ -485,9 +467,10 @@ class _ContentofHariIni2State extends State<ContentofHariIni2> {
           },
           orElse: () {
             return Container(
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: TodayPresensiSkeleton());
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: const TodayPresensiSkeleton(),
+            );
           },
         );
       },

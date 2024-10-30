@@ -29,35 +29,17 @@ class TodayPresensiCard extends StatelessWidget {
     late bool isAjukanEnable;
     late Widget tagLabel;
 
-    switch (scheduleWeek.status!) {
-      case "closed":
-        backgroundColor = neutralTheme;
-        borderColor = neutralTheme[100]!;
-        textColor = blackTheme;
-        secondaryColor = neutralTheme[400]!;
-        isAjukanEnable = true;
-        isPresensiEnable = false;
-        tagLabel = const CustomTaglabelGrey(label: "Belum Dibuka");
-        break;
-      case "opened":
-        backgroundColor = purpleTheme[50]!;
-        borderColor = purpleTheme[200]!;
-        textColor = purpleTheme;
-        secondaryColor = purpleTheme;
-        isAjukanEnable = true;
-        isPresensiEnable = true;
-        tagLabel = const CustomTaglabelPurple(label: "Dibuka");
-        break;
-      case "hadir":
-        backgroundColor = greenTheme[50]!;
-        borderColor = greenTheme[200]!;
-        textColor = greenTheme;
-        secondaryColor = greenTheme;
+    if (scheduleWeek.attendance != null) {
+      if (scheduleWeek.attendance!.alpha ==
+          scheduleWeek.schedule!.course!.time) {
+        backgroundColor = redTheme[50]!;
+        borderColor = redTheme[300]!;
+        textColor = redTheme;
+        secondaryColor = redTheme;
         isAjukanEnable = false;
         isPresensiEnable = false;
-        tagLabel = const CustomTaglabelGreen(label: "Hadir");
-        break;
-      case "izin":
+        tagLabel = const CustomTaglabelRed(label: "Alpha");
+      } else if (scheduleWeek.attendance!.izin != 0) {
         backgroundColor = orangeTheme[50]!;
         borderColor = orangeTheme[200]!;
         textColor = orangeTheme;
@@ -65,7 +47,7 @@ class TodayPresensiCard extends StatelessWidget {
         isAjukanEnable = false;
         isPresensiEnable = false;
         tagLabel = const CustomTaglabelOrange(label: "Izin");
-      case "sakit":
+      } else if (scheduleWeek.attendance!.sakit != 0) {
         backgroundColor = orangeTheme[50]!;
         borderColor = orangeTheme[200]!;
         textColor = orangeTheme;
@@ -73,25 +55,45 @@ class TodayPresensiCard extends StatelessWidget {
         isAjukanEnable = false;
         isPresensiEnable = false;
         tagLabel = const CustomTaglabelOrange(label: "Sakit");
-        break;
-      case "alpha":
-        backgroundColor = redTheme[50]!;
-        borderColor = redTheme[300]!;
-        textColor = redTheme;
-        secondaryColor = redTheme;
+      } else {
+        backgroundColor = greenTheme[50]!;
+        borderColor = greenTheme[200]!;
+        textColor = greenTheme;
+        secondaryColor = greenTheme;
         isAjukanEnable = false;
-        isPresensiEnable = true;
-        tagLabel = const CustomTaglabelRed(label: "Alpha");
-        break;
-      default:
-        backgroundColor = neutralTheme;
-        borderColor = neutralTheme[100]!;
-        textColor = blackTheme;
-        secondaryColor = neutralTheme[400]!;
-        isAjukanEnable = true;
         isPresensiEnable = false;
-        tagLabel = const CustomTaglabelGrey(label: "-");
-        break;
+        tagLabel = const CustomTaglabelGreen(label: "Hadir");
+      }
+    } else {
+      switch (scheduleWeek.status!) {
+        case "closed":
+          backgroundColor = neutralTheme;
+          borderColor = neutralTheme[100]!;
+          textColor = blackTheme;
+          secondaryColor = neutralTheme[400]!;
+          isAjukanEnable = true;
+          isPresensiEnable = false;
+          tagLabel = const CustomTaglabelGrey(label: "Belum Dibuka");
+          break;
+        case "opened":
+          backgroundColor = purpleTheme[50]!;
+          borderColor = purpleTheme[200]!;
+          textColor = purpleTheme;
+          secondaryColor = purpleTheme;
+          isAjukanEnable = true;
+          isPresensiEnable = true;
+          tagLabel = const CustomTaglabelPurple(label: "Dibuka");
+          break;
+        default:
+          backgroundColor = neutralTheme;
+          borderColor = neutralTheme[100]!;
+          textColor = blackTheme;
+          secondaryColor = neutralTheme[400]!;
+          isAjukanEnable = true;
+          isPresensiEnable = false;
+          tagLabel = const CustomTaglabelGrey(label: "-");
+          break;
+      }
     }
 
     return Container(
