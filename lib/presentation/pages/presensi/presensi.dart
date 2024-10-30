@@ -9,8 +9,13 @@ import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/cards/history_presensi_card.dart';
 import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/cards/today_presensi.dart';
+import 'package:presience_app/presentation/widgets/empty_state/types/empty_filtered.dart';
+import 'package:presience_app/presentation/widgets/empty_state/types/empty_history_presensi.dart';
+import 'package:presience_app/presentation/widgets/empty_state/types/empty_history_presensi_2.dart';
+import 'package:presience_app/presentation/widgets/empty_state/types/empty_presensi.dart';
 import 'package:presience_app/presentation/widgets/form/dropdown.dart';
 import 'package:presience_app/presentation/widgets/skeletons/history_presensi_skeleton.dart';
+import 'package:presience_app/presentation/widgets/skeletons/today_presensi_skeleton.dart';
 
 class TabPresensiPage extends StatefulWidget {
   int? selectedTab;
@@ -112,89 +117,109 @@ class PresensiPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.only(bottom: 16),
+    return Stack(
       children: [
-        const SizedBox(
-          height: 12,
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            children: [
-              CustomDropdown(
-                  icon: TablerIcons.book_2,
-                  width: MediaQuery.of(context).size.width - 183,
-                  items: const [
-                    "Semua Mata Kuliah",
-                    "Mata Kuliah1",
-                    "Mata Kuliah2",
-                    "Mata Kuliah3",
-                    "Mata Kuliah4"
-                  ]),
-              const SizedBox(
-                width: 8,
-              ),
-              Container(
-                width: 1,
-                height: 26,
-                color: neutralTheme[100],
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              const CustomDropdown(
-                  icon: TablerIcons.empathize,
-                  width: 133,
-                  items: [
-                    "Semua Status",
-                    "Status 1",
-                    "Status 2",
-                    "Status 3",
-                    "Status 4"
-                  ]),
-            ],
-          ),
-        ),
-        Divider(
-          color: neutralTheme[100],
-          thickness: 1,
-          height: 24,
-        ),
-        BlocBuilder<ScheduleBloc, ScheduleState>(
-          builder: (context, state) {
-            return state.maybeWhen(
-              success: (data) {
-                if (data.isEmpty) {
-                  return const Center(
-                    child: Text("Tidak ada data"),
-                  );
-                }
-                return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: TodayPresensiCard(
-                    scheduleWeek: data[0],
+        ListView(
+          padding: const EdgeInsets.only(bottom: 16),
+          // shrinkWrap: true,
+          children: [
+            SizedBox(
+              height: 12,
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  CustomDropdown(
+                      icon: TablerIcons.book_2,
+                      width: MediaQuery.of(context).size.width - 183,
+                      items: const [
+                        "Semua Mata Kuliah",
+                        "Mata Kuliah1",
+                        "Mata Kuliah2",
+                        "Mata Kuliah3",
+                        "Mata Kuliah4"
+                      ]),
+                  const SizedBox(
+                    width: 8,
                   ),
+                  Container(
+                    width: 1,
+                    height: 26,
+                    color: neutralTheme[100],
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  const CustomDropdown(
+                      icon: TablerIcons.empathize,
+                      width: 133,
+                      items: [
+                        "Semua Status",
+                        "Status 1",
+                        "Status 2",
+                        "Status 3",
+                        "Status 4"
+                      ]),
+                ],
+              ),
+            ),
+            Divider(
+              color: neutralTheme[100],
+              thickness: 1,
+              height: 24,
+            ),
+            BlocBuilder<ScheduleBloc, ScheduleState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  success: (data) {
+                    if (data.isEmpty) {
+                      return Container(
+                          //EMPTY STATE TIDAK ADA PRESENSI
+                          // child: EmptyHistoryPresensi2(),
+                          );
+                    }
+                    return Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: TodayPresensiCard(
+                            scheduleWeek: data[0],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                      ],
+                    );
+                  },
+                  orElse: () {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: TodayPresensiSkeleton(),
+                    );
+                  },
                 );
               },
-              orElse: () {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-            );
-          },
+            ),
+            // DATA PRESENSI
+            const CustomSection(
+                title: "Minggu ke-2", child: ContentofWeekPresensi()),
+            const SizedBox(
+              height: 12,
+            ),
+            const CustomSection(
+                title: "Minggu ke-1", child: ContentofWeekPresensi()),
+          ],
         ),
-        const SizedBox(
-          height: 12,
-        ),
-        const CustomSection(
-            title: "Minggu ke-2", child: ContentofWeekPresensi()),
-        const SizedBox(
-          height: 12,
-        ),
-        const CustomSection(
-            title: "Minggu ke-1", child: ContentofWeekPresensi()),
+
+        //EMPTY STATE JIKA TIDAK ADA FILTER YANG COCOK
+        // Expanded(
+        //   child: Container(
+        //     child: EmptyFiltered(),
+        //   ),
+        // ),
       ],
     );
   }
