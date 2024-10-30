@@ -23,6 +23,8 @@ import 'package:presience_app/presentation/widgets/modal/button.dart';
 import 'package:presience_app/presentation/widgets/modal/dialog.dart';
 import 'package:presience_app/presentation/widgets/modal/loading.dart';
 
+import '../../blocs/attendance/attendance_bloc.dart';
+
 class CameraPresensiPage extends StatefulWidget {
   final String? openedAt;
   final int? scheduleWeekId;
@@ -129,6 +131,10 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                     listener: (context, state) {
                       state.maybeWhen(
                         success: (data) {
+                          context.read<AttendanceBloc>().add(
+                                const AttendanceEvent
+                                    .getAttendanceInformation(),
+                              );
                           return context.push('/homepage');
                         },
                         failure: (message) {

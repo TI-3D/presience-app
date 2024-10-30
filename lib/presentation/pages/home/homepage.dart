@@ -1,35 +1,27 @@
 // ignore_for_file: must_be_immutable
 
-import 'dart:ffi';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
+import 'package:presience_app/presentation/blocs/attendance/attendance_bloc.dart';
 import 'package:presience_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
 import 'package:presience_app/presentation/pages/presensi/presensi.dart';
 import 'package:presience_app/presentation/pages/profile/profile.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
-import 'package:presience_app/presentation/widgets/buttons/button.dart';
-import 'package:presience_app/presentation/widgets/cards/card.dart';
 import 'package:presience_app/presentation/widgets/cards/attendance.dart';
 import 'package:presience_app/presentation/widgets/cards/last_week_card.dart';
 import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/cards/title_section.dart';
 import 'package:presience_app/presentation/widgets/cards/today_presensi.dart';
-import 'package:presience_app/presentation/widgets/empty_state/container.dart';
-import 'package:presience_app/presentation/widgets/empty_state/image.dart';
-import 'package:presience_app/presentation/widgets/empty_state/types/empty_history_presensi.dart';
-// import 'package:presience_app/presentation/widgets/empty_state/types/container.dart';
 import 'package:presience_app/presentation/widgets/empty_state/types/empty_presensi.dart';
 import 'package:presience_app/presentation/widgets/navigations/menu_item.dart';
 import 'package:presience_app/presentation/widgets/skeletons/attendance.dart';
 import 'package:presience_app/presentation/widgets/skeletons/today_presensi_skeleton.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-
-import '../../widgets/cards/today_presensi.dart';
 
 class NavigationHomePage extends StatefulWidget {
   int? selectedPageIndex;
@@ -218,8 +210,20 @@ class HomePage extends StatelessWidget {
                 builder: (context, state) {
                   return state.maybeWhen(
                     loginSuccess: (data) {
-                      return AttendanceCard(
-                        data: data,
+                      return BlocBuilder<AttendanceBloc, AttendanceState>(
+                        builder: (context, state) {
+                          return state.maybeWhen(
+                            success: (attendance) {
+                              return AttendanceCard(
+                                data: data,
+                                attendanceInformation: attendance,
+                              );
+                            },
+                            orElse: () {
+                              return const AttendanceSkeleton();
+                            },
+                          );
+                        },
                       );
                     },
                     orElse: () {
@@ -271,9 +275,11 @@ class HomePage extends StatelessWidget {
             ),
             //RIWAYAT PRESENSI
             const CustomSection(
-                title: "Riwayat Presensi", child: ContentofRiwayatPresensi()),
+              title: "Riwayat Presensi",
+              child: ContentofRiwayatPresensi(),
+            ),
             //EMPTYSTATE
-            EmptyHistoryPresensi(),
+            // const EmptyHistoryPresensi(),
             const SizedBox(
               height: 12,
             ),
@@ -408,7 +414,7 @@ class _ContentofHariIni2State extends State<ContentofHariIni2> {
         return state.maybeWhen(
           success: (data) {
             if (data.isEmpty) {
-              return Column(
+              return const Column(
                 children: [
                   EmptyPresensi(),
                 ],

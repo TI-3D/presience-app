@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
-import 'package:presience_app/domain/entities/schedule_week.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
-import 'package:presience_app/presentation/widgets/buttons/button.dart';
 import 'package:presience_app/presentation/widgets/labels/icon_label.dart';
-import 'package:presience_app/presentation/widgets/labels/tag_label.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class TodayPresensiSkeleton extends StatelessWidget {
@@ -26,8 +23,8 @@ class TodayPresensiSkeleton extends StatelessWidget {
       enableSwitchAnimation: true, // To enable transition
       child: Container(
         width: MediaQuery.of(context).size.width - 32,
-        decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(
+        decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(
               Radius.circular(8),
             ),
             color: neutralTheme),
@@ -38,7 +35,7 @@ class TodayPresensiSkeleton extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Bone.icon(size: 28),
+                const Bone.icon(size: 28),
                 const SizedBox(
                   height: 4,
                 ),
@@ -58,7 +55,7 @@ class TodayPresensiSkeleton extends StatelessWidget {
             const SizedBox(
               height: 12,
             ),
-            Opacity(
+            const Opacity(
               opacity: 0.4,
               child: Row(
                 children: [
@@ -66,14 +63,14 @@ class TodayPresensiSkeleton extends StatelessWidget {
                       label: 'Label',
                       icon: TablerIcons.building,
                       color: neutralTheme),
-                  const SizedBox(
+                  SizedBox(
                     width: 8,
                   ),
                   CustomIconLabel(
                       label: 'Label',
                       icon: TablerIcons.stairs,
                       color: neutralTheme),
-                  const SizedBox(
+                  SizedBox(
                     width: 8,
                   ),
                   CustomIconLabel(
@@ -86,7 +83,7 @@ class TodayPresensiSkeleton extends StatelessWidget {
             const SizedBox(
               height: 12,
             ),
-            Column(
+            const Column(
               children: [
                 Bone.button(
                   width: double.infinity,
@@ -95,7 +92,7 @@ class TodayPresensiSkeleton extends StatelessWidget {
                     Radius.circular(8),
                   ),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 8,
                 ),
                 Bone.button(

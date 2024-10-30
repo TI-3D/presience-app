@@ -23,6 +23,7 @@ import 'package:presience_app/presentation/widgets/form/text_field.dart';
 import 'package:presience_app/presentation/widgets/navigations/app_bar.dart';
 
 import '../../../data/dto/requests/permit_dto.dart';
+import '../../blocs/attendance/attendance_bloc.dart';
 import '../../widgets/modal/button.dart';
 import '../../widgets/modal/dialog.dart';
 import '../../widgets/modal/loading.dart';
@@ -244,6 +245,9 @@ class _FormPengajuanDuringClassPageState
           listener: (context, state) {
             state.maybeWhen(
               success: (data) {
+                context.read<AttendanceBloc>().add(
+                      const AttendanceEvent.getAttendanceInformation(),
+                    );
                 return context.go('/homepage');
               },
               failure: (message) {

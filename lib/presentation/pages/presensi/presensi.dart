@@ -12,8 +12,8 @@ import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/cards/history_presensi_card.dart';
 import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/cards/today_presensi.dart';
-import 'package:presience_app/presentation/widgets/form/dropdown.dart';
 import 'package:presience_app/presentation/widgets/empty_state/types/empty_history_presensi_2.dart';
+import 'package:presience_app/presentation/widgets/form/dropdown.dart';
 import 'package:presience_app/presentation/widgets/skeletons/today_presensi_skeleton.dart';
 
 import '../../../domain/entities/schedule_week.dart';
@@ -174,9 +174,7 @@ class PresensiPage extends StatelessWidget {
                 return state.maybeWhen(
                   success: (data) {
                     if (data.isEmpty) {
-                      return Container(
-                        child: EmptyHistoryPresensi2(),
-                      );
+                      return const EmptyHistoryPresensi2();
                     }
 
                     // Filter for the first schedule with status "opened and no attendance"
@@ -187,9 +185,7 @@ class PresensiPage extends StatelessWidget {
                     );
 
                     if (openedSchedule == null) {
-                      return Container(
-                        child: EmptyHistoryPresensi2(),
-                      );
+                      return const EmptyHistoryPresensi2();
                     }
 
                     return Container(

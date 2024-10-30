@@ -10,11 +10,10 @@ class EmptyHistoryPresensi2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height:
-          MediaQuery.of(context).size.height, // Mengambil tinggi layar penuh
+      height: 292,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       // width: MediaQuery.of(context).size.width,
-      child: Center(
+      child: const Center(
         child: CustomContainerEmptyState(
           image: LargeEmptyStateImage(
             assetPath:

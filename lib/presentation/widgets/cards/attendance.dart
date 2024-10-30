@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:presience_app/data/dto/requests/auth_dto.dart';
+import 'package:presience_app/domain/entities/attendance_information.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/cards/card.dart';
 
 class AttendanceCard extends StatelessWidget {
   final AuthDto data;
+  final AttendanceInformation attendanceInformation;
+
   const AttendanceCard({
     super.key,
     required this.data,
+    required this.attendanceInformation,
   });
 
   @override
@@ -25,7 +29,8 @@ class AttendanceCard extends StatelessWidget {
                 style: mediumBodyTextL,
               ),
               AttendancePercentage(
-                attendancePercentage: 100,
+                attendancePercentage:
+                    attendanceInformation.percentageAttendance!,
               )
             ],
           ),
@@ -47,7 +52,7 @@ class AttendanceCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "4",
+                            attendanceInformation.sakit.toString(),
                             style: heading2,
                           ),
                           Text(
@@ -68,7 +73,7 @@ class AttendanceCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "4",
+                            attendanceInformation.izin.toString(),
                             style: heading2,
                           ),
                           Text(
@@ -89,7 +94,7 @@ class AttendanceCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "4",
+                            attendanceInformation.alpha.toString(),
                             style: heading2,
                           ),
                           Text(
@@ -114,7 +119,7 @@ class AttendanceCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "4",
+                            attendanceInformation.kompen.toString(),
                             style: heading2.copyWith(color: redTheme),
                           ),
                           Text(
