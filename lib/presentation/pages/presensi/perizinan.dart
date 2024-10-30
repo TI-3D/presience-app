@@ -27,45 +27,46 @@ class PerizinanPage extends StatelessWidget {
           width: double.infinity,
           child: Column(
             children: [
-              EmptyAjukanIzin(),
-              // Text("Pengajuan Izin", style: mediumBodyTextXL),
-              // const SizedBox(
-              //   height: 4,
-              // ),
-              // Text(
-              //   "Kamu bisa melakukan pengajuan izin dalam 7 hari sebelum mata kuliah dimulai",
-              //   style: regularBodyText.copyWith(color: neutralTheme[700]),
-              //   textAlign: TextAlign.center,
-              // ),
-              // const SizedBox(
-              //   height: 16,
-              // ),
-              // SmallFillButton(
-              //     label: "Ajukan Izin",
-              //     onPressed: () {
-              //       showModalBottomSheet(
-              //         context: context,
-              //         backgroundColor: modalBackground,
-              //         builder: (BuildContext context) {
-              //           return FormDate();
-              //         },
-              //       );
-              //     })
+              //EMPTY STATE
+              // EmptyAjukanIzin(),
+              Text("Pengajuan Izin", style: mediumBodyTextXL),
+              const SizedBox(
+                height: 4,
+              ),
+              Text(
+                "Kamu bisa melakukan pengajuan izin dalam 7 hari sebelum mata kuliah dimulai",
+                style: regularBodyText.copyWith(color: neutralTheme[700]),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              SmallFillButton(
+                  label: "Ajukan Izin",
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: modalBackground,
+                      builder: (BuildContext context) {
+                        return FormDate();
+                      },
+                    );
+                  })
             ],
           ),
         ),
-        // Divider(
-        //   height: 24,
-        //   thickness: 1,
-        //   color: neutralTheme[100],
-        // ),
-        // const CustomSection(title: "Pengajuan", child: ContentofPerizinan()),
-        // Divider(
-        //   height: 24,
-        //   thickness: 1,
-        //   color: neutralTheme[100],
-        // ),
-        // const CustomSection(title: "Perubahan", child: ContentofPerizinan()),
+        Divider(
+          height: 24,
+          thickness: 1,
+          color: neutralTheme[100],
+        ),
+        const CustomSection(title: "Pengajuan", child: ContentofPerizinan()),
+        Divider(
+          height: 24,
+          thickness: 1,
+          color: neutralTheme[100],
+        ),
+        const CustomSection(title: "Perubahan", child: ContentofPerizinan()),
       ],
     );
   }
