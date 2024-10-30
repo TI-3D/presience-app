@@ -10,6 +10,7 @@ import 'package:presience_app/presentation/widgets/cards/perizinan_card.dart';
 import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/cards/title_section.dart';
 import 'package:presience_app/presentation/widgets/containers/button_sheet.dart';
+import 'package:presience_app/presentation/widgets/empty_state/types/empty_pengajuan_izin.dart';
 import 'package:presience_app/presentation/widgets/form/text_field.dart';
 
 class PerizinanPage extends StatelessWidget {
@@ -25,6 +26,8 @@ class PerizinanPage extends StatelessWidget {
           width: double.infinity,
           child: Column(
             children: [
+              //EMPTY STATE
+              // EmptyAjukanIzin(),
               Text("Pengajuan Izin", style: mediumBodyTextXL),
               const SizedBox(
                 height: 4,
