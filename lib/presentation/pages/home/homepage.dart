@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,12 +12,18 @@ import 'package:presience_app/presentation/pages/presensi/presensi.dart';
 import 'package:presience_app/presentation/pages/profile/profile.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
+import 'package:presience_app/presentation/widgets/buttons/button.dart';
 import 'package:presience_app/presentation/widgets/cards/card.dart';
 import 'package:presience_app/presentation/widgets/cards/attendance.dart';
 import 'package:presience_app/presentation/widgets/cards/last_week_card.dart';
 import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/cards/title_section.dart';
 import 'package:presience_app/presentation/widgets/cards/today_presensi.dart';
+import 'package:presience_app/presentation/widgets/empty_state/container.dart';
+import 'package:presience_app/presentation/widgets/empty_state/image.dart';
+import 'package:presience_app/presentation/widgets/empty_state/types/empty_history_presensi.dart';
+// import 'package:presience_app/presentation/widgets/empty_state/types/container.dart';
+import 'package:presience_app/presentation/widgets/empty_state/types/empty_presensi.dart';
 import 'package:presience_app/presentation/widgets/navigations/menu_item.dart';
 import 'package:presience_app/presentation/widgets/skeletons/attendance.dart';
 import 'package:presience_app/presentation/widgets/skeletons/last_week_skeleton.dart';
@@ -25,7 +33,8 @@ class NavigationHomePage extends StatefulWidget {
   int? selectedPageIndex;
   int? selectedTab;
 
-  NavigationHomePage({super.key, this.selectedPageIndex = 0, this.selectedTab = 0});
+  NavigationHomePage(
+      {super.key, this.selectedPageIndex = 0, this.selectedTab = 0});
 
   @override
   State<NavigationHomePage> createState() => _NavigationHomePageState();
@@ -222,8 +231,11 @@ class HomePage extends StatelessWidget {
             const SizedBox(
               height: 12,
             ),
+            //RIWAYAT PRESENSI
             const CustomSection(
                 title: "Riwayat Presensi", child: ContentofRiwayatPresensi()),
+            //EMPTYSTATE
+            EmptyHistoryPresensi(),
             const SizedBox(
               height: 12,
             ),
@@ -381,8 +393,10 @@ class _ContentofHariIni2State extends State<ContentofHariIni2> {
         return state.maybeWhen(
           success: (data) {
             if (data.isEmpty) {
-              return const Center(
-                child: Text("Tidak ada data"),
+              return Column(
+                children: [
+                  EmptyPresensi(),
+                ],
               );
             }
             return Column(
