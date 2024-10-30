@@ -19,6 +19,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _nimController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  String? errorMessage;
 
   @override
   void dispose() {
@@ -54,6 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                       label: "NIM",
                       hint: "NIM",
                       controller: _nimController,
+                      errorMessage: errorMessage,
                     ),
                     const SizedBox(
                       height: 8,
@@ -62,6 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                       label: "Kata Sandi",
                       hint: "Kata Sandi",
                       controller: _passwordController,
+                      errorMessage: errorMessage,
                     ),
                   ],
                 )
@@ -79,12 +82,9 @@ class _LoginPageState extends State<LoginPage> {
                 return context.go('/login/success');
               },
               failure: (message) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(message),
-                    backgroundColor: Colors.red,
-                  ),
-                );
+                setState(() {
+                  errorMessage = message;
+                });
               },
               orElse: () {},
             );
