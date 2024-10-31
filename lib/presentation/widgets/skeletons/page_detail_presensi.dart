@@ -25,55 +25,51 @@ class DetailPresensiSkeletonPage extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const TitleSection(title: 'Pembelajaran Mesin'),
-                        SizedBox.fromSize(size: const Size.fromHeight(4)),
-                        Text(
-                          'Amalia Agung Septarina, S.S.M.Tr.TT.',
-                          style: regularBodyText,
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    children: [
-                      Row(children: [
-                        CustomIconLabel(
-                            label: 'LPR 4',
-                            icon: TablerIcons.building,
-                            color: neutralTheme[400]!),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        CustomIconLabel(
-                            label: 'Lantai 7',
-                            icon: TablerIcons.stairs,
-                            color: neutralTheme[400]!),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        CustomIconLabel(
-                            label: '11:40-16:00',
-                            icon: TablerIcons.calendar_time,
-                            color: neutralTheme[400]!),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                      ]),
-                    ],
-                  )
-                ],
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const TitleSection(title: 'Pembelajaran Mesin'),
+                    SizedBox.fromSize(size: const Size.fromHeight(4)),
+                    Text(
+                      'Amalia Agung Septarina, S.S.M.Tr.TT.',
+                      style: regularBodyText,
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: [
+                    Row(children: [
+                      CustomIconLabel(
+                          label: 'LPR 4',
+                          icon: TablerIcons.building,
+                          color: neutralTheme[400]!),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      CustomIconLabel(
+                          label: 'Lantai 7',
+                          icon: TablerIcons.stairs,
+                          color: neutralTheme[400]!),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      CustomIconLabel(
+                          label: '11:40-16:00',
+                          icon: TablerIcons.calendar_time,
+                          color: neutralTheme[400]!),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                    ]),
+                  ],
+                )
+              ],
             ),
           ),
           Divider(
@@ -81,25 +77,21 @@ class DetailPresensiSkeletonPage extends StatelessWidget {
             thickness: 1,
             color: neutralTheme[100],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TitleSection(title: 'Total Presentase Kehadiran'),
-                        AttendancePercentage(
-                          attendancePercentage: 82,
-                        ),
-                      ],
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TitleSection(title: 'Total Presentase Kehadiran'),
+                    AttendancePercentage(
+                      attendancePercentage: 82,
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ],
             ),
           ),
           Divider(

@@ -14,21 +14,19 @@ class EmptyStateText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: mediumBodyTextXL.copyWith(color: blackTheme),
-          ),
-          Text(
-            subtitle,
-            textAlign: TextAlign.center,
-            style: regularBodyText.copyWith(color: neutralTheme[500]),
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        Text(
+          title,
+          textAlign: TextAlign.center,
+          style: mediumBodyTextXL.copyWith(color: blackTheme),
+        ),
+        Text(
+          subtitle,
+          textAlign: TextAlign.center,
+          style: regularBodyText.copyWith(color: neutralTheme[500]),
+        ),
+      ],
     );
   }
 }

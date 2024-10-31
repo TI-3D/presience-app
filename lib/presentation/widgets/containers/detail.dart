@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 
 class CustomFirstDetailContainer extends StatelessWidget {
@@ -10,9 +9,9 @@ class CustomFirstDetailContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(minHeight: 52),
+      constraints: const BoxConstraints(minHeight: 52),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(8),
               topRight: Radius.circular(8),
               bottomLeft: Radius.circular(0),
@@ -40,9 +39,9 @@ class CustomMiddleDetailContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(minHeight: 52),
+      constraints: const BoxConstraints(minHeight: 52),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(0),
               topRight: Radius.circular(0),
               bottomLeft: Radius.circular(0),
@@ -70,9 +69,9 @@ class CustomLastDetailContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(minHeight: 52),
+      constraints: const BoxConstraints(minHeight: 52),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(0),
               topRight: Radius.circular(0),
               bottomLeft: Radius.circular(8),

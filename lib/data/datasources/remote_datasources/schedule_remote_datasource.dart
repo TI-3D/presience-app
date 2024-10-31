@@ -84,7 +84,6 @@ class ScheduleRemoteDatasource {
     try {
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
-      print(response.body);
 
       if (response.statusCode == 200) {
         return Right(ScheduleWeek.fromJson(jsonDecode(response.body)['data']));

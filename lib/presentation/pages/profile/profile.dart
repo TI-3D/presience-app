@@ -98,10 +98,10 @@ class ProfilPage extends StatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    const Expanded(
+                                    Expanded(
                                       child: CustomTextLabel(
                                         label: "Kelas",
-                                        value: "3D",
+                                        value: data.user!.group.toString(),
                                       ),
                                     ),
                                     Expanded(
@@ -143,7 +143,7 @@ class ProfilPage extends StatelessWidget {
                                 border: Border.all(
                                     color: neutralTheme[100]!, width: 1),
                               ),
-                              child: Bone.circle(),
+                              child: const Bone.circle(),
                             ),
                             const SizedBox(
                               height: 8,

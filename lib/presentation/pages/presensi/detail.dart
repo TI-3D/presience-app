@@ -1,6 +1,9 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
+import 'package:presience_app/presentation/utils/methods.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/cards/attendance.dart';
@@ -13,16 +16,26 @@ import 'package:presience_app/presentation/widgets/labels/icon_label.dart';
 import 'package:presience_app/presentation/widgets/labels/tag_label.dart';
 import 'package:presience_app/presentation/widgets/navigations/app_bar.dart';
 
+import '../../../domain/entities/schedule_week.dart';
+
 class DetailPresensiPage extends StatelessWidget {
-  const DetailPresensiPage({super.key});
+  ScheduleWeek scheduleWeek;
+
+  DetailPresensiPage({
+    super.key,
+    required this.scheduleWeek,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
       backgroundColor: neutralTheme,
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         title: 'Detail Presensi',
+        onTap: () {
+          GoRouter.of(context).pop();
+        },
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(top: 12, bottom: 16),
@@ -34,55 +47,53 @@ class DetailPresensiPage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const TitleSection(title: 'Pembelajaran Mesin'),
-                          SizedBox.fromSize(size: const Size.fromHeight(4)),
-                          Text(
-                            'Amalia Agung Septarina, S.S.M.Tr.TT.',
-                            style: regularBodyText,
-                          )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      children: [
-                        Row(children: [
-                          CustomIconLabel(
-                              label: 'LPR 4',
-                              icon: TablerIcons.building,
-                              color: neutralTheme[400]!),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          CustomIconLabel(
-                              label: 'Lantai 7',
-                              icon: TablerIcons.stairs,
-                              color: neutralTheme[400]!),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          CustomIconLabel(
-                              label: '11:40-16:00',
-                              icon: TablerIcons.calendar_time,
-                              color: neutralTheme[400]!),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                        ]),
-                      ],
-                    )
-                  ],
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TitleSection(title: scheduleWeek.schedule!.course!.name!),
+                      SizedBox.fromSize(size: const Size.fromHeight(4)),
+                      Text(
+                        scheduleWeek.schedule!.lecturer!.name!,
+                        style: regularBodyText,
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    children: [
+                      Row(children: [
+                        CustomIconLabel(
+                            label: scheduleWeek.schedule!.room!.name!,
+                            icon: TablerIcons.building,
+                            color: neutralTheme[400]!),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        CustomIconLabel(
+                            label:
+                                'Lantai ${scheduleWeek.schedule!.week!.name!}',
+                            icon: TablerIcons.stairs,
+                            color: neutralTheme[400]!),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        CustomIconLabel(
+                            label:
+                                '${scheduleWeek.schedule!.startTime!}-${scheduleWeek.schedule!.endTime!}',
+                            icon: TablerIcons.calendar_time,
+                            color: neutralTheme[400]!),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                      ]),
+                    ],
+                  )
+                ],
               ),
             ),
             Divider(
@@ -90,25 +101,21 @@ class DetailPresensiPage extends StatelessWidget {
               thickness: 1,
               color: neutralTheme[100],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      child: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TitleSection(title: 'Total Presentase Kehadiran'),
-                          AttendancePercentage(
-                            attendancePercentage: 82,
-                          ),
-                        ],
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TitleSection(title: 'Total Presentase Kehadiran'),
+                      AttendancePercentage(
+                        attendancePercentage: 82,
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                ],
               ),
             ),
             Divider(
@@ -122,84 +129,148 @@ class DetailPresensiPage extends StatelessWidget {
               title: 'Detail Presensi',
               child: Column(
                 children: [
-                  const CustomFirstDetailContainer(
+                  CustomFirstDetailContainer(
                     children: [
-                      TitleDetail(title: 'Minggu'),
-                      ValueDetail(content: '7'),
+                      const TitleDetail(title: 'Minggu'),
+                      ValueDetail(content: scheduleWeek.schedule!.week!.name!),
                     ],
                   ),
-                  const CustomMiddleDetailContainer(
+                  CustomMiddleDetailContainer(
                     children: [
-                      TitleDetail(title: 'Tanggal'),
-                      ValueDetail(content: '07/10/2024'),
+                      const TitleDetail(title: 'Tanggal'),
+                      ValueDetail(
+                        content: getFormattedDate(scheduleWeek.date!),
+                      ),
                     ],
                   ),
-                  const CustomMiddleDetailContainer(
+                  if (scheduleWeek.openedAt != null)
+                    CustomMiddleDetailContainer(
+                      children: [
+                        const TitleDetail(title: 'Waktu dibuka'),
+                        ValueDetail(content: scheduleWeek.openedAt!),
+                      ],
+                    ),
+                  if (scheduleWeek.closedAt != null)
+                    CustomMiddleDetailContainer(
+                      children: [
+                        const TitleDetail(title: 'Waktu ditutup'),
+                        ValueDetail(
+                          content: scheduleWeek.status!,
+                        ),
+                      ],
+                    ),
+                  CustomMiddleDetailContainer(
                     children: [
-                      TitleDetail(title: 'Waktu dibuka'),
-                      ValueDetail(content: '12:01:23 WIB'),
+                      const TitleDetail(title: 'Waktu presensi'),
+                      ValueDetail(content: scheduleWeek.attendance!.entryTime!),
                     ],
                   ),
-                  const CustomMiddleDetailContainer(
-                    children: [
-                      TitleDetail(title: 'Waktu presensi'),
-                      ValueDetail(content: '12:12:23 WIB'),
-                    ],
-                  ),
-                  const CustomMiddleDetailContainer(
-                    children: [
-                      TitleDetail(title: 'Waktu ditutup'),
-                      ValueDetail(content: '12:15:23 WIB'),
-                    ],
-                  ),
-                  CustomLastDetailContainer(
-                    children: [
-                      TitleDetail(
-                        title: 'Status',
-                        child: Row(
-                          children: [
-                            const Icon(
-                              TablerIcons.alert_circle,
-                              color: redTheme,
-                              size: 14,
-                            ),
-                            const SizedBox(width: 2),
-                            Text(
-                              'Status dapat diubah dalam 7 hari lagi',
-                              style: regularBodyTextXS.copyWith(
+                  if (scheduleWeek.attendance!.izin! !=
+                          scheduleWeek.schedule!.course!.time &&
+                      scheduleWeek.attendance!.alpha! !=
+                          scheduleWeek.schedule!.course!.time &&
+                      scheduleWeek.attendance!.sakit! !=
+                          scheduleWeek.schedule!.course!.time)
+                    const CustomLastDetailContainer(
+                      children: [
+                        TitleDetail(title: 'Status'),
+                        CustomTaglabelGreen(label: 'Hadir'),
+                      ],
+                    ),
+                  if (scheduleWeek.attendance!.sakit! ==
+                      scheduleWeek.schedule!.course!.time!)
+                    const CustomLastDetailContainer(
+                      children: [
+                        TitleDetail(title: 'Status'),
+                        CustomTaglabelOrange(label: 'Sakit'),
+                      ],
+                    ),
+                  if (scheduleWeek.attendance!.izin! ==
+                      scheduleWeek.schedule!.course!.time!)
+                    const CustomLastDetailContainer(
+                      children: [
+                        TitleDetail(title: 'Status'),
+                        CustomTaglabelOrange(label: 'Izin'),
+                      ],
+                    ),
+                  if (scheduleWeek.attendance!.alpha! ==
+                      scheduleWeek.schedule!.course!.time)
+                    CustomLastDetailContainer(
+                      children: [
+                        TitleDetail(
+                          title: 'Status',
+                          child: Row(
+                            children: [
+                              const Icon(
+                                TablerIcons.alert_circle,
                                 color: redTheme,
+                                size: 14,
                               ),
+                              const SizedBox(width: 2),
+                              Text(
+                                'Status dapat diubah dalam 7 hari lagi',
+                                style: regularBodyTextXS.copyWith(
+                                  color: redTheme,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            const CustomTaglabelRed(label: 'Alpha'),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Icon(
+                              TablerIcons.refresh,
+                              color: neutralTheme[300],
+                              size: 24,
                             ),
                           ],
+                        )
+                      ],
+                    ),
+                  if (scheduleWeek.attendance!.izin! > 0 &&
+                      scheduleWeek.attendance!.izin! !=
+                          scheduleWeek.schedule!.course!.time)
+                    CustomMiddleDetailContainer(
+                      children: [
+                        const TitleDetail(title: 'Terlambat'),
+                        ValueDetail(
+                          content: '${scheduleWeek.attendance!.izin!} Jam',
                         ),
-                      ),
-                      Row(
-                        children: [
-                          const CustomTaglabelRed(label: 'Alpha'),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Icon(
-                            TablerIcons.refresh,
-                            color: neutralTheme[300],
-                            size: 24,
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  const CustomMiddleDetailContainer(
-                    children: [
-                      TitleDetail(title: 'Terlambat'),
-                      ValueDetail(content: '2 Jam'),
-                    ],
-                  ),
-                  const CustomLastDetailContainer(
-                    children: [
-                      TitleDetail(title: 'Status terlambat'),
-                      CustomTaglabelOrange(label: 'Izin')
-                    ],
-                  ),
+                      ],
+                    ),
+                  if (scheduleWeek.attendance!.alpha! > 0 &&
+                      scheduleWeek.attendance!.alpha! !=
+                          scheduleWeek.schedule!.course!.time)
+                    CustomMiddleDetailContainer(
+                      children: [
+                        const TitleDetail(title: 'Terlambat'),
+                        ValueDetail(
+                          content: '${scheduleWeek.attendance!.alpha!} Jam',
+                        ),
+                      ],
+                    ),
+                  if (scheduleWeek.attendance!.izin! > 0 &&
+                      scheduleWeek.attendance!.izin! !=
+                          scheduleWeek.schedule!.course!.time)
+                    const CustomLastDetailContainer(
+                      children: [
+                        TitleDetail(title: 'Status terlambat'),
+                        CustomTaglabelOrange(label: 'Izin')
+                      ],
+                    ),
+                  if (scheduleWeek.attendance!.alpha! > 0 &&
+                      scheduleWeek.attendance!.alpha! !=
+                          scheduleWeek.schedule!.course!.time)
+                    const CustomLastDetailContainer(
+                      children: [
+                        TitleDetail(title: 'Status terlambat'),
+                        CustomTaglabelRed(label: 'Alpha')
+                      ],
+                    ),
                 ],
               ),
             ),

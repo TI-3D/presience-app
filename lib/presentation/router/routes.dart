@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:presience_app/domain/entities/schedule_week.dart';
 import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_after.dart';
@@ -150,7 +149,8 @@ final GoRouter _router = GoRouter(
           path: 'detail',
           pageBuilder: (context, state) => CustomTransitionPage(
             key: state.pageKey,
-            child: DetailPresensiPage(),
+            child:
+                DetailPresensiPage(scheduleWeek: state.extra as ScheduleWeek),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               const begin = Offset(1.0, 0.0); // Right-to-left slide
@@ -180,7 +180,7 @@ final GoRouter _router = GoRouter(
           path: 'detail',
           pageBuilder: (context, state) => CustomTransitionPage(
             key: state.pageKey,
-            child: DetailPengajuanPage(),
+            child: const DetailPengajuanPage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               const begin = Offset(1.0, 0.0); // Right-to-left slide

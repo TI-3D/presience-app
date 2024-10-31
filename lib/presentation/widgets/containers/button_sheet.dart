@@ -11,9 +11,9 @@ class CustomButtomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
-      constraints: BoxConstraints(minHeight: 10),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(16),
+      constraints: const BoxConstraints(minHeight: 10),
+      decoration: const BoxDecoration(
         color: neutralTheme,
         borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
       ),

@@ -24,6 +24,7 @@ import 'package:presience_app/presentation/widgets/navigations/app_bar.dart';
 
 import '../../../data/dto/requests/permit_dto.dart';
 import '../../blocs/attendance/attendance_bloc.dart';
+import '../../blocs/attendance_week/attendance_week_bloc.dart';
 import '../../widgets/modal/button.dart';
 import '../../widgets/modal/dialog.dart';
 import '../../widgets/modal/loading.dart';
@@ -247,6 +248,9 @@ class _FormPengajuanDuringClassPageState
               success: (data) {
                 context.read<AttendanceBloc>().add(
                       const AttendanceEvent.getAttendanceInformation(),
+                    );
+                context.read<AttendanceWeekBloc>().add(
+                      const AttendanceWeekEvent.getHistoryAttendanceWeek(),
                     );
                 return context.go('/homepage');
               },

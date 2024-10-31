@@ -10,7 +10,7 @@ class LargeEmptyStateImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 240, // Sesuaikan lebar container gambar
       height: 240, // Sesuaikan tinggi container gambar
       child: Image.asset(
@@ -31,7 +31,7 @@ class SmallEmptyStateImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 117, // Sesuaikan lebar container gambar
       height: 117, // Sesuaikan tinggi container gambar
       child: Image.asset(

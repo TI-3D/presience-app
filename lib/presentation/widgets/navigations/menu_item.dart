@@ -31,7 +31,7 @@ class CustomButtomNavigationMenuItem extends StatelessWidget {
               color:
                   selectedPageIndex == index ? blackTheme : neutralTheme[400]!,
             ),
-            SizedBox(
+            const SizedBox(
               height: 4,
             ),
             Text(
