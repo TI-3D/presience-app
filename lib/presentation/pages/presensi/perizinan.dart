@@ -25,8 +25,8 @@ class _PerizinanPageState extends State<PerizinanPage> {
   @override
   Widget build(BuildContext context) {
     if (isEmpty) {
-      return Expanded(
-        child: Container(
+      return const Expanded(
+        child: SizedBox(
             height: double.infinity, child: Center(child: EmptyAjukanIzin())),
       );
     } else {
@@ -57,7 +57,7 @@ class _PerizinanPageState extends State<PerizinanPage> {
                         context: context,
                         backgroundColor: modalBackground,
                         builder: (BuildContext context) {
-                          return FormDate();
+                          return const FormDate();
                         },
                       );
                     })
@@ -186,49 +186,50 @@ class _FormDateState extends State<FormDate> {
   @override
   Widget build(BuildContext context) {
     return CustomButtomSheet(
-      child: Container(
+      child: SizedBox(
         child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const TitleSection(title: "Tanggal yang diajukan"),
-              const SizedBox(
-                height: 16,
-              ),
-              CustomTextField(
-                label: "Tanggal Awal",
-                hint: _startDateController.text == ""
-                    ? "DD/MM/YYYY"
-                    : _startDateController.text,
-                readonly: true,
-                readonlyFilled: _startDateController.text != "",
-                suffix: const Icon(TablerIcons.calendar),
-                onTap: () => _selectDateRange(context),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              CustomTextField(
-                label: "Tanggal Akhir",
-                isOptional: true,
-                hint: _endDateController.text == ""
-                    ? "DD/MM/YYYY"
-                    : _endDateController.text,
-                readonly: true,
-                readonlyFilled: _endDateController.text != "",
-                suffix: const Icon(TablerIcons.calendar),
-                onTap: () => _selectDateRange(context),
-              ),
-              const SizedBox(
-                height: 28,
-              ),
-              LargeFillButton(
-                  label: "Lanjut",
-                  onPressed: () {
-                    context.pop();
-                    context.push('/pengajuan_izin');
-                  })
-            ]),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const TitleSection(title: "Tanggal yang diajukan"),
+            const SizedBox(
+              height: 16,
+            ),
+            CustomTextField(
+              label: "Tanggal Awal",
+              hint: _startDateController.text == ""
+                  ? "DD/MM/YYYY"
+                  : _startDateController.text,
+              readonly: true,
+              readonlyFilled: _startDateController.text != "",
+              suffix: const Icon(TablerIcons.calendar),
+              onTap: () => _selectDateRange(context),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            CustomTextField(
+              label: "Tanggal Akhir",
+              isOptional: true,
+              hint: _endDateController.text == ""
+                  ? "DD/MM/YYYY"
+                  : _endDateController.text,
+              readonly: true,
+              readonlyFilled: _endDateController.text != "",
+              suffix: const Icon(TablerIcons.calendar),
+              onTap: () => _selectDateRange(context),
+            ),
+            const SizedBox(
+              height: 28,
+            ),
+            LargeFillButton(
+                label: "Lanjut",
+                onPressed: () {
+                  context.pop();
+                  context.push('/pengajuan_izin');
+                })
+          ],
+        ),
       ),
     );
   }

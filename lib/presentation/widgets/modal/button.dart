@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
 import 'package:presience_app/presentation/widgets/modal/text.dart';
@@ -26,7 +25,7 @@ class DialogContentButton extends StatelessWidget {
           title: title,
           subtitle: subtitle,
         ),
-        SizedBox(
+        const SizedBox(
           height: 32,
         ),
         LargeFillButton(label: label, onPressed: onPressed)

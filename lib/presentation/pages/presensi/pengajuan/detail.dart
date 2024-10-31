@@ -29,16 +29,16 @@ class DetailPengajuanPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 12),
-                    child: Container(
+                    child: SizedBox(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
+                          SizedBox(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                TitleSection(title: 'Pembelajaran Mesin'),
-                                SizedBox(height: 4),
+                                const TitleSection(title: 'Pembelajaran Mesin'),
+                                const SizedBox(height: 4),
                                 Text(
                                   'Amalia Agung Septarina, S.S.M.Tr.TT.',
                                   style: regularBodyText,
@@ -46,7 +46,7 @@ class DetailPengajuanPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Row(
                             children: [
                               Row(children: [
@@ -54,21 +54,21 @@ class DetailPengajuanPage extends StatelessWidget {
                                     label: 'LPR 4',
                                     icon: TablerIcons.building,
                                     color: neutralTheme[400]!),
-                                SizedBox(
+                                const SizedBox(
                                   width: 8,
                                 ),
                                 CustomIconLabel(
                                     label: 'Lantai 7',
                                     icon: TablerIcons.stairs,
                                     color: neutralTheme[400]!),
-                                SizedBox(
+                                const SizedBox(
                                   width: 8,
                                 ),
                                 CustomIconLabel(
                                     label: '11:40-16:00',
                                     icon: TablerIcons.calendar_time,
                                     color: neutralTheme[400]!),
-                                SizedBox(
+                                const SizedBox(
                                   width: 12,
                                 ),
                               ]),
@@ -81,12 +81,12 @@ class DetailPengajuanPage extends StatelessWidget {
                   Divider(
                     height: 0,
                     thickness: 1,
-                    color: neutralTheme![100],
+                    color: neutralTheme[100],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 12,
                   ),
-                  CustomSection(
+                  const CustomSection(
                       title: 'Detail Perizinan',
                       child: Column(
                         children: [
@@ -110,13 +110,13 @@ class DetailPengajuanPage extends StatelessWidget {
                           ),
                         ],
                       )),
-                  SizedBox(
+                  const SizedBox(
                     height: 12,
                   ),
                   Divider(
                     height: 0,
                     thickness: 1,
-                    color: neutralTheme![100],
+                    color: neutralTheme[100],
                   ),
                   Container(
                     padding:
@@ -140,13 +140,14 @@ class DetailPengajuanPage extends StatelessWidget {
                           child: Column(
                             children: [
                               Container(
-                                constraints: BoxConstraints(maxHeight: 200),
+                                constraints:
+                                    const BoxConstraints(maxHeight: 200),
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     color: neutralTheme[100]!, // Warna border
                                     width: 1, // Ketebalan border
                                   ),
-                                  image: DecorationImage(
+                                  image: const DecorationImage(
                                     image: AssetImage(
                                         'assets/images/dokumenSurat.png'), // Path ke gambar lokal
                                     fit: BoxFit
@@ -163,7 +164,7 @@ class DetailPengajuanPage extends StatelessWidget {
                                 //       fit: BoxFit.cover),
                                 // ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 12,
                               ),
                               SmallFillButton(

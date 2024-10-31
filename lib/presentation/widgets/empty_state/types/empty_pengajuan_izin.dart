@@ -17,7 +17,7 @@ class EmptyAjukanIzin extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           CustomContainerEmptyState(
-            image: LargeEmptyStateImage(
+            image: const LargeEmptyStateImage(
                 assetPath:
                     'assets/streamline/Finding-1--Streamline-Barcelona.png'),
             title: 'Tidak Ada Pengajuan',

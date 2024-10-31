@@ -14,7 +14,7 @@ class CustomDropdown extends StatefulWidget {
       required this.icon});
 
   @override
-  _CustomDropdownState createState() => _CustomDropdownState();
+  State<CustomDropdown> createState() => _CustomDropdownState();
 }
 
 class _CustomDropdownState extends State<CustomDropdown> {
@@ -41,7 +41,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
           child: Container(
             height: 36,
             width: widget.width,
-            decoration: BoxDecoration(),
+            decoration: const BoxDecoration(),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -50,7 +50,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
                   color: blackTheme,
                   size: 18,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 4,
                 ),
                 Text(
@@ -142,7 +142,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
                                     )
                                   : null, // Jika item terakhir, tidak ada border bottom
                             ),
-                            padding: EdgeInsets.all(12),
+                            padding: const EdgeInsets.all(12),
                             child: Text(item),
                           ),
                         );

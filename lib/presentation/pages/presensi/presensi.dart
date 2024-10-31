@@ -12,8 +12,6 @@ import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/cards/history_presensi_card.dart';
 import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/cards/today_presensi.dart';
-import 'package:presience_app/presentation/widgets/empty_state/container.dart';
-import 'package:presience_app/presentation/widgets/empty_state/image.dart';
 import 'package:presience_app/presentation/widgets/empty_state/types/empty_filtered.dart';
 import 'package:presience_app/presentation/widgets/empty_state/types/empty_history_presensi.dart';
 import 'package:presience_app/presentation/widgets/empty_state/types/empty_history_presensi_2.dart';
@@ -205,6 +203,17 @@ class _PresensiPageState extends State<PresensiPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: TodayPresensiCard(
                         scheduleWeek: openedSchedule,
+                        onTapPresensi: () {
+                          context.push('/camera/presensi', extra: {
+                            'openedAt': openedSchedule.openedAt,
+                            'scheduleWeekId': openedSchedule.id
+                          });
+                        },
+                        onTapAjukanIzin: () {
+                          context.push('/pengajuan_izin/during', extra: {
+                            'scheduleWeek': openedSchedule,
+                          });
+                        },
                       ),
                     );
                   },
@@ -217,6 +226,9 @@ class _PresensiPageState extends State<PresensiPage> {
                   },
                 );
               },
+            ),
+            const SizedBox(
+              height: 12,
             ),
             // DATA PRESENSI
             if (!isEmpty)
@@ -232,7 +244,9 @@ class _PresensiPageState extends State<PresensiPage> {
             if (isEmpty)
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 28),
-                child: isFilterEmpty ? EmptyFiltered() : EmptyHistoryPresensi(),
+                child: isFilterEmpty
+                    ? const EmptyFiltered()
+                    : const EmptyHistoryPresensi(),
               ),
           ],
         ));

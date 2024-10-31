@@ -4,6 +4,7 @@ import 'package:presience_app/data/datasources/remote_datasources/attendance_rem
 import 'package:presience_app/data/datasources/remote_datasources/auth_remote_datasource.dart';
 import 'package:presience_app/data/datasources/remote_datasources/schedule_remote_datasource.dart';
 import 'package:presience_app/presentation/blocs/attendance/attendance_bloc.dart';
+import 'package:presience_app/presentation/blocs/attendance_week/attendance_week_bloc.dart';
 import 'package:presience_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
 import 'package:presience_app/presentation/router/routes.dart';
@@ -30,6 +31,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => AttendanceBloc(AttendanceRemoteDatasource())
             ..add(const AttendanceEvent.getAttendanceInformation()),
+        ),
+        BlocProvider(
+          create: (context) => AttendanceWeekBloc(AttendanceRemoteDatasource())
+            ..add(const AttendanceWeekEvent.getHistoryAttendanceWeek()),
         ),
       ],
       child: MaterialApp.router(

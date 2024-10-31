@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
+import 'package:presience_app/domain/entities/schedule_week.dart';
 import 'package:presience_app/presentation/blocs/attendance/attendance_bloc.dart';
+import 'package:presience_app/presentation/blocs/attendance_week/attendance_week_bloc.dart';
 import 'package:presience_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
 import 'package:presience_app/presentation/pages/presensi/presensi.dart';
@@ -14,15 +16,17 @@ import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/cards/attendance.dart';
 import 'package:presience_app/presentation/widgets/cards/last_week_card.dart';
-import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/cards/title_section.dart';
 import 'package:presience_app/presentation/widgets/cards/today_presensi.dart';
-import 'package:presience_app/presentation/widgets/empty_state/types/empty_history_presensi.dart';
 import 'package:presience_app/presentation/widgets/empty_state/types/empty_presensi.dart';
 import 'package:presience_app/presentation/widgets/navigations/menu_item.dart';
 import 'package:presience_app/presentation/widgets/skeletons/attendance.dart';
+import 'package:presience_app/presentation/widgets/skeletons/last_week_skeleton.dart';
 import 'package:presience_app/presentation/widgets/skeletons/today_presensi_skeleton.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+
+import '../../widgets/cards/section.dart';
+import '../../widgets/empty_state/types/empty_history_presensi.dart';
 
 class NavigationHomePage extends StatefulWidget {
   int? selectedPageIndex;
@@ -111,70 +115,23 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(padding: EdgeInsets.only(bottom: 12), children: [
-      Container(
-        padding: const EdgeInsets.symmetric(
-          // horizontal: 16,
-          vertical: 20,
-        ),
-        color: purpleTheme[50],
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            BlocBuilder<AuthBloc, AuthState>(
-              builder: (context, state) {
-                return state.maybeWhen(
-                  loginSuccess: (data) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 52,
-                            width: 52,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              border: Border.all(
-                                  color: neutralTheme[100]!, width: 1),
-                            ),
-                            child: (data.user!.avatar != null)
-                                ? Image.network(
-                                    data.user!.avatar!,
-                                    fit: BoxFit.cover,
-                                  )
-                                : Image.asset(
-                                    'assets/default/Men-Avatar-Default.png',
-                                    fit: BoxFit.cover,
-                                  ),
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(data.user!.name!, style: mediumBodyTextXL),
-                              const SizedBox(
-                                height: 2,
-                              ),
-                              Text(
-                                data.user!.nim!,
-                                style: mediumBodyTextS,
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  orElse: () {
-                    return Skeletonizer(
-                      enabled: true, // Flag to toggle skeleton
-                      enableSwitchAnimation: true, //
-                      child: Container(
+    return ListView(
+      padding: const EdgeInsets.only(bottom: 12),
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(
+            // horizontal: 16,
+            vertical: 20,
+          ),
+          color: purpleTheme[50],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    loginSuccess: (data) {
+                      return Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16,
                         ),
@@ -182,129 +139,212 @@ class _HomePageState extends State<HomePage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                                height: 52,
-                                width: 52,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(100),
-                                  border: Border.all(
-                                      color: neutralTheme[100]!, width: 1),
-                                ),
-                                child: const Bone.circle()),
+                              height: 52,
+                              width: 52,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                border: Border.all(
+                                    color: neutralTheme[100]!, width: 1),
+                              ),
+                              child: (data.user!.avatar != null)
+                                  ? Image.network(
+                                      data.user!.avatar!,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.asset(
+                                      'assets/default/Men-Avatar-Default.png',
+                                      fit: BoxFit.cover,
+                                    ),
+                            ),
                             const SizedBox(
                               width: 8,
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(BoneMock.name, style: mediumBodyTextXL),
+                                Text(data.user!.name!, style: mediumBodyTextXL),
                                 const SizedBox(
                                   height: 2,
                                 ),
                                 Text(
-                                  BoneMock.phone,
+                                  data.user!.nim!,
                                   style: mediumBodyTextS,
                                 )
                               ],
-                            )
+                            ),
                           ],
                         ),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
-              child: BlocBuilder<AuthBloc, AuthState>(
-                builder: (context, state) {
-                  return state.maybeWhen(
-                    loginSuccess: (data) {
-                      return BlocBuilder<AttendanceBloc, AttendanceState>(
-                        builder: (context, state) {
-                          return state.maybeWhen(
-                            success: (attendance) {
-                              return AttendanceCard(
-                                data: data,
-                                attendanceInformation: attendance,
-                              );
-                            },
-                            orElse: () {
-                              return const AttendanceSkeleton();
-                            },
-                          );
-                        },
                       );
                     },
                     orElse: () {
-                      return const AttendanceSkeleton();
+                      return Skeletonizer(
+                        enabled: true, // Flag to toggle skeleton
+                        enableSwitchAnimation: true, //
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                  height: 52,
+                                  width: 52,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    border: Border.all(
+                                        color: neutralTheme[100]!, width: 1),
+                                  ),
+                                  child: const Bone.circle()),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(BoneMock.name, style: mediumBodyTextXL),
+                                  const SizedBox(
+                                    height: 2,
+                                  ),
+                                  Text(
+                                    BoneMock.phone,
+                                    style: mediumBodyTextS,
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      );
                     },
                   );
                 },
               ),
-            ),
-          ],
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                ),
+                child: BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                      loginSuccess: (data) {
+                        return BlocBuilder<AttendanceBloc, AttendanceState>(
+                          builder: (context, state) {
+                            return state.maybeWhen(
+                              success: (attendance) {
+                                return AttendanceCard(
+                                  data: data,
+                                  attendanceInformation: attendance,
+                                );
+                              },
+                              orElse: () {
+                                return const AttendanceSkeleton();
+                              },
+                            );
+                          },
+                        );
+                      },
+                      orElse: () {
+                        return const AttendanceSkeleton();
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-      Container(
-        color: neutralTheme,
-        child: Column(
-          children: [
-            Divider(
-              color: neutralTheme[100],
-              thickness: 1,
-              height: 1,
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: Column(
+        Container(
+          color: neutralTheme,
+          child: Column(
+            children: [
+              Divider(
+                color: neutralTheme[100],
+                thickness: 1,
+                height: 1,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: const TitleSection(title: "Hari Ini")),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: const TitleSection(title: "Hari Ini"),
+                    ),
                     const SizedBox(
                       height: 8,
                     ),
                     const ContentofHariIni2(),
-                  ]),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            Divider(
-              color: neutralTheme[100],
-              thickness: 1,
-              height: 1,
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            isLastWeekEmpty
-                ? Container(
-                    padding: EdgeInsets.symmetric(vertical: 24),
-                    child: EmptyHistoryPresensi())
-                : const CustomSection(
-                    title: "Riwayat Presensi",
-                    child: ContentofRiwayatPresensi()),
-          ],
-        ),
-      )
-    ]);
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Divider(
+                color: neutralTheme[100],
+                thickness: 1,
+                height: 1,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              BlocBuilder<AttendanceWeekBloc, AttendanceWeekState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    success: (data) {
+                      if (data.isEmpty) {
+                        return const EmptyHistoryPresensi();
+                      }
+
+                      return CustomSection(
+                        title: "Riwayat Presensi",
+                        child: ContentofRiwayatPresensi(
+                          scheduleWeek: data,
+                        ),
+                      );
+                    },
+                    loading: () {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: [
+                            CustomLastWeekSkeleton(),
+                            const SizedBox(height: 8),
+                            CustomLastWeekSkeleton(),
+                            const SizedBox(height: 8),
+                            CustomLastWeekSkeleton(),
+                          ],
+                        ),
+                      );
+                    },
+                    orElse: () {
+                      return const EmptyHistoryPresensi();
+                    },
+                  );
+                },
+              )
+            ],
+          ),
+        )
+      ],
+    );
   }
 }
 
 class ContentofRiwayatPresensi extends StatefulWidget {
+  final List<ScheduleWeek> scheduleWeek;
+
   const ContentofRiwayatPresensi({
     super.key,
+    required this.scheduleWeek,
   });
 
   @override
@@ -313,75 +353,25 @@ class ContentofRiwayatPresensi extends StatefulWidget {
 }
 
 class _ContentofRiwayatPresensiState extends State<ContentofRiwayatPresensi> {
-  List<Map<String, dynamic>> lastWeekCourses = [
-    {
-      'courseName': "Pembelajaran Mesin",
-      'lectureName': "Amalia Agung Septarina, S.S.M.Tr.TT.",
-      'courseTime': 6,
-      'alpha': 6,
-      'izin': 0,
-      'sakit': 0,
-    },
-    {
-      'courseName': "Metodologi Penelitian",
-      'lectureName': "Triana Fatmawati, S.T., M.T.",
-      'courseTime': 4,
-      'alpha': 0,
-      'izin': 0,
-      'sakit': 4,
-    },
-    {
-      'courseName': "Pengolahan Citra dan Visi Komputer",
-      'lectureName': "Rosa Andrie Asmara, S.T., M.T., Dr. Eng.",
-      'courseTime': 6,
-      'alpha': 0,
-      'izin': 1,
-      'sakit': 0,
-    },
-    {
-      'courseName': "Administrasi dan Keamanan Jaringan",
-      'lectureName': "Yuri Ariyanto, S.Kom., M.Kom.",
-      'courseTime': 4,
-      'alpha': 0,
-      'izin': 4,
-      'sakit': 0,
-    },
-    {
-      'courseName': "Bahasa Inggris Persiapan Kerja",
-      'lectureName': "Atiqah Nurul Asri, S.Pd., M.Pd.",
-      'courseTime': 4,
-      'alpha': 0,
-      'izin': 0,
-      'sakit': 0,
-    },
-    {
-      'courseName': "Kewirausahaan",
-      'lectureName': "Hendra Pradibta, SE., M.Sc.",
-      'courseTime': 2,
-      'alpha': 0,
-      'izin': 0,
-      'sakit': 0,
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: lastWeekCourses.length,
+      itemCount: widget.scheduleWeek.length,
       itemBuilder: (context, index) {
-        // return CustomLastWeekSkeleton();
         return CustomLastWeekCard(
-          courseName: lastWeekCourses[index]['courseName'],
-          lectureName: lastWeekCourses[index]['lectureName'],
-          courseTime: lastWeekCourses[index]['courseTime'],
-          alpha: lastWeekCourses[index]['alpha'],
-          sakit: lastWeekCourses[index]['sakit'],
-          izin: lastWeekCourses[index]['izin'],
-          onTap: () => context.push('/presensi/detail'),
+          courseName: widget.scheduleWeek[index].schedule!.course!.name!,
+          lectureName: widget.scheduleWeek[index].schedule!.lecturer!.name!,
+          courseTime: widget.scheduleWeek[index].schedule!.course!.time!,
+          alpha: widget.scheduleWeek[index].attendance!.alpha!,
+          sakit: widget.scheduleWeek[index].attendance!.sakit!,
+          izin: widget.scheduleWeek[index].attendance!.izin!,
+          onTap: () => context.push(
+            '/presensi/detail',
+            extra: widget.scheduleWeek[index],
+          ),
         );
-        // return Text(lastWeekCourses[index]['courseName']);
       },
       separatorBuilder: (context, index) => const SizedBox(
         height: 8,

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
@@ -21,7 +20,7 @@ class DialogContentText extends StatelessWidget {
           title,
           style: mediumBodyTextXL,
         ),
-        SizedBox(
+        const SizedBox(
           height: 4,
         ),
         Text(

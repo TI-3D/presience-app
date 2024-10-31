@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:presience_app/data/dto/requests/attendance_dto.dart';
+import 'package:presience_app/presentation/blocs/attendance_week/attendance_week_bloc.dart';
 import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
 import 'package:presience_app/presentation/utils/methods.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
@@ -134,6 +135,10 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                           context.read<AttendanceBloc>().add(
                                 const AttendanceEvent
                                     .getAttendanceInformation(),
+                              );
+                          context.read<AttendanceWeekBloc>().add(
+                                const AttendanceWeekEvent
+                                    .getHistoryAttendanceWeek(),
                               );
                           return context.push('/homepage');
                         },
