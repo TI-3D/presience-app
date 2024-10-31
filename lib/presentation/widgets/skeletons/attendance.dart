@@ -50,7 +50,7 @@ class AttendanceSkeleton extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: SizedBox(
-                height: 72,
+                height: 84,
                 child: Row(
                   children: [
                     Expanded(

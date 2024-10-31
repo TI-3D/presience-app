@@ -187,7 +187,7 @@ class _PresensiPageState extends State<PresensiPage> {
                 return state.maybeWhen(
                   success: (data) {
                     if (data.isEmpty) {
-                      return const EmptyHistoryPresensi2();
+                      return Container();
                     }
 
                     // Filter for the first schedule with status "opened and no attendance"
@@ -198,7 +198,7 @@ class _PresensiPageState extends State<PresensiPage> {
                     );
 
                     if (openedSchedule == null) {
-                      return const EmptyHistoryPresensi2();
+                      return Container();
                     }
 
                     return Container(
