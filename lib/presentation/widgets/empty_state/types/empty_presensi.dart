@@ -12,7 +12,7 @@ class EmptyPresensi extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       width: MediaQuery.of(context).size.width,
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CustomContainerEmptyState(
@@ -21,8 +21,7 @@ class EmptyPresensi extends StatelessWidget {
                   'assets/streamline/Being-Happy-2--Streamline-Barcelona.png',
             ),
             title: 'Tidak ada Presensi',
-            subtitle:
-                'Kami akan memberimu notifikasi jika ada presensi aktif',
+            subtitle: 'Kami akan memberimu notifikasi jika ada presensi aktif',
             width: 300,
           ),
         ],
