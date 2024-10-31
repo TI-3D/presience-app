@@ -9,6 +9,8 @@ import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/cards/history_presensi_card.dart';
 import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/cards/today_presensi.dart';
+import 'package:presience_app/presentation/widgets/empty_state/container.dart';
+import 'package:presience_app/presentation/widgets/empty_state/image.dart';
 import 'package:presience_app/presentation/widgets/empty_state/types/empty_filtered.dart';
 import 'package:presience_app/presentation/widgets/empty_state/types/empty_history_presensi.dart';
 import 'package:presience_app/presentation/widgets/empty_state/types/empty_history_presensi_2.dart';
@@ -112,16 +114,24 @@ class _TabPresensiStatePage extends State<TabPresensiPage>
   }
 }
 
-class PresensiPage extends StatelessWidget {
+class PresensiPage extends StatefulWidget {
   const PresensiPage({super.key});
 
   @override
+  State<PresensiPage> createState() => _PresensiPageState();
+}
+
+class _PresensiPageState extends State<PresensiPage> {
+  bool isEmpty = false;
+  bool isFilterEmpty = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ListView(
-          padding: const EdgeInsets.only(bottom: 16),
-          // shrinkWrap: true,
+    return SingleChildScrollView(
+        padding: const EdgeInsets.only(bottom: 16),
+        // shrinkWrap: true,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
               height: 12,
@@ -204,24 +214,23 @@ class PresensiPage extends StatelessWidget {
               },
             ),
             // DATA PRESENSI
-            const CustomSection(
-                title: "Minggu ke-2", child: ContentofWeekPresensi()),
-            const SizedBox(
-              height: 12,
-            ),
-            const CustomSection(
-                title: "Minggu ke-1", child: ContentofWeekPresensi()),
+            if (!isEmpty)
+              const CustomSection(
+                  title: "Minggu ke-2", child: ContentofWeekPresensi()),
+            if (!isEmpty)
+              const SizedBox(
+                height: 12,
+              ),
+            if (!isEmpty)
+              const CustomSection(
+                  title: "Minggu ke-1", child: ContentofWeekPresensi()),
+            if (isEmpty)
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 28),
+                child: isFilterEmpty ? EmptyFiltered() : EmptyHistoryPresensi(),
+              ),
           ],
-        ),
-
-        //EMPTY STATE JIKA TIDAK ADA FILTER YANG COCOK
-        // Expanded(
-        //   child: Container(
-        //     child: EmptyFiltered(),
-        //   ),
-        // ),
-      ],
-    );
+        ));
   }
 }
 

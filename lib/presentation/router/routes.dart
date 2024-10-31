@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_after.dart';
 import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_before.dart';
@@ -64,18 +65,48 @@ final GoRouter _router = GoRouter(
           ),
         ]),
     GoRoute(
-      path: '/homepage',
-      builder: (BuildContext context, GoRouterState state) {
-        final args = state.extra as Map<String, dynamic>? ?? {};
-        final selectedPageIndex = args['selectedPageIndex'] ?? 0;
-        final selectedTab = args['selectedTab'] ?? 0;
-        // return NavigationHomePage(
-        //   selectedPageIndex: selectedPageIndex,
-        //   selectedTab: selectedTab,
-        // );
-        return NavigationHomePage();
-      },
-    ),
+        path: '/homepage',
+        pageBuilder: (context, state) => CustomTransitionPage(
+              key: state.pageKey,
+              child: NavigationHomePage(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return child;
+              },
+            ),
+        routes: [
+          GoRoute(
+              path: 'presensi',
+              pageBuilder: (context, state) => CustomTransitionPage(
+                    key: state.pageKey,
+                    child: NavigationHomePage(
+                        selectedPageIndex: 1, selectedTab: 0),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      return child;
+                    },
+                  ),
+              routes: [
+                GoRoute(
+                  path: 'perizinan',
+                  builder: (BuildContext context, GoRouterState state) {
+                    return NavigationHomePage(
+                        selectedPageIndex: 1, selectedTab: 1);
+                  },
+                ),
+              ]),
+          GoRoute(
+            path: 'profil',
+            pageBuilder: (context, state) => CustomTransitionPage(
+              key: state.pageKey,
+              child: NavigationHomePage(selectedPageIndex: 2),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return child;
+              },
+            ),
+          ),
+        ]),
     GoRoute(
       path: '/pengajuan_izin',
       builder: (BuildContext context, GoRouterState state) {
@@ -104,9 +135,25 @@ final GoRouter _router = GoRouter(
       routes: [
         GoRoute(
           path: 'detail',
-          builder: (BuildContext context, GoRouterState state) {
-            return const DetailPresensiPage();
-          },
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            child: DetailPresensiPage(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              const begin = Offset(1.0, 0.0); // Right-to-left slide
+              const end = Offset.zero;
+              const curve = Curves.ease;
+
+              var tween =
+                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+              var offsetAnimation = animation.drive(tween);
+
+              return SlideTransition(
+                position: offsetAnimation,
+                child: child,
+              );
+            },
+          ),
         ),
       ],
     ),
@@ -118,9 +165,25 @@ final GoRouter _router = GoRouter(
       routes: [
         GoRoute(
           path: 'detail',
-          builder: (BuildContext context, GoRouterState state) {
-            return const DetailPengajuanPage(); // Added 'const' here
-          },
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            child: DetailPengajuanPage(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              const begin = Offset(1.0, 0.0); // Right-to-left slide
+              const end = Offset.zero;
+              const curve = Curves.ease;
+
+              var tween =
+                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+              var offsetAnimation = animation.drive(tween);
+
+              return SlideTransition(
+                position: offsetAnimation,
+                child: child,
+              );
+            },
+          ),
         ),
       ],
     ),

@@ -14,61 +14,72 @@ import 'package:presience_app/presentation/widgets/form/text_field.dart';
 import 'package:presience_app/presentation/widgets/skeletons/perizinan_card.dart';
 import 'package:intl/intl.dart';
 
-class PerizinanPage extends StatelessWidget {
+class PerizinanPage extends StatefulWidget {
   const PerizinanPage({super.key});
 
   @override
+  State<PerizinanPage> createState() => _PerizinanPageState();
+}
+
+class _PerizinanPageState extends State<PerizinanPage> {
+  bool isEmpty = false;
+  @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.only(top: 12, bottom: 16),
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          width: double.infinity,
-          child: Column(
-            children: [
-              //EMPTY STATE
-              // EmptyAjukanIzin(),
-              Text("Pengajuan Izin", style: mediumBodyTextXL),
-              const SizedBox(
-                height: 4,
-              ),
-              Text(
-                "Kamu bisa melakukan pengajuan izin dalam 7 hari sebelum mata kuliah dimulai",
-                style: regularBodyText.copyWith(color: neutralTheme[700]),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              SmallFillButton(
-                  label: "Ajukan Izin",
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      backgroundColor: modalBackground,
-                      builder: (BuildContext context) {
-                        return FormDate();
-                      },
-                    );
-                  })
-            ],
+    if (isEmpty) {
+      return Expanded(
+        child: Container(
+            height: double.infinity, child: Center(child: EmptyAjukanIzin())),
+      );
+    } else {
+      return ListView(
+        padding: const EdgeInsets.only(top: 12, bottom: 16),
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            width: double.infinity,
+            child: Column(
+              children: [
+                Text("Pengajuan Izin", style: mediumBodyTextXL),
+                const SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  "Kamu bisa melakukan pengajuan izin dalam 7 hari sebelum mata kuliah dimulai",
+                  style: regularBodyText.copyWith(color: neutralTheme[700]),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                SmallFillButton(
+                    label: "Ajukan Izin",
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        backgroundColor: modalBackground,
+                        builder: (BuildContext context) {
+                          return FormDate();
+                        },
+                      );
+                    })
+              ],
+            ),
           ),
-        ),
-        Divider(
-          height: 24,
-          thickness: 1,
-          color: neutralTheme[100],
-        ),
-        const CustomSection(title: "Pengajuan", child: ContentofPerizinan()),
-        Divider(
-          height: 24,
-          thickness: 1,
-          color: neutralTheme[100],
-        ),
-        const CustomSection(title: "Perubahan", child: ContentofPerizinan()),
-      ],
-    );
+          Divider(
+            height: 24,
+            thickness: 1,
+            color: neutralTheme[100],
+          ),
+          const CustomSection(title: "Pengajuan", child: ContentofPerizinan()),
+          Divider(
+            height: 24,
+            thickness: 1,
+            color: neutralTheme[100],
+          ),
+          const CustomSection(title: "Perubahan", child: ContentofPerizinan()),
+        ],
+      );
+    }
   }
 }
 

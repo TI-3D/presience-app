@@ -42,9 +42,16 @@ class NavigationHomePage extends StatefulWidget {
 }
 
 class _NavigationHomePageState extends State<NavigationHomePage> {
+  final List<String> _routeNames = [
+    '/homepage',
+    '/homepage/presensi',
+    '/homepage/profil'
+  ];
+
   void _onItemTapped(int index) {
     setState(() {
       widget.selectedPageIndex = index;
+      context.go(_routeNames[index]);
     });
   }
 
@@ -65,7 +72,7 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border(
-              top: BorderSide(color: neutralTheme[200]!, width: 1.5),
+              top: BorderSide(color: neutralTheme[200]!, width: 1),
             ),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -98,12 +105,19 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  bool isLastWeekEmpty = false;
+
+  @override
   Widget build(BuildContext context) {
-    return ListView(children: [
+    return ListView(padding: EdgeInsets.only(bottom: 12), children: [
       Container(
         padding: const EdgeInsets.symmetric(
           // horizontal: 16,
@@ -267,14 +281,13 @@ class HomePage extends StatelessWidget {
             const SizedBox(
               height: 12,
             ),
-            //RIWAYAT PRESENSI
-            const CustomSection(
-                title: "Riwayat Presensi", child: ContentofRiwayatPresensi()),
-            //EMPTYSTATE
-            EmptyHistoryPresensi(),
-            const SizedBox(
-              height: 12,
-            ),
+            isLastWeekEmpty
+                ? Container(
+                    padding: EdgeInsets.symmetric(vertical: 24),
+                    child: EmptyHistoryPresensi())
+                : const CustomSection(
+                    title: "Riwayat Presensi",
+                    child: ContentofRiwayatPresensi()),
           ],
         ),
       )
