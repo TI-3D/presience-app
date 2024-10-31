@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
-import 'package:go_router/go_router.dart';
-import 'package:lottie/lottie.dart';
-import 'package:presience_app/presentation/pages/home/homepage.dart';
-import 'package:presience_app/presentation/utils/text.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
-import 'package:presience_app/presentation/widgets/buttons/button.dart';
 import 'package:presience_app/presentation/widgets/labels/tag_label.dart';
 import 'package:presience_app/presentation/widgets/modal/dialog.dart';
 
@@ -85,4 +82,15 @@ void showCustomDialog(BuildContext context,
       onResponse!(response);
     });
   }
+}
+
+Future<XFile?> selectImage() async {
+  XFile? selectedImage =
+      await ImagePicker().pickImage(source: ImageSource.gallery);
+
+  return selectedImage;
+}
+
+String getFormattedDate(DateTime date) {
+  return DateFormat('yyyy/MM/dd').format(date);
 }

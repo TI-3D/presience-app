@@ -12,6 +12,9 @@ _$ScheduleImpl _$$ScheduleImplFromJson(Map<String, dynamic> json) =>
       day: json['day'] as String?,
       startTime: json['startTime'] as String?,
       endTime: json['endTime'] as String?,
+      week: json['week'] == null
+          ? null
+          : Week.fromJson(json['week'] as Map<String, dynamic>),
       lecturer: json['lecturer'] == null
           ? null
           : Lecturer.fromJson(json['lecturer'] as Map<String, dynamic>),
@@ -32,6 +35,7 @@ Map<String, dynamic> _$$ScheduleImplToJson(_$ScheduleImpl instance) =>
       'day': instance.day,
       'startTime': instance.startTime,
       'endTime': instance.endTime,
+      'week': instance.week,
       'lecturer': instance.lecturer,
       'group': instance.group,
       'room': instance.room,

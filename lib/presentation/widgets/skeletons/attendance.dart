@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:presience_app/data/dto/requests/auth_dto.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/cards/card.dart';

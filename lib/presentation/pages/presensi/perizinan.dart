@@ -2,6 +2,7 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
@@ -11,8 +12,6 @@ import 'package:presience_app/presentation/widgets/cards/title_section.dart';
 import 'package:presience_app/presentation/widgets/containers/button_sheet.dart';
 import 'package:presience_app/presentation/widgets/empty_state/types/empty_pengajuan_izin.dart';
 import 'package:presience_app/presentation/widgets/form/text_field.dart';
-import 'package:presience_app/presentation/widgets/skeletons/perizinan_card.dart';
-import 'package:intl/intl.dart';
 
 class PerizinanPage extends StatefulWidget {
   const PerizinanPage({super.key});
@@ -135,7 +134,7 @@ class _FormDateState extends State<FormDate> {
                 }
                 return dayWidget;
               },
-              buttonPadding: EdgeInsets.all(12),
+              buttonPadding: const EdgeInsets.all(12),
               dayTextStyle: mediumBodyTextS,
               selectedDayTextStyle:
                   mediumBodyTextS.copyWith(color: neutralTheme),
@@ -144,8 +143,8 @@ class _FormDateState extends State<FormDate> {
               closeDialogOnCancelTapped: true,
               controlsHeight: 60,
               firstDate: DateTime.now(),
-              lastDate:
-                  DateTime.now().add(Duration(days: 6)), // Set range limits
+              lastDate: DateTime.now()
+                  .add(const Duration(days: 6)), // Set range limits
             ),
             onOkTapped: () {
               // Memastikan dialog menutup dan mengembalikan nilai ketika OK ditekan
@@ -192,8 +191,8 @@ class _FormDateState extends State<FormDate> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              TitleSection(title: "Tanggal yang diajukan"),
-              SizedBox(
+              const TitleSection(title: "Tanggal yang diajukan"),
+              const SizedBox(
                 height: 16,
               ),
               CustomTextField(
@@ -203,10 +202,10 @@ class _FormDateState extends State<FormDate> {
                     : _startDateController.text,
                 readonly: true,
                 readonlyFilled: _startDateController.text != "",
-                suffix: Icon(TablerIcons.calendar),
+                suffix: const Icon(TablerIcons.calendar),
                 onTap: () => _selectDateRange(context),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               CustomTextField(
@@ -217,10 +216,10 @@ class _FormDateState extends State<FormDate> {
                     : _endDateController.text,
                 readonly: true,
                 readonlyFilled: _endDateController.text != "",
-                suffix: Icon(TablerIcons.calendar),
+                suffix: const Icon(TablerIcons.calendar),
                 onTap: () => _selectDateRange(context),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 28,
               ),
               LargeFillButton(

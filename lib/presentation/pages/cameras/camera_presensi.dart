@@ -1,40 +1,49 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
-import 'package:presience_app/presentation/pages/cameras/camera_registration.dart';
+import 'package:presience_app/data/dto/requests/attendance_dto.dart';
+import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
 import 'package:presience_app/presentation/utils/methods.dart';
-import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
 import 'package:presience_app/presentation/widgets/cameras/camera_buttons.dart';
 import 'package:presience_app/presentation/widgets/cameras/camera_full.dart';
 import 'package:presience_app/presentation/widgets/cards/title_section.dart';
 import 'package:presience_app/presentation/widgets/containers/button_sheet.dart';
+import 'package:presience_app/presentation/widgets/form/input_image.dart';
 import 'package:presience_app/presentation/widgets/form/label.dart';
 import 'package:presience_app/presentation/widgets/form/text_field.dart';
-import 'package:path/path.dart' as path;
-import 'package:presience_app/presentation/widgets/form/input_image.dart';
 import 'package:presience_app/presentation/widgets/modal/button.dart';
 import 'package:presience_app/presentation/widgets/modal/dialog.dart';
 import 'package:presience_app/presentation/widgets/modal/loading.dart';
 
+import '../../blocs/attendance/attendance_bloc.dart';
+
 class CameraPresensiPage extends StatefulWidget {
-  const CameraPresensiPage({super.key});
+  final String? openedAt;
+  final int? scheduleWeekId;
+
+  const CameraPresensiPage({
+    super.key,
+    this.openedAt,
+    this.scheduleWeekId,
+  });
 
   @override
   State<CameraPresensiPage> createState() => _CameraPresensiPageState();
 }
 
 class _CameraPresensiPageState extends State<CameraPresensiPage> {
+  AttendanceDto? _attendanceDto;
   late CameraController controller;
   int _currentCameraIndex = 0;
-  bool isLate = true;
+  bool isLate = false;
 
   Future<void> initializeController() async {
     List<CameraDescription> cameras = await availableCameras();
@@ -45,6 +54,24 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
 
   @override
   void initState() {
+    // Check if 'openedAt' is more than 15 minutes from current time
+    if (widget.openedAt != null) {
+      final now = DateTime.now();
+      final openedTime = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        int.parse(widget.openedAt!.split(':')[0]),
+        int.parse(widget.openedAt!.split(':')[1]),
+        int.parse(widget.openedAt!.split(':')[2]),
+      );
+      final difference = now.difference(openedTime);
+
+      if (difference > const Duration(minutes: 15)) {
+        isLate = true;
+      }
+    }
+
     super.initState();
   }
 
@@ -52,7 +79,11 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (context) => FormLate(),
+      builder: (context) => FormLate(
+        onSubmit: (attendanceDto) {
+          _attendanceDto = attendanceDto;
+        },
+      ),
     );
   }
 
@@ -96,64 +127,75 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
               return Stack(
                 children: [
                   CameraFullRatio(controller: controller),
-                  CameraButtons(
-                    onTapCamera: () {
-                      // context.go('/homepage');
-                      showCustomDialog(
-                        context,
-                        isLoading: true,
-                        getResponse: () async {
-                          await Future.delayed(const Duration(seconds: 5));
-                          return true; // change to false to simulate failure
+                  BlocConsumer<ScheduleBloc, ScheduleState>(
+                    listener: (context, state) {
+                      state.maybeWhen(
+                        success: (data) {
+                          context.read<AttendanceBloc>().add(
+                                const AttendanceEvent
+                                    .getAttendanceInformation(),
+                              );
+                          return context.push('/homepage');
                         },
-                        onResponse: (response) {
-                          if (response) {
-                            context.pop();
-                            context.push('/homepage');
-                            // showCustomDialog(
-                            //   context,
-                            //   child: CustomDialog(
-                            //     child: DialogContentButton(
-                            //       title: "Pengajuan Berhasil",
-                            //       subtitle:
-                            //           "Perizinan kamu sedang diproses. Periksa lagi ketika dosen sudah menutup presensi.",
-                            //       label: 'OK',
-                            //       onPressed: () {
-                            //         context.pop();
-                            //       },
-                            //     ),
-                            //   ),
-                            // );
-                          } else {
-                            context.pop();
-                            showCustomDialog(context,
-                                child: CustomDialog(
-                                  child: DialogContentButton(
-                                      title:
-                                          "Wajah Tidak Dikenali / Lokasi Tidak Valid",
-                                      subtitle:
-                                          "Kami tidak dapat mengenali wajahmu. / Sepertinya kamu sedang tidak di kampus.",
-                                      label: "Ulangi",
-                                      onPressed: () {
-                                        context.pop();
-                                      }),
-                                ));
-                          }
+                        failure: (message) {
+                          showCustomDialog(
+                            context,
+                            child: CustomDialog(
+                              child: DialogContentButton(
+                                title:
+                                    "Wajah Tidak Dikenali / Lokasi Tidak Valid",
+                                subtitle:
+                                    "Kami tidak dapat mengenali wajahmu. / Sepertinya kamu sedang tidak di kampus.",
+                                label: "Ulangi",
+                                onPressed: () {
+                                  context.pop();
+                                },
+                              ),
+                            ),
+                          );
                         },
-                        child: CustomDialog(
-                          child: DialogContentLoading(
-                              title: "Tunggu sebentar",
-                              subtitle: "Wajah kamu sedang di proses"),
-                        ),
+                        orElse: () {},
                       );
                     },
-                    onTapRotateCamera: () {
-                      setState(() {
-                        _currentCameraIndex = _currentCameraIndex == 0 ? 1 : 0;
-                      });
-                    },
-                    onTapBack: () {
-                      GoRouter.of(context).pop();
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        orElse: () {
+                          return CameraButtons(
+                            onTapCamera: () {
+                              context.read<ScheduleBloc>().add(
+                                    ScheduleEvent.storeAttendance(
+                                      AttendanceDto(
+                                        scheduleWeekId: widget.scheduleWeekId!,
+                                        description:
+                                            _attendanceDto?.description,
+                                        evidence: _attendanceDto?.evidence,
+                                      ),
+                                    ),
+                                  );
+                            },
+                            onTapRotateCamera: () {
+                              setState(() {
+                                _currentCameraIndex =
+                                    _currentCameraIndex == 0 ? 1 : 0;
+                              });
+                            },
+                            onTapBack: () {
+                              GoRouter.of(context).pop();
+                              context
+                                  .read<ScheduleBloc>()
+                                  .add(const ScheduleEvent.getSchedulesToday());
+                            },
+                          );
+                        },
+                        loading: () {
+                          return const CustomDialog(
+                            child: DialogContentLoading(
+                              title: "Tunggu sebentar",
+                              subtitle: "Wajah kamu sedang di proses",
+                            ),
+                          );
+                        },
+                      );
                     },
                   ),
                 ],
@@ -169,8 +211,11 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
 }
 
 class FormLate extends StatefulWidget {
+  final void Function(AttendanceDto attendanceDto) onSubmit;
+
   const FormLate({
     super.key,
+    required this.onSubmit,
   });
 
   @override
@@ -179,26 +224,20 @@ class FormLate extends StatefulWidget {
 
 class _FormLateState extends State<FormLate> {
   final TextEditingController _descriptionController = TextEditingController();
-  String? profilePicture;
+  AttendanceDto? _attendanceDto;
+  String? evidancePhoto;
   String? pathImage;
 
   @override
   Widget build(BuildContext context) {
-    Future<XFile?> selectImage() async {
-      XFile? selectedImage =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
-
-      return selectedImage;
-    }
-
     ImageProvider imageProvider;
-    if (profilePicture == null || profilePicture == '') {
+    if (evidancePhoto == null || evidancePhoto == '') {
       imageProvider = const AssetImage('assets/images/user-profile.png');
-    } else if (profilePicture!.startsWith('http') ||
-        profilePicture!.startsWith('https')) {
-      imageProvider = NetworkImage(profilePicture!);
+    } else if (evidancePhoto!.startsWith('http') ||
+        evidancePhoto!.startsWith('https')) {
+      imageProvider = NetworkImage(evidancePhoto!);
     } else {
-      imageProvider = FileImage(File(profilePicture!));
+      imageProvider = FileImage(File(evidancePhoto!));
     }
 
     return CustomButtomSheet(
@@ -210,7 +249,7 @@ class _FormLateState extends State<FormLate> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                TitleSection(title: "Keterlambatan"),
+                const TitleSection(title: "Keterlambatan"),
                 GestureDetector(
                   onTap: () {
                     context.pop();
@@ -223,46 +262,48 @@ class _FormLateState extends State<FormLate> {
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             CustomTextField(
               label: "Deskripsi",
               hint: "Deskripsi",
+              controller: _descriptionController,
               isMultiline: true,
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
-            FieldLabel(label: "Dokumen"),
-            SizedBox(
+            const FieldLabel(label: "Dokumen"),
+            const SizedBox(
               height: 8,
             ),
             InkWell(
                 onTap: () async {
                   final image = await selectImage();
                   setState(() {
-                    profilePicture = image!.path;
+                    evidancePhoto = image!.path;
                     pathImage = path.basename(image.path);
                   });
-                  print(profilePicture);
-                  print(pathImage);
                 },
-                child: (profilePicture != null)
+                child: (evidancePhoto != null)
                     ? CustomImageInputFill(
                         imageProvider: imageProvider, pathImage: pathImage)
-                    : CustomImageInputEmpty()),
-            SizedBox(
+                    : const CustomImageInputEmpty()),
+            const SizedBox(
               height: 28,
             ),
             LargeFillButton(
-                label: "Lanjut",
-                onPressed: () {
-                  /*  send form
-                  here
-                  */
-                  context.pop();
-                })
+              label: "Lanjut",
+              onPressed: () {
+                _attendanceDto = AttendanceDto(
+                  description: _descriptionController.text,
+                  evidence: File(evidancePhoto!),
+                );
+                widget.onSubmit(_attendanceDto!);
+                context.pop();
+              },
+            )
           ],
         ),
       ),

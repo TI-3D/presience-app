@@ -35,10 +35,10 @@ class PerizinanPresensiSkeleton extends StatelessWidget {
                       color: neutralTheme[500]!)
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 6,
               ),
-              Container(
+              SizedBox(
                 width: double.infinity,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

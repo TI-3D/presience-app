@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
@@ -9,10 +8,7 @@ import 'package:path/path.dart' as path;
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
-import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/cards/title_section.dart';
-import 'package:presience_app/presentation/widgets/containers/content.dart';
-import 'package:presience_app/presentation/widgets/containers/detail.dart';
 import 'package:presience_app/presentation/widgets/form/input_image.dart';
 import 'package:presience_app/presentation/widgets/form/label.dart';
 import 'package:presience_app/presentation/widgets/form/radio_desc.dart';
@@ -39,7 +35,7 @@ class _FormPengajuanBeforeClassPageState
   ];
 
   // Keep track of the selected options
-  Map<String, bool> _selectedOptions = {};
+  final Map<String, bool> _selectedOptions = {};
 
   @override
   void initState() {
@@ -128,10 +124,10 @@ class _FormPengajuanBeforeClassPageState
                         ..._options.map((option) {
                           BorderRadius borderRadius;
                           if (option == _options[0]) {
-                            borderRadius =
-                                BorderRadius.vertical(top: Radius.circular(8));
+                            borderRadius = const BorderRadius.vertical(
+                                top: Radius.circular(8));
                           } else if (option == _options[_options.length - 1]) {
-                            borderRadius = BorderRadius.vertical(
+                            borderRadius = const BorderRadius.vertical(
                                 bottom: Radius.circular(8));
                           } else {
                             borderRadius = BorderRadius.zero;
@@ -175,7 +171,7 @@ class _FormPengajuanBeforeClassPageState
                                         : blackTheme,
                                     size: 18,
                                   ),
-                                  SizedBox(width: 4),
+                                  const SizedBox(width: 4),
                                   Text(
                                     option,
                                     style: mediumBodyText.copyWith(
@@ -188,7 +184,7 @@ class _FormPengajuanBeforeClassPageState
                               ),
                             ),
                           );
-                        }).toList(),
+                        }),
                       ],
                     ),
                     const SizedBox(

@@ -6,8 +6,6 @@ class SectionTitleSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Skeletonizer(child: 
-      Bone.text()
-    );
+    return const Skeletonizer(child: Bone.text());
   }
 }

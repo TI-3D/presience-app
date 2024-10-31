@@ -12,7 +12,7 @@ class EmptyFiltered extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       width: MediaQuery.of(context).size.width,
-      child: Center(
+      child: const Center(
         child: CustomContainerEmptyState(
             image: LargeEmptyStateImage(
                 assetPath:

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:presience_app/presentation/utils/methods.dart';
@@ -90,7 +89,7 @@ class _CameraRegistrationPageState extends State<CameraRegistrationPage> {
                                   ));
                             }
                           },
-                          child: CustomDialog(
+                          child: const CustomDialog(
                             child: DialogContentLoading(
                                 title: "Tunggu sebentar",
                                 subtitle: "Wajah kamu sedang di proses"),

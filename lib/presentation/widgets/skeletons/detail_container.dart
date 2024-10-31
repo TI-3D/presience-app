@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/containers/content.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -16,10 +15,10 @@ class FirstDetailContainerSkeleton extends StatelessWidget {
       enabled: true, // Flag to toggle skeleton
       enableSwitchAnimation: true, //
       child: Container(
-        constraints: BoxConstraints(minHeight: 52),
+        constraints: const BoxConstraints(minHeight: 52),
         decoration: BoxDecoration(
             color: neutralTheme[50],
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(8),
                 topRight: Radius.circular(8),
                 bottomLeft: Radius.circular(0),
@@ -55,10 +54,10 @@ class MiddleDetailContainerSkeleton extends StatelessWidget {
       enabled: true, // Flag to toggle skeleton
       enableSwitchAnimation: true, //
       child: Container(
-        constraints: BoxConstraints(minHeight: 52),
+        constraints: const BoxConstraints(minHeight: 52),
         decoration: BoxDecoration(
             color: neutralTheme[50],
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(0),
                 topRight: Radius.circular(0),
                 bottomLeft: Radius.circular(0),
@@ -94,10 +93,10 @@ class LastDetailContainerSkeleton extends StatelessWidget {
       enabled: true, // Flag to toggle skeleton
       enableSwitchAnimation: true, //
       child: Container(
-        constraints: BoxConstraints(minHeight: 52),
+        constraints: const BoxConstraints(minHeight: 52),
         decoration: BoxDecoration(
             color: neutralTheme[50],
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(0),
                 topRight: Radius.circular(0),
                 bottomLeft: Radius.circular(8),

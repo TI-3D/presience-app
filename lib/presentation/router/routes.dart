@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:presience_app/domain/entities/schedule_week.dart';
 import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_after.dart';
 import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_before.dart';
 import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_during.dart';
 import 'package:presience_app/presentation/pages/cameras/camera_presensi.dart';
+import 'package:presience_app/presentation/pages/cameras/camera_registration.dart';
 import 'package:presience_app/presentation/pages/home/homepage.dart';
 import 'package:presience_app/presentation/pages/logins/login.dart';
 import 'package:presience_app/presentation/pages/logins/success.dart';
 import 'package:presience_app/presentation/pages/presensi/detail.dart';
 import 'package:presience_app/presentation/pages/presensi/pengajuan/detail.dart';
-import 'package:presience_app/presentation/pages/cameras/camera_registration.dart';
 import 'package:presience_app/presentation/pages/registrations/change_password.dart';
 import 'package:presience_app/presentation/pages/registrations/change_succes.dart';
 import 'package:presience_app/presentation/pages/registrations/register_face.dart';
@@ -52,18 +53,26 @@ final GoRouter _router = GoRouter(
       ],
     ),
     GoRoute(
-        path: '/camera',
-        builder: (BuildContext context, GoRouterState state) {
-          return const CameraRegistrationPage();
-        },
-        routes: [
-          GoRoute(
-            path: '/presensi',
-            builder: (BuildContext context, GoRouterState state) {
-              return const CameraPresensiPage();
-            },
-          ),
-        ]),
+      path: '/camera',
+      builder: (BuildContext context, GoRouterState state) {
+        return const CameraRegistrationPage();
+      },
+      routes: [
+        GoRoute(
+          path: 'presensi',
+          builder: (BuildContext context, GoRouterState state) {
+            // Pastikan extra tidak null, dan lakukan cast dengan aman
+            final Map<String, dynamic> extraData =
+                state.extra as Map<String, dynamic>? ?? {};
+
+            return CameraPresensiPage(
+              openedAt: extraData['openedAt'] as String? ?? '00:00:00',
+              scheduleWeekId: extraData['scheduleWeekId'] as int? ?? 0,
+            );
+          },
+        ),
+      ],
+    ),
     GoRoute(
         path: '/homepage',
         pageBuilder: (context, state) => CustomTransitionPage(
@@ -116,7 +125,11 @@ final GoRouter _router = GoRouter(
         GoRoute(
           path: 'during',
           builder: (BuildContext context, GoRouterState state) {
-            return const FormPengajuanDuringClassPage();
+            final Map<String, dynamic> extraData =
+                state.extra as Map<String, dynamic>? ?? {};
+            return FormPengajuanDuringClassPage(
+              scheduleWeek: extraData['scheduleWeek'] as ScheduleWeek,
+            );
           },
         ),
         GoRoute(
