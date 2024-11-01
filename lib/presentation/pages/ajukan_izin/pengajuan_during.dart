@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -7,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path/path.dart' as path;
 import 'package:presience_app/domain/entities/schedule_week.dart';
+import 'package:presience_app/presentation/blocs/permit/permit_bloc.dart';
 import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
 import 'package:presience_app/presentation/utils/methods.dart';
 import 'package:presience_app/presentation/utils/text.dart';
@@ -30,8 +29,8 @@ import '../../widgets/modal/dialog.dart';
 import '../../widgets/modal/loading.dart';
 
 class FormPengajuanDuringClassPage extends StatefulWidget {
-  ScheduleWeek scheduleWeek;
-  FormPengajuanDuringClassPage({
+  final ScheduleWeek scheduleWeek;
+  const FormPengajuanDuringClassPage({
     super.key,
     required this.scheduleWeek,
   });
@@ -251,6 +250,9 @@ class _FormPengajuanDuringClassPageState
                     );
                 context.read<AttendanceWeekBloc>().add(
                       const AttendanceWeekEvent.getHistoryAttendanceWeek(),
+                    );
+                context.read<PermitBloc>().add(
+                      const PermitEvent.getHistoryPermit(),
                     );
                 return context.go('/homepage');
               },

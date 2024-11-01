@@ -9,17 +9,19 @@ part 'permit_detail.g.dart';
 class PermitDetail with _$PermitDetail {
   const factory PermitDetail({
     int? id,
-    String? typePermission,
     String? status,
     Permit? permit,
     ScheduleWeek? scheduleWeek,
+    DateTime? createdAt,
   }) = _PermitDetail;
 
   factory PermitDetail.fromJson(Map<String, dynamic> json) => PermitDetail(
         id: json['id'],
-        typePermission: json['type_permission'],
         status: json['status'],
-        permit: Permit.fromJson(json['permit']),
-        scheduleWeek: ScheduleWeek.fromJson(json['schedule_week']),
+        permit: json['permit'] != null ? Permit.fromJson(json['permit']) : null,
+        scheduleWeek: json['schedule_week'] != null
+            ? ScheduleWeek.fromJson(json['schedule_week'])
+            : null,
+        createdAt: DateTime.parse(json['created_at']),
       );
 }

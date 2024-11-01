@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:presience_app/data/dto/requests/auth_dto.dart';
 import 'package:presience_app/data/dto/responses/auth_response.dart';
+import 'package:presience_app/domain/entities/group.dart';
 import 'package:presience_app/domain/entities/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,6 +20,7 @@ class AuthLocalDataSource {
       major: decodedToken['data']['major'],
       semester: decodedToken['data']['semester'],
       isVerified: decodedToken['data']['verified'],
+      group: Group.fromJson(decodedToken['data']['group']),
     );
 
     final authData = AuthDto(

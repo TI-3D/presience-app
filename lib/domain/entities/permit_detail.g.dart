@@ -9,7 +9,6 @@ part of 'permit_detail.dart';
 _$PermitDetailImpl _$$PermitDetailImplFromJson(Map<String, dynamic> json) =>
     _$PermitDetailImpl(
       id: (json['id'] as num?)?.toInt(),
-      typePermission: json['typePermission'] as String?,
       status: json['status'] as String?,
       permit: json['permit'] == null
           ? null
@@ -17,13 +16,16 @@ _$PermitDetailImpl _$$PermitDetailImplFromJson(Map<String, dynamic> json) =>
       scheduleWeek: json['scheduleWeek'] == null
           ? null
           : ScheduleWeek.fromJson(json['scheduleWeek'] as Map<String, dynamic>),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$$PermitDetailImplToJson(_$PermitDetailImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'typePermission': instance.typePermission,
       'status': instance.status,
       'permit': instance.permit,
       'scheduleWeek': instance.scheduleWeek,
+      'createdAt': instance.createdAt?.toIso8601String(),
     };

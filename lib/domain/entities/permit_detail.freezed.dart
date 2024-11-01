@@ -21,10 +21,10 @@ PermitDetail _$PermitDetailFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PermitDetail {
   int? get id => throw _privateConstructorUsedError;
-  String? get typePermission => throw _privateConstructorUsedError;
   String? get status => throw _privateConstructorUsedError;
   Permit? get permit => throw _privateConstructorUsedError;
   ScheduleWeek? get scheduleWeek => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this PermitDetail to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,10 +44,10 @@ abstract class $PermitDetailCopyWith<$Res> {
   @useResult
   $Res call(
       {int? id,
-      String? typePermission,
       String? status,
       Permit? permit,
-      ScheduleWeek? scheduleWeek});
+      ScheduleWeek? scheduleWeek,
+      DateTime? createdAt});
 
   $PermitCopyWith<$Res>? get permit;
   $ScheduleWeekCopyWith<$Res>? get scheduleWeek;
@@ -69,20 +69,16 @@ class _$PermitDetailCopyWithImpl<$Res, $Val extends PermitDetail>
   @override
   $Res call({
     Object? id = freezed,
-    Object? typePermission = freezed,
     Object? status = freezed,
     Object? permit = freezed,
     Object? scheduleWeek = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      typePermission: freezed == typePermission
-          ? _value.typePermission
-          : typePermission // ignore: cast_nullable_to_non_nullable
-              as String?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -95,6 +91,10 @@ class _$PermitDetailCopyWithImpl<$Res, $Val extends PermitDetail>
           ? _value.scheduleWeek
           : scheduleWeek // ignore: cast_nullable_to_non_nullable
               as ScheduleWeek?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 
@@ -137,10 +137,10 @@ abstract class _$$PermitDetailImplCopyWith<$Res>
   @useResult
   $Res call(
       {int? id,
-      String? typePermission,
       String? status,
       Permit? permit,
-      ScheduleWeek? scheduleWeek});
+      ScheduleWeek? scheduleWeek,
+      DateTime? createdAt});
 
   @override
   $PermitCopyWith<$Res>? get permit;
@@ -162,20 +162,16 @@ class __$$PermitDetailImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? typePermission = freezed,
     Object? status = freezed,
     Object? permit = freezed,
     Object? scheduleWeek = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_$PermitDetailImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      typePermission: freezed == typePermission
-          ? _value.typePermission
-          : typePermission // ignore: cast_nullable_to_non_nullable
-              as String?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -188,6 +184,10 @@ class __$$PermitDetailImplCopyWithImpl<$Res>
           ? _value.scheduleWeek
           : scheduleWeek // ignore: cast_nullable_to_non_nullable
               as ScheduleWeek?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -196,11 +196,7 @@ class __$$PermitDetailImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PermitDetailImpl implements _PermitDetail {
   const _$PermitDetailImpl(
-      {this.id,
-      this.typePermission,
-      this.status,
-      this.permit,
-      this.scheduleWeek});
+      {this.id, this.status, this.permit, this.scheduleWeek, this.createdAt});
 
   factory _$PermitDetailImpl.fromJson(Map<String, dynamic> json) =>
       _$$PermitDetailImplFromJson(json);
@@ -208,17 +204,17 @@ class _$PermitDetailImpl implements _PermitDetail {
   @override
   final int? id;
   @override
-  final String? typePermission;
-  @override
   final String? status;
   @override
   final Permit? permit;
   @override
   final ScheduleWeek? scheduleWeek;
+  @override
+  final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'PermitDetail(id: $id, typePermission: $typePermission, status: $status, permit: $permit, scheduleWeek: $scheduleWeek)';
+    return 'PermitDetail(id: $id, status: $status, permit: $permit, scheduleWeek: $scheduleWeek, createdAt: $createdAt)';
   }
 
   @override
@@ -227,18 +223,18 @@ class _$PermitDetailImpl implements _PermitDetail {
         (other.runtimeType == runtimeType &&
             other is _$PermitDetailImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.typePermission, typePermission) ||
-                other.typePermission == typePermission) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.permit, permit) || other.permit == permit) &&
             (identical(other.scheduleWeek, scheduleWeek) ||
-                other.scheduleWeek == scheduleWeek));
+                other.scheduleWeek == scheduleWeek) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, typePermission, status, permit, scheduleWeek);
+  int get hashCode =>
+      Object.hash(runtimeType, id, status, permit, scheduleWeek, createdAt);
 
   /// Create a copy of PermitDetail
   /// with the given fields replaced by the non-null parameter values.
@@ -259,10 +255,10 @@ class _$PermitDetailImpl implements _PermitDetail {
 abstract class _PermitDetail implements PermitDetail {
   const factory _PermitDetail(
       {final int? id,
-      final String? typePermission,
       final String? status,
       final Permit? permit,
-      final ScheduleWeek? scheduleWeek}) = _$PermitDetailImpl;
+      final ScheduleWeek? scheduleWeek,
+      final DateTime? createdAt}) = _$PermitDetailImpl;
 
   factory _PermitDetail.fromJson(Map<String, dynamic> json) =
       _$PermitDetailImpl.fromJson;
@@ -270,13 +266,13 @@ abstract class _PermitDetail implements PermitDetail {
   @override
   int? get id;
   @override
-  String? get typePermission;
-  @override
   String? get status;
   @override
   Permit? get permit;
   @override
   ScheduleWeek? get scheduleWeek;
+  @override
+  DateTime? get createdAt;
 
   /// Create a copy of PermitDetail
   /// with the given fields replaced by the non-null parameter values.

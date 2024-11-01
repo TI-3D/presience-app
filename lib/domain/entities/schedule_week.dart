@@ -25,7 +25,9 @@ class ScheduleWeek with _$ScheduleWeek {
         status: json['status'],
         openedAt: json['opened_at'],
         closedAt: json['closed_at'],
-        schedule: Schedule.fromJson(json['schedule']),
+        schedule: json['schedule'] != null
+            ? Schedule.fromJson(json['schedule'])
+            : null,
         attendance: json['attendance'] != null
             ? Attendance.fromJson(json['attendance'])
             : null,

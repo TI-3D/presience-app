@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:presience_app/domain/entities/permit_detail.dart';
 import 'package:presience_app/domain/entities/schedule_week.dart';
 import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_after.dart';
 import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_before.dart';
@@ -294,7 +295,8 @@ final GoRouter _router = GoRouter(
           path: 'detail',
           pageBuilder: (context, state) => CustomTransitionPage(
             key: state.pageKey,
-            child: const DetailPengajuanPage(),
+            child:
+                DetailPengajuanPage(permitDetail: state.extra as PermitDetail),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               const begin = Offset(1.0, 0.0); // Right-to-left slide
