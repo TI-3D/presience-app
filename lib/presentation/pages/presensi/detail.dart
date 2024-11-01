@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
@@ -19,9 +17,9 @@ import 'package:presience_app/presentation/widgets/navigations/app_bar.dart';
 import '../../../domain/entities/schedule_week.dart';
 
 class DetailPresensiPage extends StatelessWidget {
-  ScheduleWeek scheduleWeek;
+  final ScheduleWeek scheduleWeek;
 
-  DetailPresensiPage({
+  const DetailPresensiPage({
     super.key,
     required this.scheduleWeek,
   });

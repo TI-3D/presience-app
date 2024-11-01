@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,15 +12,14 @@ import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/cards/today_presensi.dart';
 import 'package:presience_app/presentation/widgets/empty_state/types/empty_filtered.dart';
 import 'package:presience_app/presentation/widgets/empty_state/types/empty_history_presensi.dart';
-import 'package:presience_app/presentation/widgets/empty_state/types/empty_history_presensi_2.dart';
 import 'package:presience_app/presentation/widgets/form/dropdown.dart';
 import 'package:presience_app/presentation/widgets/skeletons/today_presensi_skeleton.dart';
 
 import '../../../domain/entities/schedule_week.dart';
 
 class TabPresensiPage extends StatefulWidget {
-  int? selectedTab;
-  TabPresensiPage({super.key, this.selectedTab = 0});
+  final int? selectedTab;
+  const TabPresensiPage({super.key, this.selectedTab = 0});
   @override
   State<TabPresensiPage> createState() => _TabPresensiStatePage();
 }
@@ -129,127 +126,133 @@ class _PresensiPageState extends State<PresensiPage> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        padding: const EdgeInsets.only(bottom: 16),
-        // shrinkWrap: true,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(
-              height: 12,
+      padding: const EdgeInsets.only(bottom: 16),
+      // shrinkWrap: true,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(
+            height: 12,
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                CustomDropdown(
+                    icon: TablerIcons.book_2,
+                    width: MediaQuery.of(context).size.width - 183,
+                    items: const [
+                      "Semua Mata Kuliah",
+                      "Mata Kuliah1",
+                      "Mata Kuliah2",
+                      "Mata Kuliah3",
+                      "Mata Kuliah4"
+                    ]),
+                const SizedBox(
+                  width: 8,
+                ),
+                Container(
+                  width: 1,
+                  height: 26,
+                  color: neutralTheme[100],
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                const CustomDropdown(
+                  icon: TablerIcons.empathize,
+                  width: 133,
+                  items: [
+                    "Semua Status",
+                    "Status 1",
+                    "Status 2",
+                    "Status 3",
+                    "Status 4"
+                  ],
+                ),
+              ],
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  CustomDropdown(
-                      icon: TablerIcons.book_2,
-                      width: MediaQuery.of(context).size.width - 183,
-                      items: const [
-                        "Semua Mata Kuliah",
-                        "Mata Kuliah1",
-                        "Mata Kuliah2",
-                        "Mata Kuliah3",
-                        "Mata Kuliah4"
-                      ]),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Container(
-                    width: 1,
-                    height: 26,
-                    color: neutralTheme[100],
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  const CustomDropdown(
-                      icon: TablerIcons.empathize,
-                      width: 133,
-                      items: [
-                        "Semua Status",
-                        "Status 1",
-                        "Status 2",
-                        "Status 3",
-                        "Status 4"
-                      ]),
-                ],
-              ),
-            ),
-            Divider(
-              color: neutralTheme[100],
-              thickness: 1,
-              height: 24,
-            ),
-            BlocBuilder<ScheduleBloc, ScheduleState>(
-              builder: (context, state) {
-                return state.maybeWhen(
-                  success: (data) {
-                    if (data.isEmpty) {
-                      return Container();
-                    }
+          ),
+          Divider(
+            color: neutralTheme[100],
+            thickness: 1,
+            height: 24,
+          ),
+          BlocBuilder<ScheduleBloc, ScheduleState>(
+            builder: (context, state) {
+              return state.maybeWhen(
+                success: (data) {
+                  if (data.isEmpty) {
+                    return Container();
+                  }
 
-                    // Filter for the first schedule with status "opened and no attendance"
-                    final ScheduleWeek? openedSchedule = data.firstWhereOrNull(
-                      (schedule) =>
-                          schedule.status == 'opened' &&
-                          schedule.attendance == null,
-                    );
+                  // Filter for the first schedule with status "opened and no attendance"
+                  final ScheduleWeek? openedSchedule = data.firstWhereOrNull(
+                    (schedule) =>
+                        schedule.status == 'opened' &&
+                        schedule.attendance == null,
+                  );
 
-                    if (openedSchedule == null) {
-                      return Container();
-                    }
+                  if (openedSchedule == null) {
+                    return Container();
+                  }
 
-                    return Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: TodayPresensiCard(
-                        scheduleWeek: openedSchedule,
-                        onTapPresensi: () {
-                          context.push('/camera/presensi', extra: {
-                            'openedAt': openedSchedule.openedAt,
-                            'scheduleWeekId': openedSchedule.id
-                          });
-                        },
-                        onTapAjukanIzin: () {
-                          context.push('/pengajuan_izin/during', extra: {
-                            'scheduleWeek': openedSchedule,
-                          });
-                        },
+                  return Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: TodayPresensiCard(
+                          scheduleWeek: openedSchedule,
+                          onTapPresensi: () {
+                            context.push('/camera/presensi', extra: {
+                              'openedAt': openedSchedule.openedAt,
+                              'scheduleWeekId': openedSchedule.id
+                            });
+                          },
+                          onTapAjukanIzin: () {
+                            context.push('/pengajuan_izin/during', extra: {
+                              'scheduleWeek': openedSchedule,
+                            });
+                          },
+                        ),
                       ),
-                    );
-                  },
-                  orElse: () {
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: const TodayPresensiSkeleton(),
-                    );
-                  },
-                );
-              },
-            ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                    ],
+                  );
+                },
+                orElse: () {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: const TodayPresensiSkeleton(),
+                  );
+                },
+              );
+            },
+          ),
+          // DATA PRESENSI
+          if (!isEmpty)
+            const CustomSection(
+                title: "Minggu ke-2", child: ContentofWeekPresensi()),
+          if (!isEmpty)
             const SizedBox(
               height: 12,
             ),
-            // DATA PRESENSI
-            if (!isEmpty)
-              const CustomSection(
-                  title: "Minggu ke-2", child: ContentofWeekPresensi()),
-            if (!isEmpty)
-              const SizedBox(
-                height: 12,
-              ),
-            if (!isEmpty)
-              const CustomSection(
-                  title: "Minggu ke-1", child: ContentofWeekPresensi()),
-            if (isEmpty)
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 28),
-                child: isFilterEmpty
-                    ? const EmptyFiltered()
-                    : const EmptyHistoryPresensi(),
-              ),
-          ],
-        ));
+          if (!isEmpty)
+            const CustomSection(
+                title: "Minggu ke-1", child: ContentofWeekPresensi()),
+          if (isEmpty)
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 28),
+              child: isFilterEmpty
+                  ? const EmptyFiltered()
+                  : const EmptyHistoryPresensi(),
+            ),
+        ],
+      ),
+    );
   }
 }
 

@@ -9,6 +9,7 @@ class Permit with _$Permit {
     int? id,
     DateTime? startDate,
     DateTime? endDate,
+    String? typePermit,
     String? description,
     String? evidence,
   }) = _Permit;
@@ -17,7 +18,8 @@ class Permit with _$Permit {
         id: json['id'],
         startDate: DateTime.parse(json['start_date']),
         endDate: DateTime.parse(json['end_date']),
+        typePermit: json['type_permit'],
         description: json['description'],
-        evidence: json['evidence'],
+        evidence: json['evidences'],
       );
 }

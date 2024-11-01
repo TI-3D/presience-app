@@ -43,10 +43,15 @@ class ProfilPage extends StatelessWidget {
                                     data.user!.avatar!,
                                     fit: BoxFit.cover,
                                   )
-                                : Image.asset(
-                                    'assets/default/Men-Avatar-Default.png',
-                                    fit: BoxFit.cover,
-                                  ),
+                                : (data.user!.gender == 'male')
+                                    ? Image.asset(
+                                        'assets/default/Men-Avatar-Default.png',
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.asset(
+                                        'assets/default/Girl-Avatar-Default.png',
+                                        fit: BoxFit.cover,
+                                      ),
                           ),
                           const SizedBox(
                             height: 8,
@@ -101,7 +106,7 @@ class ProfilPage extends StatelessWidget {
                                     Expanded(
                                       child: CustomTextLabel(
                                         label: "Kelas",
-                                        value: data.user!.group.toString(),
+                                        value: data.user!.group!.name!,
                                       ),
                                     ),
                                     Expanded(

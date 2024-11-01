@@ -23,6 +23,7 @@ mixin _$Permit {
   int? get id => throw _privateConstructorUsedError;
   DateTime? get startDate => throw _privateConstructorUsedError;
   DateTime? get endDate => throw _privateConstructorUsedError;
+  String? get typePermit => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get evidence => throw _privateConstructorUsedError;
 
@@ -44,6 +45,7 @@ abstract class $PermitCopyWith<$Res> {
       {int? id,
       DateTime? startDate,
       DateTime? endDate,
+      String? typePermit,
       String? description,
       String? evidence});
 }
@@ -66,6 +68,7 @@ class _$PermitCopyWithImpl<$Res, $Val extends Permit>
     Object? id = freezed,
     Object? startDate = freezed,
     Object? endDate = freezed,
+    Object? typePermit = freezed,
     Object? description = freezed,
     Object? evidence = freezed,
   }) {
@@ -82,6 +85,10 @@ class _$PermitCopyWithImpl<$Res, $Val extends Permit>
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      typePermit: freezed == typePermit
+          ? _value.typePermit
+          : typePermit // ignore: cast_nullable_to_non_nullable
+              as String?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -105,6 +112,7 @@ abstract class _$$PermitImplCopyWith<$Res> implements $PermitCopyWith<$Res> {
       {int? id,
       DateTime? startDate,
       DateTime? endDate,
+      String? typePermit,
       String? description,
       String? evidence});
 }
@@ -125,6 +133,7 @@ class __$$PermitImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? startDate = freezed,
     Object? endDate = freezed,
+    Object? typePermit = freezed,
     Object? description = freezed,
     Object? evidence = freezed,
   }) {
@@ -141,6 +150,10 @@ class __$$PermitImplCopyWithImpl<$Res>
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      typePermit: freezed == typePermit
+          ? _value.typePermit
+          : typePermit // ignore: cast_nullable_to_non_nullable
+              as String?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -157,7 +170,12 @@ class __$$PermitImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PermitImpl implements _Permit {
   const _$PermitImpl(
-      {this.id, this.startDate, this.endDate, this.description, this.evidence});
+      {this.id,
+      this.startDate,
+      this.endDate,
+      this.typePermit,
+      this.description,
+      this.evidence});
 
   factory _$PermitImpl.fromJson(Map<String, dynamic> json) =>
       _$$PermitImplFromJson(json);
@@ -169,13 +187,15 @@ class _$PermitImpl implements _Permit {
   @override
   final DateTime? endDate;
   @override
+  final String? typePermit;
+  @override
   final String? description;
   @override
   final String? evidence;
 
   @override
   String toString() {
-    return 'Permit(id: $id, startDate: $startDate, endDate: $endDate, description: $description, evidence: $evidence)';
+    return 'Permit(id: $id, startDate: $startDate, endDate: $endDate, typePermit: $typePermit, description: $description, evidence: $evidence)';
   }
 
   @override
@@ -187,6 +207,8 @@ class _$PermitImpl implements _Permit {
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
             (identical(other.endDate, endDate) || other.endDate == endDate) &&
+            (identical(other.typePermit, typePermit) ||
+                other.typePermit == typePermit) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.evidence, evidence) ||
@@ -195,8 +217,8 @@ class _$PermitImpl implements _Permit {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, startDate, endDate, description, evidence);
+  int get hashCode => Object.hash(
+      runtimeType, id, startDate, endDate, typePermit, description, evidence);
 
   /// Create a copy of Permit
   /// with the given fields replaced by the non-null parameter values.
@@ -219,6 +241,7 @@ abstract class _Permit implements Permit {
       {final int? id,
       final DateTime? startDate,
       final DateTime? endDate,
+      final String? typePermit,
       final String? description,
       final String? evidence}) = _$PermitImpl;
 
@@ -230,6 +253,8 @@ abstract class _Permit implements Permit {
   DateTime? get startDate;
   @override
   DateTime? get endDate;
+  @override
+  String? get typePermit;
   @override
   String? get description;
   @override

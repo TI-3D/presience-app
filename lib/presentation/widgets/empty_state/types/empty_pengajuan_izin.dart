@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:presience_app/presentation/widgets/empty_state/container.dart';
 import 'package:presience_app/presentation/widgets/empty_state/image.dart';
+
+import '../../../pages/presensi/perizinan.dart';
+import '../../../utils/theme.dart';
 
 class EmptyAjukanIzin extends StatelessWidget {
   const EmptyAjukanIzin({
@@ -26,7 +28,15 @@ class EmptyAjukanIzin extends StatelessWidget {
             isButtonVisible: true,
             label: 'Ajukan Izin',
             width: MediaQuery.of(context).size.width * 0.8,
-            onPressed: () => context.push('/pengajuan_izin'),
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                backgroundColor: modalBackground,
+                builder: (BuildContext context) {
+                  return const FormDate();
+                },
+              );
+            },
           ),
         ],
       ),

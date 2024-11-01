@@ -151,10 +151,15 @@ class _HomePageState extends State<HomePage> {
                                       data.user!.avatar!,
                                       fit: BoxFit.cover,
                                     )
-                                  : Image.asset(
-                                      'assets/default/Men-Avatar-Default.png',
-                                      fit: BoxFit.cover,
-                                    ),
+                                  : (data.user!.gender == 'male')
+                                      ? Image.asset(
+                                          'assets/default/Men-Avatar-Default.png',
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.asset(
+                                          'assets/default/Girl-Avatar-Default.png',
+                                          fit: BoxFit.cover,
+                                        ),
                             ),
                             const SizedBox(
                               width: 8,
@@ -415,33 +420,41 @@ class _ContentofHariIni2State extends State<ContentofHariIni2> {
       builder: (context, state) {
         return state.maybeWhen(
           success: (data) {
-            if (data.isEmpty) {
+            // Sorting the data list: 'opened' items first, then others
+            final sortedData = List.from(data)
+              ..sort(
+                (a, b) => (b.status == 'opened' ? 1 : 0)
+                    .compareTo(a.status == 'opened' ? 1 : 0),
+              );
+
+            if (sortedData.isEmpty) {
               return const Column(
                 children: [
                   EmptyPresensi(),
                 ],
               );
             }
+
             return Column(
               children: [
                 CarouselSlider.builder(
-                  itemCount: data.length,
+                  itemCount: sortedData.length,
                   itemBuilder:
                       (BuildContext context, int itemIndex, int pageViewIndex) {
                     return SizedBox(
                       width: MediaQuery.of(context).size.width -
                           32, // 80% of screen width
                       child: TodayPresensiCard(
-                        scheduleWeek: data[itemIndex],
+                        scheduleWeek: sortedData[itemIndex],
                         onTapPresensi: () {
                           context.push('/camera/presensi', extra: {
-                            'openedAt': data[itemIndex].openedAt,
-                            'scheduleWeekId': data[itemIndex].id,
+                            'openedAt': sortedData[itemIndex].openedAt,
+                            'scheduleWeekId': sortedData[itemIndex].id,
                           });
                         },
                         onTapAjukanIzin: () {
                           context.push('/pengajuan_izin/during', extra: {
-                            'scheduleWeek': data[itemIndex],
+                            'scheduleWeek': sortedData[itemIndex],
                           });
                         },
                       ),

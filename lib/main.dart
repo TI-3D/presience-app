@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:presience_app/data/datasources/remote_datasources/attendance_remote_datasource.dart';
 import 'package:presience_app/data/datasources/remote_datasources/auth_remote_datasource.dart';
+import 'package:presience_app/data/datasources/remote_datasources/permit_remote_datasource.dart';
 import 'package:presience_app/data/datasources/remote_datasources/schedule_remote_datasource.dart';
 import 'package:presience_app/presentation/blocs/attendance/attendance_bloc.dart';
 import 'package:presience_app/presentation/blocs/attendance_week/attendance_week_bloc.dart';
 import 'package:presience_app/presentation/blocs/auth/auth_bloc.dart';
+import 'package:presience_app/presentation/blocs/permit/permit_bloc.dart';
 import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
 import 'package:presience_app/presentation/router/routes.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
@@ -35,6 +37,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => AttendanceWeekBloc(AttendanceRemoteDatasource())
             ..add(const AttendanceWeekEvent.getHistoryAttendanceWeek()),
+        ),
+        BlocProvider(
+          create: (context) => PermitBloc(PermitRemoteDatasource())
+            ..add(const PermitEvent.getHistoryPermit()),
         ),
       ],
       child: MaterialApp.router(

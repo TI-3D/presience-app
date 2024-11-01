@@ -1,17 +1,22 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:presience_app/presentation/blocs/permit/permit_bloc.dart';
+import 'package:presience_app/presentation/utils/methods.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
 import 'package:presience_app/presentation/widgets/cards/perizinan_card.dart';
-import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/cards/title_section.dart';
 import 'package:presience_app/presentation/widgets/containers/button_sheet.dart';
 import 'package:presience_app/presentation/widgets/empty_state/types/empty_pengajuan_izin.dart';
 import 'package:presience_app/presentation/widgets/form/text_field.dart';
+
+import '../../widgets/cards/section.dart';
+import '../../widgets/skeletons/perizinan_card.dart';
 
 class PerizinanPage extends StatefulWidget {
   const PerizinanPage({super.key});
@@ -21,64 +26,84 @@ class PerizinanPage extends StatefulWidget {
 }
 
 class _PerizinanPageState extends State<PerizinanPage> {
-  bool isEmpty = false;
+  bool isEmpty = true;
   @override
   Widget build(BuildContext context) {
-    if (isEmpty) {
-      return const Expanded(
-        child: SizedBox(
-            height: double.infinity, child: Center(child: EmptyAjukanIzin())),
-      );
-    } else {
-      return ListView(
-        padding: const EdgeInsets.only(top: 12, bottom: 16),
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            width: double.infinity,
-            child: Column(
+    return BlocBuilder<PermitBloc, PermitState>(
+      builder: (context, state) {
+        return state.maybeWhen(
+          success: (data) {
+            if (data.isEmpty) {
+              return const SizedBox(
+                height: double.infinity,
+                child: Center(child: EmptyAjukanIzin()),
+              );
+            }
+
+            return ListView(
+              padding: const EdgeInsets.only(top: 12, bottom: 16),
               children: [
-                Text("Pengajuan Izin", style: mediumBodyTextXL),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  "Kamu bisa melakukan pengajuan izin dalam 7 hari sebelum mata kuliah dimulai",
-                  style: regularBodyText.copyWith(color: neutralTheme[700]),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                SmallFillButton(
-                    label: "Ajukan Izin",
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        backgroundColor: modalBackground,
-                        builder: (BuildContext context) {
-                          return const FormDate();
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  width: double.infinity,
+                  child: Column(
+                    children: [
+                      Text("Pengajuan Izin", style: mediumBodyTextXL),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        "Kamu bisa melakukan pengajuan izin dalam 7 hari sebelum mata kuliah dimulai",
+                        style:
+                            regularBodyText.copyWith(color: neutralTheme[700]),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      SmallFillButton(
+                        label: "Ajukan Izin",
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            backgroundColor: modalBackground,
+                            builder: (BuildContext context) {
+                              return const FormDate();
+                            },
+                          );
                         },
-                      );
-                    })
+                      )
+                    ],
+                  ),
+                ),
+                Divider(
+                  height: 24,
+                  thickness: 1,
+                  color: neutralTheme[100],
+                ),
+                const CustomSection(
+                  title: "Pengajuan",
+                  child: ContentofPerizinan(),
+                ),
+                // Divider(
+                //   height: 24,
+                //   thickness: 1,
+                //   color: neutralTheme[100],
+                // ),
+                // const CustomSection(title: "Perubahan", child: ContentofPerizinan()),
               ],
-            ),
-          ),
-          Divider(
-            height: 24,
-            thickness: 1,
-            color: neutralTheme[100],
-          ),
-          const CustomSection(title: "Pengajuan", child: ContentofPerizinan()),
-          Divider(
-            height: 24,
-            thickness: 1,
-            color: neutralTheme[100],
-          ),
-          const CustomSection(title: "Perubahan", child: ContentofPerizinan()),
-        ],
-      );
-    }
+            );
+          },
+          orElse: () {
+            return const SizedBox(
+              height: double.infinity,
+              child: Center(child: EmptyAjukanIzin()),
+            );
+          },
+        );
+      },
+    );
   }
 }
 
@@ -223,11 +248,12 @@ class _FormDateState extends State<FormDate> {
               height: 28,
             ),
             LargeFillButton(
-                label: "Lanjut",
-                onPressed: () {
-                  context.pop();
-                  context.push('/pengajuan_izin');
-                })
+              label: "Lanjut",
+              onPressed: () {
+                context.pop();
+                context.push('/pengajuan_izin');
+              },
+            )
           ],
         ),
       ),
@@ -245,47 +271,52 @@ class ContentofPerizinan extends StatefulWidget {
 }
 
 class _ContentofPerizinanState extends State<ContentofPerizinan> {
-  List<Map<String, dynamic>> lastWeekCourses = [
-    {
-      'courseName': "Pembelajaran Mesin",
-      'lectureName': "Amalia Agung Septarina, S.S.M.Tr.TT.",
-      'date': "20/10/2024",
-      'typePermission': "sakit"
-    },
-    {
-      'courseName': "Metodologi Penelitian",
-      'lectureName': "Triana Fatmawati, S.T., M.T.",
-      'date': "20/10/2024",
-      'typePermission': "izin"
-    },
-    {
-      'courseName': "Pengolahan Citra dan Visi Komputer",
-      'lectureName': "Rosa Andrie Asmara, S.T., M.T., Dr. Eng.",
-      'date': "20/10/2024",
-      'typePermission': "izin"
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: lastWeekCourses.length,
-      itemBuilder: (context, index) {
-        return PerizinanPresensiCard(
-          courseName: lastWeekCourses[index]['courseName'],
-          lectureName: lastWeekCourses[index]['lectureName'],
-          date: lastWeekCourses[index]['date'],
-          typePermission: lastWeekCourses[index]['typePermission'],
-          onTap: () => context.push('/pengajuan/detail'),
+    return BlocBuilder<PermitBloc, PermitState>(
+      builder: (context, state) {
+        return state.maybeWhen(
+          success: (data) {
+            return ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return PerizinanPresensiCard(
+                  courseName: data[index].scheduleWeek!.schedule!.course!.name!,
+                  lectureName:
+                      data[index].scheduleWeek!.schedule!.lecturer!.name!,
+                  date: getFormattedDate(data[index].createdAt!),
+                  typePermission: data[index].permit!.typePermit!,
+                  onTap: () => context.push(
+                    '/pengajuan/detail',
+                    extra: data[index],
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 8,
+              ),
+            );
+          },
+          loading: () {
+            return ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                return const PerizinanPresensiSkeleton();
+              },
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 8,
+              ),
+            );
+          },
+          orElse: () {
+            return const EmptyAjukanIzin();
+          },
         );
-        // PerizinanPresensiSkeleton();
-        // return Text(lastWeekCourses[index]['courseName']);
       },
-      separatorBuilder: (context, index) => const SizedBox(
-        height: 8,
-      ),
     );
   }
 }

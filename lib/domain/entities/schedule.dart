@@ -28,9 +28,11 @@ class Schedule with _$Schedule {
         startTime: json['start_time'],
         endTime: json['end_time'],
         week: json['week'] != null ? Week.fromJson(json['week']) : null,
-        lecturer: Lecturer.fromJson(json['lecturer']),
+        lecturer: json['lecturer'] != null
+            ? Lecturer.fromJson(json['lecturer'])
+            : null,
         group: json['group'] != null ? Group.fromJson(json['group']) : null,
-        room: Room.fromJson(json['room']),
-        course: Course.fromJson(json['course']),
+        room: json['room'] != null ? Room.fromJson(json['room']) : null,
+        course: json['course'] != null ? Course.fromJson(json['course']) : null,
       );
 }
