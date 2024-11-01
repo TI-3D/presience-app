@@ -41,64 +41,62 @@ class HistoryCourseCard extends StatelessWidget {
     );
 
     return CustomCard(
-      child: GestureDetector(
-        onTap: onTap,
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+      onTap: onTap,
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              widgets['tagLabel'],
+              if (widgets['additionIcon'] != null) ...[
+                const SizedBox(
+                  width: 4,
+                ),
+                widgets['additionIcon'] ?? Container(),
+              ],
+            ],
+          ),
+          const SizedBox(
+            height: 6,
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                widgets['tagLabel'],
-                if (widgets['additionIcon'] != null) ...[
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  widgets['additionIcon'] ?? Container(),
-                ],
+                Text(
+                  courseName,
+                  style: mediumBodyTextL,
+                ),
+                const SizedBox(
+                  height: 4,
+                ),
+                Row(
+                  children: [
+                    CustomIconLabel(
+                        label: 'Minggu ke-$courseWeek',
+                        icon: TablerIcons.calendar,
+                        color: neutralTheme[400]!),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    CustomIconLabel(
+                        label: openedTime,
+                        icon: TablerIcons.clock_play,
+                        color: neutralTheme[400]!),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    CustomIconLabel(
+                        label: closedTime,
+                        icon: TablerIcons.clock_stop,
+                        color: neutralTheme[400]!),
+                  ],
+                ),
               ],
             ),
-            const SizedBox(
-              height: 6,
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    courseName,
-                    style: mediumBodyTextL,
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Row(
-                    children: [
-                      CustomIconLabel(
-                          label: 'Minggu ke-$courseWeek',
-                          icon: TablerIcons.calendar,
-                          color: neutralTheme[400]!),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      CustomIconLabel(
-                          label: openedTime,
-                          icon: TablerIcons.clock_play,
-                          color: neutralTheme[400]!),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      CustomIconLabel(
-                          label: closedTime,
-                          icon: TablerIcons.clock_stop,
-                          color: neutralTheme[400]!),
-                    ],
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
+import 'package:go_router/go_router.dart';
+import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_after.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
@@ -20,8 +22,9 @@ class DetailPengajuanPage extends StatelessWidget {
     return SafeArea(
         child: Scaffold(
             backgroundColor: neutralTheme,
-            appBar: const CustomAppBar(
+            appBar: CustomAppBar(
               title: "Detail Perizinan",
+              onTap: () => context.pop(),
             ),
             body: SingleChildScrollView(
               child: Column(
