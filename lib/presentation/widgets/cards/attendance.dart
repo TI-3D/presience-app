@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:presience_app/data/dto/requests/auth_dto.dart';
 import 'package:presience_app/domain/entities/attendance_information.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/cards/card.dart';
+import 'package:presience_app/presentation/widgets/labels/icon_label.dart';
 
 class AttendanceCard extends StatelessWidget {
   final AuthDto data;
@@ -40,101 +42,109 @@ class AttendanceCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: SizedBox(
-              height: 72,
-              child: Row(
-                children: [
-                  Expanded(
-                      child: Container(
-                    height: double.infinity,
-                    color: neutralTheme[50],
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            attendanceInformation.sakit.toString(),
-                            style: heading2,
-                          ),
-                          Text(
-                            "Sakit",
-                            style: mediumBodyTextS.copyWith(
-                                color: neutralTheme[300]),
-                          ),
-                        ],
+                height: 84,
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Container(
+                      height: double.infinity,
+                      color: neutralTheme[50],
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              attendanceInformation.sakit.toString(),
+                              style: heading2,
+                            ),
+                            Text(
+                              "Sakit",
+                              style: mediumBodyTextS.copyWith(
+                                  color: neutralTheme[300]),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  )),
-                  Expanded(
-                      child: Container(
-                    height: double.infinity,
-                    color: neutralTheme[50],
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            attendanceInformation.izin.toString(),
-                            style: heading2,
-                          ),
-                          Text(
-                            "Izin",
-                            style: mediumBodyTextS.copyWith(
-                                color: neutralTheme[300]),
-                          ),
-                        ],
+                    )),
+                    Expanded(
+                        child: Container(
+                      height: double.infinity,
+                      color: neutralTheme[50],
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              attendanceInformation.izin.toString(),
+                              style: heading2,
+                            ),
+                            Text(
+                              "Izin",
+                              style: mediumBodyTextS.copyWith(
+                                  color: neutralTheme[300]),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  )),
-                  Expanded(
-                      child: Container(
-                    height: double.infinity,
-                    color: neutralTheme[50],
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            attendanceInformation.alpha.toString(),
-                            style: heading2,
-                          ),
-                          Text(
-                            "Alpha",
-                            style: mediumBodyTextS.copyWith(
-                                color: neutralTheme[300]),
-                          ),
-                        ],
+                    )),
+                    Expanded(
+                        child: Container(
+                      height: double.infinity,
+                      color: neutralTheme[50],
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              attendanceInformation.alpha.toString(),
+                              style: heading2,
+                            ),
+                            Text(
+                              "Alpha",
+                              style: mediumBodyTextS.copyWith(
+                                  color: neutralTheme[300]),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  )),
-                  Expanded(
-                      child: Container(
-                    decoration: BoxDecoration(
-                      color: redTheme[100]!,
-                      border: Border(
-                          left: BorderSide(color: redTheme[200]!, width: 1)),
-                    ),
-                    height: double.infinity,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            attendanceInformation.kompen.toString(),
-                            style: heading2.copyWith(color: redTheme),
-                          ),
-                          Text(
-                            "Kompen",
-                            style:
-                                mediumBodyTextS.copyWith(color: redTheme[400]!),
-                          ),
-                        ],
+                    )),
+                    Expanded(
+                        child: Container(
+                      decoration: BoxDecoration(
+                        color: redTheme[100]!,
+                        border: Border(
+                            left: BorderSide(color: redTheme[200]!, width: 1)),
                       ),
-                    ),
-                  )),
-                ],
-              ),
+                      height: double.infinity,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              attendanceInformation.kompen.toString(),
+                              style: heading2.copyWith(color: redTheme),
+                            ),
+                            Text(
+                              "Kompen",
+                              style: mediumBodyTextS.copyWith(
+                                  color: redTheme[400]!),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )),
+                  ],
+                )),
+          ),
+          if (attendanceInformation.description != null) ...[
+            SizedBox(
+              height: 4,
             ),
-          )
+            CustomIconLabel(
+                label: attendanceInformation.description!,
+                icon: TablerIcons.alert_circle,
+                color: redTheme),
+          ]
         ],
       ),
     );
