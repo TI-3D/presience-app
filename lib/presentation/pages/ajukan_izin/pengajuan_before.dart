@@ -77,8 +77,11 @@ class _FormPengajuanBeforeClassPageState
     return SafeArea(
       child: Scaffold(
         backgroundColor: neutralTheme,
-        appBar: const CustomAppBar(
+        appBar: CustomAppBar(
           title: "Pengajuan",
+          onTap: () {
+            context.pop();
+          },
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.only(top: 12, bottom: 16),
