@@ -26,42 +26,40 @@ class PerizinanPresensiCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomCard(
-      child: GestureDetector(
-        onTap: onTap,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      onTap: onTap,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomTaglabelOrange(label: capitalize(typePermission)),
+              CustomIconLabel(
+                  label: date,
+                  icon: TablerIcons.calendar,
+                  color: neutralTheme[500]!)
+            ],
+          ),
+          const SizedBox(
+            height: 6,
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomTaglabelOrange(label: capitalize(typePermission)),
-                CustomIconLabel(
-                    label: date,
-                    icon: TablerIcons.calendar,
-                    color: neutralTheme[500]!)
+                Text(
+                  courseName,
+                  style: mediumBodyTextL,
+                ),
+                Text(
+                  lectureName,
+                  style: regularBodyText,
+                ),
               ],
             ),
-            const SizedBox(
-              height: 6,
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    courseName,
-                    style: mediumBodyTextL,
-                  ),
-                  Text(
-                    lectureName,
-                    style: regularBodyText,
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
