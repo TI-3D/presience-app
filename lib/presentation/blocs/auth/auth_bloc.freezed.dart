@@ -20,6 +20,7 @@ mixin _$AuthEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(LoginDto params) login,
+    required TResult Function() checkLoginStatus,
     required TResult Function(ChangePasswordDto params) changePassword,
     required TResult Function() logout,
   }) =>
@@ -28,6 +29,7 @@ mixin _$AuthEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(LoginDto params)? login,
+    TResult? Function()? checkLoginStatus,
     TResult? Function(ChangePasswordDto params)? changePassword,
     TResult? Function()? logout,
   }) =>
@@ -36,6 +38,7 @@ mixin _$AuthEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(LoginDto params)? login,
+    TResult Function()? checkLoginStatus,
     TResult Function(ChangePasswordDto params)? changePassword,
     TResult Function()? logout,
     required TResult orElse(),
@@ -45,6 +48,7 @@ mixin _$AuthEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_Login value) login,
+    required TResult Function(_CheckLoginStatus value) checkLoginStatus,
     required TResult Function(_ChangePassword value) changePassword,
     required TResult Function(_Logout value) logout,
   }) =>
@@ -53,6 +57,7 @@ mixin _$AuthEvent {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_Login value)? login,
+    TResult? Function(_CheckLoginStatus value)? checkLoginStatus,
     TResult? Function(_ChangePassword value)? changePassword,
     TResult? Function(_Logout value)? logout,
   }) =>
@@ -61,6 +66,7 @@ mixin _$AuthEvent {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_Login value)? login,
+    TResult Function(_CheckLoginStatus value)? checkLoginStatus,
     TResult Function(_ChangePassword value)? changePassword,
     TResult Function(_Logout value)? logout,
     required TResult orElse(),
@@ -131,6 +137,7 @@ class _$StartedImpl implements _Started {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(LoginDto params) login,
+    required TResult Function() checkLoginStatus,
     required TResult Function(ChangePasswordDto params) changePassword,
     required TResult Function() logout,
   }) {
@@ -142,6 +149,7 @@ class _$StartedImpl implements _Started {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(LoginDto params)? login,
+    TResult? Function()? checkLoginStatus,
     TResult? Function(ChangePasswordDto params)? changePassword,
     TResult? Function()? logout,
   }) {
@@ -153,6 +161,7 @@ class _$StartedImpl implements _Started {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(LoginDto params)? login,
+    TResult Function()? checkLoginStatus,
     TResult Function(ChangePasswordDto params)? changePassword,
     TResult Function()? logout,
     required TResult orElse(),
@@ -168,6 +177,7 @@ class _$StartedImpl implements _Started {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_Login value) login,
+    required TResult Function(_CheckLoginStatus value) checkLoginStatus,
     required TResult Function(_ChangePassword value) changePassword,
     required TResult Function(_Logout value) logout,
   }) {
@@ -179,6 +189,7 @@ class _$StartedImpl implements _Started {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_Login value)? login,
+    TResult? Function(_CheckLoginStatus value)? checkLoginStatus,
     TResult? Function(_ChangePassword value)? changePassword,
     TResult? Function(_Logout value)? logout,
   }) {
@@ -190,6 +201,7 @@ class _$StartedImpl implements _Started {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_Login value)? login,
+    TResult Function(_CheckLoginStatus value)? checkLoginStatus,
     TResult Function(_ChangePassword value)? changePassword,
     TResult Function(_Logout value)? logout,
     required TResult orElse(),
@@ -275,6 +287,7 @@ class _$LoginImpl implements _Login {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(LoginDto params) login,
+    required TResult Function() checkLoginStatus,
     required TResult Function(ChangePasswordDto params) changePassword,
     required TResult Function() logout,
   }) {
@@ -286,6 +299,7 @@ class _$LoginImpl implements _Login {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(LoginDto params)? login,
+    TResult? Function()? checkLoginStatus,
     TResult? Function(ChangePasswordDto params)? changePassword,
     TResult? Function()? logout,
   }) {
@@ -297,6 +311,7 @@ class _$LoginImpl implements _Login {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(LoginDto params)? login,
+    TResult Function()? checkLoginStatus,
     TResult Function(ChangePasswordDto params)? changePassword,
     TResult Function()? logout,
     required TResult orElse(),
@@ -312,6 +327,7 @@ class _$LoginImpl implements _Login {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_Login value) login,
+    required TResult Function(_CheckLoginStatus value) checkLoginStatus,
     required TResult Function(_ChangePassword value) changePassword,
     required TResult Function(_Logout value) logout,
   }) {
@@ -323,6 +339,7 @@ class _$LoginImpl implements _Login {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_Login value)? login,
+    TResult? Function(_CheckLoginStatus value)? checkLoginStatus,
     TResult? Function(_ChangePassword value)? changePassword,
     TResult? Function(_Logout value)? logout,
   }) {
@@ -334,6 +351,7 @@ class _$LoginImpl implements _Login {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_Login value)? login,
+    TResult Function(_CheckLoginStatus value)? checkLoginStatus,
     TResult Function(_ChangePassword value)? changePassword,
     TResult Function(_Logout value)? logout,
     required TResult orElse(),
@@ -355,6 +373,129 @@ abstract class _Login implements AuthEvent {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LoginImplCopyWith<_$LoginImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$CheckLoginStatusImplCopyWith<$Res> {
+  factory _$$CheckLoginStatusImplCopyWith(_$CheckLoginStatusImpl value,
+          $Res Function(_$CheckLoginStatusImpl) then) =
+      __$$CheckLoginStatusImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$CheckLoginStatusImplCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$CheckLoginStatusImpl>
+    implements _$$CheckLoginStatusImplCopyWith<$Res> {
+  __$$CheckLoginStatusImplCopyWithImpl(_$CheckLoginStatusImpl _value,
+      $Res Function(_$CheckLoginStatusImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$CheckLoginStatusImpl implements _CheckLoginStatus {
+  const _$CheckLoginStatusImpl();
+
+  @override
+  String toString() {
+    return 'AuthEvent.checkLoginStatus()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$CheckLoginStatusImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(LoginDto params) login,
+    required TResult Function() checkLoginStatus,
+    required TResult Function(ChangePasswordDto params) changePassword,
+    required TResult Function() logout,
+  }) {
+    return checkLoginStatus();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(LoginDto params)? login,
+    TResult? Function()? checkLoginStatus,
+    TResult? Function(ChangePasswordDto params)? changePassword,
+    TResult? Function()? logout,
+  }) {
+    return checkLoginStatus?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(LoginDto params)? login,
+    TResult Function()? checkLoginStatus,
+    TResult Function(ChangePasswordDto params)? changePassword,
+    TResult Function()? logout,
+    required TResult orElse(),
+  }) {
+    if (checkLoginStatus != null) {
+      return checkLoginStatus();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_Login value) login,
+    required TResult Function(_CheckLoginStatus value) checkLoginStatus,
+    required TResult Function(_ChangePassword value) changePassword,
+    required TResult Function(_Logout value) logout,
+  }) {
+    return checkLoginStatus(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_Login value)? login,
+    TResult? Function(_CheckLoginStatus value)? checkLoginStatus,
+    TResult? Function(_ChangePassword value)? changePassword,
+    TResult? Function(_Logout value)? logout,
+  }) {
+    return checkLoginStatus?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_Login value)? login,
+    TResult Function(_CheckLoginStatus value)? checkLoginStatus,
+    TResult Function(_ChangePassword value)? changePassword,
+    TResult Function(_Logout value)? logout,
+    required TResult orElse(),
+  }) {
+    if (checkLoginStatus != null) {
+      return checkLoginStatus(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _CheckLoginStatus implements AuthEvent {
+  const factory _CheckLoginStatus() = _$CheckLoginStatusImpl;
 }
 
 /// @nodoc
@@ -428,6 +569,7 @@ class _$ChangePasswordImpl implements _ChangePassword {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(LoginDto params) login,
+    required TResult Function() checkLoginStatus,
     required TResult Function(ChangePasswordDto params) changePassword,
     required TResult Function() logout,
   }) {
@@ -439,6 +581,7 @@ class _$ChangePasswordImpl implements _ChangePassword {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(LoginDto params)? login,
+    TResult? Function()? checkLoginStatus,
     TResult? Function(ChangePasswordDto params)? changePassword,
     TResult? Function()? logout,
   }) {
@@ -450,6 +593,7 @@ class _$ChangePasswordImpl implements _ChangePassword {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(LoginDto params)? login,
+    TResult Function()? checkLoginStatus,
     TResult Function(ChangePasswordDto params)? changePassword,
     TResult Function()? logout,
     required TResult orElse(),
@@ -465,6 +609,7 @@ class _$ChangePasswordImpl implements _ChangePassword {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_Login value) login,
+    required TResult Function(_CheckLoginStatus value) checkLoginStatus,
     required TResult Function(_ChangePassword value) changePassword,
     required TResult Function(_Logout value) logout,
   }) {
@@ -476,6 +621,7 @@ class _$ChangePasswordImpl implements _ChangePassword {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_Login value)? login,
+    TResult? Function(_CheckLoginStatus value)? checkLoginStatus,
     TResult? Function(_ChangePassword value)? changePassword,
     TResult? Function(_Logout value)? logout,
   }) {
@@ -487,6 +633,7 @@ class _$ChangePasswordImpl implements _ChangePassword {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_Login value)? login,
+    TResult Function(_CheckLoginStatus value)? checkLoginStatus,
     TResult Function(_ChangePassword value)? changePassword,
     TResult Function(_Logout value)? logout,
     required TResult orElse(),
@@ -554,6 +701,7 @@ class _$LogoutImpl implements _Logout {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(LoginDto params) login,
+    required TResult Function() checkLoginStatus,
     required TResult Function(ChangePasswordDto params) changePassword,
     required TResult Function() logout,
   }) {
@@ -565,6 +713,7 @@ class _$LogoutImpl implements _Logout {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(LoginDto params)? login,
+    TResult? Function()? checkLoginStatus,
     TResult? Function(ChangePasswordDto params)? changePassword,
     TResult? Function()? logout,
   }) {
@@ -576,6 +725,7 @@ class _$LogoutImpl implements _Logout {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(LoginDto params)? login,
+    TResult Function()? checkLoginStatus,
     TResult Function(ChangePasswordDto params)? changePassword,
     TResult Function()? logout,
     required TResult orElse(),
@@ -591,6 +741,7 @@ class _$LogoutImpl implements _Logout {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_Login value) login,
+    required TResult Function(_CheckLoginStatus value) checkLoginStatus,
     required TResult Function(_ChangePassword value) changePassword,
     required TResult Function(_Logout value) logout,
   }) {
@@ -602,6 +753,7 @@ class _$LogoutImpl implements _Logout {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_Login value)? login,
+    TResult? Function(_CheckLoginStatus value)? checkLoginStatus,
     TResult? Function(_ChangePassword value)? changePassword,
     TResult? Function(_Logout value)? logout,
   }) {
@@ -613,6 +765,7 @@ class _$LogoutImpl implements _Logout {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_Login value)? login,
+    TResult Function(_CheckLoginStatus value)? checkLoginStatus,
     TResult Function(_ChangePassword value)? changePassword,
     TResult Function(_Logout value)? logout,
     required TResult orElse(),

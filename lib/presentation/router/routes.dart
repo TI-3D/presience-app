@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:presience_app/data/datasources/local_datasources/auth_local_datasources.dart';
 import 'package:presience_app/domain/entities/permit_detail.dart';
 import 'package:presience_app/domain/entities/schedule_week.dart';
 import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_after.dart';
@@ -119,7 +120,12 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/pengajuan_izin',
       builder: (BuildContext context, GoRouterState state) {
-        return const FormPengajuanBeforeClassPage();
+        final Map<String, dynamic> extraData =
+            state.extra as Map<String, dynamic>? ?? {};
+        return FormPengajuanBeforeClassPage(
+          startDate: extraData['startDate'] as String,
+          endDate: extraData['endDate'] as String,
+        );
       },
       routes: [
         GoRoute(
@@ -203,11 +209,31 @@ final GoRouter _router = GoRouter(
       ],
     ),
   ],
-  redirect: (BuildContext context, GoRouterState state) {
+  redirect: (BuildContext context, GoRouterState state) async {
+    // Fetch login status using the AuthLocalDataSource
+    final authData = await AuthLocalDataSource().getAuthData();
+    final isLoggedIn = authData != null;
+
+    // Check if trying to access the root path
     if (state.uri.toString() == '/') {
-      return '/login'; // Redirect to login if trying to access root
+      if (!isLoggedIn) {
+        return '/login'; // Redirect to login if not logged in
+      }
+
+      // User is logged in; check token expiration
+      if (authData.expiration!.isAfter(DateTime.now())) {
+        return '/homepage'; // Redirect to homepage if token is valid
+      } else {
+        return '/login'; // Redirect to login if token is expired
+      }
     }
-    return null; // No redirect otherwise
+
+    if (authData != null && !authData.expiration!.isAfter(DateTime.now())) {
+      return '/login'; // Redirect to login if token is expired
+    }
+
+    // No redirect for other routes
+    return null;
   },
 );
 

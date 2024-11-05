@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:presience_app/data/datasources/local_datasources/auth_local_datasources.dart';
 import 'package:presience_app/data/dto/requests/auth_dto.dart';
 import 'package:presience_app/data/dto/requests/change_password_dto.dart';
 import 'package:presience_app/data/dto/requests/login_dto.dart';
@@ -24,6 +25,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     });
 
+    on<_CheckLoginStatus>((event, emit) async {
+      emit(const _Loading());
+      final authData = await AuthLocalDataSource().getAuthData();
+
+      if (authData != null && authData.expiration!.isAfter(DateTime.now())) {
+        emit(AuthState.loginSuccess(authData));
+      } else {
+        await AuthLocalDataSource().removeAuthData();
+        emit(const AuthState.initial());
+      }
+    });
+
     on<_ChangePassword>((event, emit) async {
       AuthDto? user;
       state.maybeWhen(
@@ -44,6 +57,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         (l) => emit(_Failure(l)),
         (r) => emit(_SuccessLogin(user!)),
       );
+    });
+
+    on<_Logout>((event, emit) async {
+      emit(const _Loading());
+
+      await AuthLocalDataSource().removeAuthData();
+
+      emit(const AuthState.initial());
     });
   }
 }

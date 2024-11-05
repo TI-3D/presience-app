@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:presience_app/presentation/blocs/attendance_week/attendance_week_bloc.dart';
 import 'package:presience_app/presentation/blocs/permit/permit_bloc.dart';
 import 'package:presience_app/presentation/utils/methods.dart';
 import 'package:presience_app/presentation/utils/text.dart';
@@ -15,6 +16,7 @@ import 'package:presience_app/presentation/widgets/containers/button_sheet.dart'
 import 'package:presience_app/presentation/widgets/empty_state/types/empty_pengajuan_izin.dart';
 import 'package:presience_app/presentation/widgets/form/text_field.dart';
 
+import '../../../data/dto/requests/get_schedule_dto.dart';
 import '../../widgets/cards/section.dart';
 import '../../widgets/skeletons/perizinan_card.dart';
 
@@ -122,7 +124,7 @@ class _FormDateState extends State<FormDate> {
   final TextEditingController _endDateController = TextEditingController();
 
   Future<void> _selectDateRange(BuildContext context) async {
-    final List<DateTime?>? picked = await showDialog<List<DateTime?>>(
+    await showDialog<List<DateTime?>>(
       context: context,
       builder: (context) {
         return Dialog(
@@ -247,11 +249,54 @@ class _FormDateState extends State<FormDate> {
             const SizedBox(
               height: 28,
             ),
-            LargeFillButton(
-              label: "Lanjut",
-              onPressed: () {
-                context.pop();
-                context.push('/pengajuan_izin');
+            BlocConsumer<AttendanceWeekBloc, AttendanceWeekState>(
+              listener: (context, state) {
+                state.maybeWhen(
+                  success: (data) {
+                    context.pop();
+                    return context.push('/pengajuan_izin', extra: {
+                      'startDate': _startDateController.text,
+                      'endDate': _endDateController.text,
+                    });
+                  },
+                  failure: (message) {
+                    return ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(message),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  },
+                  orElse: () {},
+                );
+              },
+              builder: (context, state) {
+                return state.maybeWhen(
+                  loading: () {
+                    return LargeFillButton(
+                      label: "Lanjut",
+                      isDisabled: true,
+                      onPressed: () {},
+                    );
+                  },
+                  orElse: () {
+                    return LargeFillButton(
+                      label: "Lanjut",
+                      onPressed: () {
+                        context.read<AttendanceWeekBloc>().add(
+                              AttendanceWeekEvent.getScheduleByDate(
+                                GetScheduleDto(
+                                  startDate: _startDateController.text,
+                                  endDate: _endDateController.text,
+                                ),
+                              ),
+                            );
+                        print(_startDateController.text);
+                        print(_endDateController.text);
+                      },
+                    );
+                  },
+                );
               },
             )
           ],

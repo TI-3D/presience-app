@@ -1,10 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
+import 'package:presience_app/domain/entities/schedule_week.dart';
+import 'package:presience_app/presentation/utils/methods.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
@@ -15,8 +18,17 @@ import 'package:presience_app/presentation/widgets/form/radio_desc.dart';
 import 'package:presience_app/presentation/widgets/form/text_field.dart';
 import 'package:presience_app/presentation/widgets/navigations/app_bar.dart';
 
+import '../../blocs/attendance_week/attendance_week_bloc.dart';
+
 class FormPengajuanBeforeClassPage extends StatefulWidget {
-  const FormPengajuanBeforeClassPage({super.key});
+  final String startDate;
+  final String endDate;
+
+  const FormPengajuanBeforeClassPage({
+    super.key,
+    required this.startDate,
+    required this.endDate,
+  });
 
   @override
   State<FormPengajuanBeforeClassPage> createState() =>
@@ -28,23 +40,9 @@ class _FormPengajuanBeforeClassPageState
   String? profilePicture;
   String? pathImage;
   String selectedPermission = "sakit";
-  final List<String> _options = [
-    'Option 1',
-    'Option 2',
-    'Option 3',
-  ];
 
   // Keep track of the selected options
   final Map<String, bool> _selectedOptions = {};
-
-  @override
-  void initState() {
-    super.initState();
-    // Initialize all options as not selected
-    for (String option in _options) {
-      _selectedOptions[option] = true;
-    }
-  }
 
   void _submitForm() {
     // Print selected options
@@ -77,8 +75,14 @@ class _FormPengajuanBeforeClassPageState
     return SafeArea(
       child: Scaffold(
         backgroundColor: neutralTheme,
-        appBar: const CustomAppBar(
+        appBar: CustomAppBar(
           title: "Pengajuan",
+          onTap: () {
+            context.read<AttendanceWeekBloc>().add(
+                  const AttendanceWeekEvent.getHistoryAttendanceWeek(),
+                );
+            GoRouter.of(context).pop();
+          },
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.only(top: 12, bottom: 16),
@@ -97,8 +101,10 @@ class _FormPengajuanBeforeClassPageState
                       color: blackTheme,
                     ),
                     const SizedBox(width: 4),
-                    Text("31 Oktober 2022 - 31 Oktober 2022",
-                        style: mediumBodyText),
+                    Text(
+                      "${convertToLongDateFormat(widget.startDate)} - ${convertToLongDateFormat(widget.endDate)}",
+                      style: mediumBodyText,
+                    ),
                   ],
                 ),
               ),
@@ -119,73 +125,102 @@ class _FormPengajuanBeforeClassPageState
                     ),
                     const FieldLabel(label: "Mata Kuliah"),
                     const SizedBox(height: 8),
-                    Column(
-                      children: [
-                        ..._options.map((option) {
-                          BorderRadius borderRadius;
-                          if (option == _options[0]) {
-                            borderRadius = const BorderRadius.vertical(
-                                top: Radius.circular(8));
-                          } else if (option == _options[_options.length - 1]) {
-                            borderRadius = const BorderRadius.vertical(
-                                bottom: Radius.circular(8));
-                          } else {
-                            borderRadius = BorderRadius.zero;
-                          }
+                    BlocBuilder<AttendanceWeekBloc, AttendanceWeekState>(
+                      builder: (context, state) {
+                        return state.maybeWhen(
+                          success: (data) {
+                            // Initialize _selectedOptions if it's empty
+                            if (_selectedOptions.isEmpty) {
+                              for (ScheduleWeek item in data) {
+                                _selectedOptions[item.schedule!.course!.name!] =
+                                    true; // Set initial state (e.g., true for selected)
+                              }
+                            }
 
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedOptions[option] =
-                                    !_selectedOptions[option]!;
-                              });
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                borderRadius: borderRadius,
-                                border: Border(
-                                  right: BorderSide(
-                                      color: neutralTheme[100]!, width: 1),
-                                  left: BorderSide(
-                                      color: neutralTheme[100]!, width: 1),
-                                  top: option == _options[0]
-                                      ? BorderSide(
-                                          color: neutralTheme[100]!, width: 1)
-                                      : BorderSide.none,
-                                  bottom: BorderSide(
-                                      color: neutralTheme[100]!, width: 1),
-                                ),
-                                color: _selectedOptions[option]!
-                                    ? purpleTheme[100]
-                                    : neutralTheme,
-                              ),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    _selectedOptions[option]!
-                                        ? TablerIcons.square_check
-                                        : TablerIcons.square,
-                                    color: _selectedOptions[option]!
-                                        ? purpleTheme
-                                        : blackTheme,
-                                    size: 18,
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    option,
-                                    style: mediumBodyText.copyWith(
-                                      color: _selectedOptions[option]!
-                                          ? purpleTheme
-                                          : blackTheme,
+                            return Column(
+                              children: data.map<Widget>(
+                                (item) {
+                                  BorderRadius borderRadius;
+                                  if (item == data[0]) {
+                                    borderRadius = const BorderRadius.vertical(
+                                        top: Radius.circular(8));
+                                  } else if (item == data[data.length - 1]) {
+                                    borderRadius = const BorderRadius.vertical(
+                                        bottom: Radius.circular(8));
+                                  } else {
+                                    borderRadius = BorderRadius.zero;
+                                  }
+
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _selectedOptions[
+                                                item.schedule!.course!.name!] =
+                                            !_selectedOptions[
+                                                item.schedule!.course!.name!]!;
+                                      });
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                        borderRadius: borderRadius,
+                                        border: Border(
+                                          right: BorderSide(
+                                              color: neutralTheme[100]!,
+                                              width: 1),
+                                          left: BorderSide(
+                                              color: neutralTheme[100]!,
+                                              width: 1),
+                                          top: item == data[0]
+                                              ? BorderSide(
+                                                  color: neutralTheme[100]!,
+                                                  width: 1)
+                                              : BorderSide.none,
+                                          bottom: BorderSide(
+                                              color: neutralTheme[100]!,
+                                              width: 1),
+                                        ),
+                                        color: _selectedOptions[
+                                                item.schedule!.course!.name!]!
+                                            ? purpleTheme[100]
+                                            : neutralTheme,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            _selectedOptions[item
+                                                    .schedule!.course!.name!]!
+                                                ? TablerIcons.square_check
+                                                : TablerIcons.square,
+                                            color: _selectedOptions[item
+                                                    .schedule!.course!.name!]!
+                                                ? purpleTheme
+                                                : blackTheme,
+                                            size: 18,
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            item.schedule!.course!.name!,
+                                            style: mediumBodyText.copyWith(
+                                              color: _selectedOptions[item
+                                                      .schedule!.course!.name!]!
+                                                  ? purpleTheme
+                                                  : blackTheme,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }),
-                      ],
+                                  );
+                                },
+                              ).toList(), // Convert map to List<Widget>
+                            );
+                          },
+                          orElse: () {
+                            return const SizedBox();
+                          },
+                        );
+                      },
                     ),
                     const SizedBox(
                       height: 8,
@@ -255,20 +290,21 @@ class _FormPengajuanBeforeClassPageState
                           ),
                           const SizedBox(height: 8),
                           InkWell(
-                              onTap: () async {
-                                final image = await selectImage();
-                                setState(() {
-                                  profilePicture = image!.path;
-                                  pathImage = path.basename(image.path);
-                                });
-                                print(profilePicture);
-                                print(pathImage);
-                              },
-                              child: (profilePicture != null)
-                                  ? CustomImageInputFill(
-                                      imageProvider: imageProvider,
-                                      pathImage: pathImage)
-                                  : const CustomImageInputEmpty())
+                            onTap: () async {
+                              final image = await selectImage();
+                              setState(() {
+                                profilePicture = image!.path;
+                                pathImage = path.basename(image.path);
+                              });
+                              print(profilePicture);
+                              print(pathImage);
+                            },
+                            child: (profilePicture != null)
+                                ? CustomImageInputFill(
+                                    imageProvider: imageProvider,
+                                    pathImage: pathImage)
+                                : const CustomImageInputEmpty(),
+                          )
                         ],
                       ),
                     ),

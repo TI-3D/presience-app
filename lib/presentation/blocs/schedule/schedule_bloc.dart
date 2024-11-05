@@ -1,4 +1,9 @@
+// ignore_for_file: invalid_use_of_visible_for_testing_member
+
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:presience_app/data/datasources/remote_datasources/schedule_remote_datasource.dart';
 import 'package:presience_app/data/dto/requests/attendance_dto.dart';
@@ -11,6 +16,36 @@ part 'schedule_state.dart';
 
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final ScheduleRemoteDatasource _scheduleRemoteDatasource;
+  Timer? _pollingTimer;
+
+  void _startPolling() {
+    // Start polling with a 5-second interval
+    _pollingTimer = Timer.periodic(const Duration(seconds: 5), (timer) async {
+      final response = await _scheduleRemoteDatasource.getSchedulesToday();
+      response.fold(
+        (l) {
+          emit(ScheduleState.failure(l));
+        },
+        (r) {
+          // Check if any schedule is 'opened' and has null attendance
+          final openedSchedule = r.firstWhereOrNull(
+            (schedule) =>
+                schedule.status == 'opened' && schedule.attendance == null,
+          );
+
+          if (openedSchedule != null) {
+            // Cancel polling if condition is met
+            _pollingTimer?.cancel();
+            emit(ScheduleState.success(r));
+          } else {
+            // Otherwise, continue polling and update the state if needed
+            emit(ScheduleState.success(r));
+          }
+        },
+      );
+    });
+  }
+
   ScheduleBloc(
     this._scheduleRemoteDatasource,
   ) : super(const _Initial()) {
@@ -19,7 +54,10 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       final response = await _scheduleRemoteDatasource.getSchedulesToday();
       response.fold(
         (l) => emit(_Failure(l)),
-        (r) => emit(_Success(r)),
+        (r) {
+          emit(_Success(r));
+          _startPolling();
+        },
       );
     });
 

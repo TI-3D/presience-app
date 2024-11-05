@@ -23,9 +23,17 @@ class AuthLocalDataSource {
       group: Group.fromJson(decodedToken['data']['group']),
     );
 
+    // Extract exp and convert it to DateTime
+    final exp = decodedToken['exp'];
+    DateTime? expirationDateTime;
+    if (exp != null) {
+      expirationDateTime = DateTime.fromMillisecondsSinceEpoch(exp * 1000);
+    }
+
     final authData = AuthDto(
       token: authResponse.token,
       user: user,
+      expiration: expirationDateTime,
     );
 
     final prefs = await SharedPreferences.getInstance();
