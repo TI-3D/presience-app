@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:presience_app/data/datasources/local_datasources/auth_local_datasources.dart';
 import 'package:presience_app/domain/entities/permit_detail.dart';
 import 'package:presience_app/domain/entities/schedule_week.dart';
 import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_after.dart';
@@ -20,100 +21,43 @@ final GoRouter _router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: '/login',
-      pageBuilder: (context, state) => CustomTransitionPage(
-        key: state.pageKey,
-        child: LoginPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return child;
-        },
-      ),
+      builder: (BuildContext context, GoRouterState state) {
+        return const LoginPage();
+      },
       routes: <RouteBase>[
         GoRoute(
           path: 'success',
-          pageBuilder: (context, state) {
-            return CustomTransitionPage(
-              key: state.pageKey,
-              child: LoginSuccessPage(),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                const begin = Offset(1.0, 0.0); // Right-to-left slide
-                const end = Offset.zero;
-                const curve = Curves.ease;
-
-                var tween = Tween(begin: begin, end: end)
-                    .chain(CurveTween(curve: curve));
-                var offsetAnimation = animation.drive(tween);
-
-                return SlideTransition(
-                  position: offsetAnimation,
-                  child: child,
-                );
-              },
-            );
+          builder: (BuildContext context, GoRouterState state) {
+            return const LoginSuccessPage();
           },
         ),
         GoRoute(
           path: 'first_change_password',
-          pageBuilder: (context, state) => CustomTransitionPage(
-            key: state.pageKey,
-            child: FirstChangePasswordPage(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return child;
-            },
-          ),
+          builder: (BuildContext context, GoRouterState state) {
+            return const FirstChangePasswordPage();
+          },
           routes: <RouteBase>[
             GoRoute(
               path: 'success',
-              pageBuilder: (context, state) {
-                final Map<String, dynamic> extraData =
-                    state.extra as Map<String, dynamic>? ?? {};
-
-                return CustomTransitionPage(
-                  key: state.pageKey,
-                  child: FirstChangePasswordSuccessPage(),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnimation, child) {
-                    const begin = Offset(1.0, 0.0); // Right-to-left slide
-                    const end = Offset.zero;
-                    const curve = Curves.ease;
-
-                    var tween = Tween(begin: begin, end: end)
-                        .chain(CurveTween(curve: curve));
-                    var offsetAnimation = animation.drive(tween);
-
-                    return SlideTransition(
-                      position: offsetAnimation,
-                      child: child,
-                    );
-                  },
-                );
+              builder: (BuildContext context, GoRouterState state) {
+                return const FirstChangePasswordSuccessPage();
               },
             ),
           ],
         ),
         GoRoute(
           path: 'register_face',
-          pageBuilder: (context, state) => CustomTransitionPage(
-            key: state.pageKey,
-            child: RegisterFacePage(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return child;
-            },
-          ),
+          builder: (BuildContext context, GoRouterState state) {
+            return const RegisterFacePage();
+          },
         ),
       ],
     ),
     GoRoute(
       path: '/camera',
-      pageBuilder: (context, state) => CustomTransitionPage(
-        key: state.pageKey,
-        child: CameraRegistrationPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return child;
-        },
-      ),
+      builder: (BuildContext context, GoRouterState state) {
+        return const CameraRegistrationPage();
+      },
       routes: [
         GoRoute(
           path: 'presensi',
@@ -175,81 +119,29 @@ final GoRouter _router = GoRouter(
         ]),
     GoRoute(
       path: '/pengajuan_izin',
-      pageBuilder: (context, state) {
-        return CustomTransitionPage(
-          key: state.pageKey,
-          child: FormPengajuanBeforeClassPage(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            const begin = Offset(1.0, 0.0); // Right-to-left slide
-            const end = Offset.zero;
-            const curve = Curves.ease;
-
-            var tween =
-                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-            var offsetAnimation = animation.drive(tween);
-
-            return SlideTransition(
-              position: offsetAnimation,
-              child: child,
-            );
-          },
+      builder: (BuildContext context, GoRouterState state) {
+        final Map<String, dynamic> extraData =
+            state.extra as Map<String, dynamic>? ?? {};
+        return FormPengajuanBeforeClassPage(
+          startDate: extraData['startDate'] as String,
+          endDate: extraData['endDate'] as String,
         );
       },
       routes: [
         GoRoute(
           path: 'during',
-          pageBuilder: (context, state) {
+          builder: (BuildContext context, GoRouterState state) {
             final Map<String, dynamic> extraData =
                 state.extra as Map<String, dynamic>? ?? {};
-
-            return CustomTransitionPage(
-              key: state.pageKey,
-              child: FormPengajuanDuringClassPage(
-                scheduleWeek: extraData['scheduleWeek'] as ScheduleWeek,
-              ),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                const begin = Offset(1.0, 0.0); // Right-to-left slide
-                const end = Offset.zero;
-                const curve = Curves.ease;
-
-                var tween = Tween(begin: begin, end: end)
-                    .chain(CurveTween(curve: curve));
-                var offsetAnimation = animation.drive(tween);
-
-                return SlideTransition(
-                  position: offsetAnimation,
-                  child: child,
-                );
-              },
+            return FormPengajuanDuringClassPage(
+              scheduleWeek: extraData['scheduleWeek'] as ScheduleWeek,
             );
           },
         ),
         GoRoute(
           path: 'after',
-          pageBuilder: (context, state) {
-            final Map<String, dynamic> extraData =
-                state.extra as Map<String, dynamic>? ?? {};
-
-            return CustomTransitionPage(
-              key: state.pageKey,
-              child: FormPengajuanAfterClassPage(),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                const begin = Offset(1.0, 0.0); // Right-to-left slide
-                const end = Offset.zero;
-                const curve = Curves.ease;
-
-                var tween = Tween(begin: begin, end: end)
-                    .chain(CurveTween(curve: curve));
-                var offsetAnimation = animation.drive(tween);
-
-                return SlideTransition(
-                  position: offsetAnimation,
-                  child: child,
-                );
-              },
-            );
+          builder: (BuildContext context, GoRouterState state) {
+            return const FormPengajuanAfterClassPage();
           },
         ),
       ],
@@ -317,11 +209,31 @@ final GoRouter _router = GoRouter(
       ],
     ),
   ],
-  redirect: (BuildContext context, GoRouterState state) {
+  redirect: (BuildContext context, GoRouterState state) async {
+    // Fetch login status using the AuthLocalDataSource
+    final authData = await AuthLocalDataSource().getAuthData();
+    final isLoggedIn = authData != null;
+
+    // Check if trying to access the root path
     if (state.uri.toString() == '/') {
-      return '/login'; // Redirect to login if trying to access root
+      if (!isLoggedIn) {
+        return '/login'; // Redirect to login if not logged in
+      }
+
+      // User is logged in; check token expiration
+      if (authData.expiration!.isAfter(DateTime.now())) {
+        return '/homepage'; // Redirect to homepage if token is valid
+      } else {
+        return '/login'; // Redirect to login if token is expired
+      }
     }
-    return null; // No redirect otherwise
+
+    if (authData != null && !authData.expiration!.isAfter(DateTime.now())) {
+      return '/login'; // Redirect to login if token is expired
+    }
+
+    // No redirect for other routes
+    return null;
   },
 );
 

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:presience_app/data/datasources/remote_datasources/attendance_remote_datasource.dart';
+import 'package:presience_app/data/dto/requests/get_schedule_dto.dart';
 import 'package:presience_app/domain/entities/schedule_week.dart';
 
 part 'attendance_week_bloc.freezed.dart';
@@ -17,6 +18,16 @@ class AttendanceWeekBloc
       emit(const _Loading());
       final response =
           await _attendanceRemoteDatasource.getHistoryAttendanceWeek();
+      response.fold(
+        (l) => emit(_Failure(l)),
+        (r) => emit(_Success(r)),
+      );
+    });
+
+    on<_GetScheduleByDate>((event, emit) async {
+      emit(const _Loading());
+      final response =
+          await _attendanceRemoteDatasource.getSchedulesByDate(event.params);
       response.fold(
         (l) => emit(_Failure(l)),
         (r) => emit(_Success(r)),

@@ -94,3 +94,23 @@ Future<XFile?> selectImage() async {
 String getFormattedDate(DateTime date) {
   return DateFormat('yyyy/MM/dd').format(date);
 }
+
+String convertDateFormat(String dateString) {
+  // Parse the original date string
+  DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(dateString);
+
+  // Format the date in the desired format
+  String formattedDate = DateFormat('yyyy/MM/dd').format(parsedDate);
+
+  return formattedDate;
+}
+
+String convertToLongDateFormat(String dateString) {
+  // Parse the original date string
+  DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(dateString);
+
+  // Format the date in the desired long format
+  String formattedDate = DateFormat('dd MMMM yyyy').format(parsedDate);
+
+  return formattedDate;
+}

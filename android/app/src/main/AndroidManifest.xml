@@ -7,6 +7,7 @@
         android:label="Presience"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon"
+        android:enableOnBackInvokedCallback="true"
         android:requestLegacyExternalStorage="true">
         <activity
             android:name=".MainActivity"
