@@ -13,9 +13,16 @@ import 'package:presience_app/presentation/blocs/permit/permit_bloc.dart';
 import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
 import 'package:presience_app/presentation/router/routes.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
+
+  // Menghapus splash screen setelah aplikasi siap
+  FlutterNativeSplash.remove();
+
 }
 
 class MyApp extends StatelessWidget {

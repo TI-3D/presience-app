@@ -23,107 +23,122 @@ class ProfilPage extends StatelessWidget {
             return state.maybeWhen(
               loginSuccess: (data) {
                 return Container(
-                  padding: const EdgeInsets.only(top: 32, bottom: 12),
+                  padding: const EdgeInsets.only(top: 28, bottom: 12),
                   color: neutralTheme[50],
-                  child: CustomSection(
-                    title: "Profil Pengguna",
-                    child: CustomCard(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 60,
-                            width: 60,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              border: Border.all(
-                                  color: neutralTheme[100]!, width: 1),
-                            ),
-                            child: (data.user!.avatar != null)
-                                ? Image.network(
-                                    data.user!.avatar!,
-                                    fit: BoxFit.cover,
-                                  )
-                                : (data.user!.gender == 'male')
-                                    ? Image.asset(
-                                        'assets/default/Men-Avatar-Default.png',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Image.asset(
+                          "assets/icons/presience_logo_vertical.png",
+                          height: 24,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      CustomSection(
+                        title: "Profil Pengguna",
+                        child: CustomCard(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 60,
+                                width: 60,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  border: Border.all(
+                                      color: neutralTheme[100]!, width: 1),
+                                ),
+                                child: (data.user!.avatar != null)
+                                    ? Image.network(
+                                        data.user!.avatar!,
                                         fit: BoxFit.cover,
                                       )
-                                    : Image.asset(
-                                        'assets/default/Girl-Avatar-Default.png',
-                                        fit: BoxFit.cover,
-                                      ),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            data.user!.name!,
-                            style: heading3.copyWith(
-                              fontWeight: fontWeight['SemiBold'],
-                            ),
-                          ),
-                          Text(
-                            data.user!.nim!,
-                            style: mediumBodyText.copyWith(
-                              color: neutralTheme[500],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(8)),
-                                color: neutralTheme[50]),
-                            width: double.infinity,
-                            child: Column(
-                              children: [
-                                Row(
+                                    : (data.user!.gender == 'male')
+                                        ? Image.asset(
+                                            'assets/default/Men-Avatar-Default.png',
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Image.asset(
+                                            'assets/default/Girl-Avatar-Default.png',
+                                            fit: BoxFit.cover,
+                                          ),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                data.user!.name!,
+                                style: heading3.copyWith(
+                                  fontWeight: fontWeight['SemiBold'],
+                                ),
+                              ),
+                              Text(
+                                data.user!.nim!,
+                                style: mediumBodyText.copyWith(
+                                  color: neutralTheme[500],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(8)),
+                                    color: neutralTheme[50]),
+                                width: double.infinity,
+                                child: Column(
                                   children: [
-                                    Expanded(
-                                      child: CustomTextLabel(
-                                        label: "Jenis Kelamin",
-                                        value: (data.user!.gender! == 'male')
-                                            ? 'Laki-laki'
-                                            : 'Perempuan',
-                                      ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: CustomTextLabel(
+                                            label: "Jenis Kelamin",
+                                            value:
+                                                (data.user!.gender! == 'male')
+                                                    ? 'Laki-laki'
+                                                    : 'Perempuan',
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: CustomTextLabel(
+                                            label: "Program Studi",
+                                            value: data.user!.major!,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    Expanded(
-                                      child: CustomTextLabel(
-                                        label: "Program Studi",
-                                        value: data.user!.major!,
-                                      ),
+                                    const SizedBox(
+                                      height: 12,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: CustomTextLabel(
+                                            label: "Kelas",
+                                            value: data.user!.group!.name!,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: CustomTextLabel(
+                                            label: "Semester",
+                                            value:
+                                                data.user!.semester.toString(),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 12,
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: CustomTextLabel(
-                                        label: "Kelas",
-                                        value: data.user!.group!.name!,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: CustomTextLabel(
-                                        label: "Semester",
-                                        value: data.user!.semester.toString(),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
+                              )
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 );
               },
