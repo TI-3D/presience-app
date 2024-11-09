@@ -26,18 +26,12 @@ class TabPresensiPage extends StatefulWidget {
 
 class _TabPresensiStatePage extends State<TabPresensiPage>
     with SingleTickerProviderStateMixin {
-  List<String> tabs = [
-    "Presensi",
-    "Perizinan",
-  ];
-
   late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(
-        vsync: this, length: tabs.length, initialIndex: widget.selectedTab!);
+    _tabController = TabController(vsync: this, length: 2, initialIndex: 0);
     _tabController.addListener(() {
       setState(() {}); // Untuk merender ulang saat tab berubah
     });
@@ -54,54 +48,32 @@ class _TabPresensiStatePage extends State<TabPresensiPage>
     return Scaffold(
       backgroundColor: neutralTheme,
       appBar: AppBar(
+          backgroundColor: neutralTheme,
           toolbarHeight: 0,
           bottom: PreferredSize(
-              preferredSize: Size(MediaQuery.of(context).size.width, 60),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: neutralTheme,
-                    border: Border(
-                        bottom:
-                            BorderSide(color: neutralTheme[200]!, width: 1))),
-                height: 60,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                width: double.infinity,
-                child: SizedBox(
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: tabs.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _tabController.index = index;
-                            });
-                          },
-                          child: Container(
-                            decoration: _tabController.index == index
-                                ? const BoxDecoration(
-                                    color: neutralTheme,
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            color: purpleTheme, width: 2)))
-                                : const BoxDecoration(color: neutralTheme),
-                            width: (MediaQuery.of(context).size.width - 64) / 2,
-                            margin: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Center(
-                              child: Text(
-                                tabs[index],
-                                style: _tabController.index == index
-                                    ? mediumBodyTextL.copyWith(
-                                        color: purpleTheme,
-                                        fontWeight: fontWeight['SemiBold'])
-                                    : regularBodyTextL.copyWith(
-                                        color: neutralTheme[500]),
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
+              preferredSize: Size.fromHeight(56),
+              child: TabBar(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                tabs: [
+                  Container(height: 54, child: Center(child: Text("Presensi"))),
+                  Container(
+                      height: 54, child: Center(child: Text("Perizinan"))),
+                ],
+                labelStyle: mediumBodyTextL.copyWith(color: purpleTheme),
+                unselectedLabelStyle:
+                    regularBodyTextL.copyWith(color: neutralTheme[500]),
+                controller: _tabController,
+                labelColor: purpleTheme,
+                unselectedLabelColor: neutralTheme[400],
+                dividerHeight: 1.5,
+                dividerColor: neutralTheme[100],
+                indicator: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: purpleTheme,
+                      width: 2,
+                    ),
+                  ),
                 ),
               ))),
       body: TabBarView(controller: _tabController, children: const [

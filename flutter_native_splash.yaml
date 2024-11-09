@@ -1,0 +1,9 @@
+flutter_native_splash:
+  color: "#2B2464"
+  image: assets/icons/presience_splash_screen.png
+
+  android_12:
+    image: assets/icons/presience_splash_screen.png
+    icon_background_color: "#2B2464"
+
+  web: false
