@@ -36,6 +36,7 @@ dependencies:
   collection: ^1.18.0
   path_provider: ^2.1.5
   location: ^6.0.2
+  flutter_native_splash: ^2.4.2
 
 dev_dependencies:
   flutter_test:

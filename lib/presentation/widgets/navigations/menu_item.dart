@@ -22,27 +22,31 @@ class CustomButtomNavigationMenuItem extends StatelessWidget {
     return Expanded(
       child: GestureDetector(
         onTap: () => onTap(index),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 24,
-              color:
-                  selectedPageIndex == index ? blackTheme : neutralTheme[400]!,
-            ),
-            const SizedBox(
-              height: 4,
-            ),
-            Text(
-              label,
-              style: selectedPageIndex == index
-                  ? mediumBodyText.copyWith(
-                      color: blackTheme, fontWeight: FontWeight.w700)
-                  : regularBodyText.copyWith(
-                      color: neutralTheme[400]!, fontWeight: FontWeight.w500),
-            )
-          ],
+        child: Container(
+          color: neutralTheme,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 24,
+                color: selectedPageIndex == index
+                    ? blackTheme
+                    : neutralTheme[400]!,
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              Text(
+                label,
+                style: selectedPageIndex == index
+                    ? mediumBodyText.copyWith(
+                        color: blackTheme, fontWeight: FontWeight.w700)
+                    : regularBodyText.copyWith(
+                        color: neutralTheme[400]!, fontWeight: FontWeight.w500),
+              )
+            ],
+          ),
         ),
       ),
     );

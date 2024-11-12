@@ -21,54 +21,124 @@ final GoRouter _router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: '/login',
-      builder: (BuildContext context, GoRouterState state) {
-        return const LoginPage();
-      },
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: LoginPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return child;
+        },
+      ),
       routes: <RouteBase>[
         GoRoute(
           path: 'success',
-          builder: (BuildContext context, GoRouterState state) {
-            return const LoginSuccessPage();
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: LoginSuccessPage(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                const begin = Offset(1.0, 0.0); // Right-to-left slide
+                const end = Offset.zero;
+                const curve = Curves.ease;
+
+                var tween = Tween(begin: begin, end: end)
+                    .chain(CurveTween(curve: curve));
+                var offsetAnimation = animation.drive(tween);
+
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: child,
+                );
+              },
+            );
           },
         ),
         GoRoute(
           path: 'first_change_password',
-          builder: (BuildContext context, GoRouterState state) {
-            return const FirstChangePasswordPage();
-          },
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            child: FirstChangePasswordPage(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return child;
+            },
+          ),
           routes: <RouteBase>[
             GoRoute(
               path: 'success',
-              builder: (BuildContext context, GoRouterState state) {
-                return const FirstChangePasswordSuccessPage();
+              pageBuilder: (context, state) {
+                return CustomTransitionPage(
+                  key: state.pageKey,
+                  child: FirstChangePasswordSuccessPage(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    const begin = Offset(1.0, 0.0); // Right-to-left slide
+                    const end = Offset.zero;
+                    const curve = Curves.ease;
+
+                    var tween = Tween(begin: begin, end: end)
+                        .chain(CurveTween(curve: curve));
+                    var offsetAnimation = animation.drive(tween);
+
+                    return SlideTransition(
+                      position: offsetAnimation,
+                      child: child,
+                    );
+                  },
+                );
               },
             ),
           ],
         ),
         GoRoute(
           path: 'register_face',
-          builder: (BuildContext context, GoRouterState state) {
-            return const RegisterFacePage();
-          },
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            child: RegisterFacePage(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return child;
+            },
+          ),
         ),
       ],
     ),
     GoRoute(
       path: '/camera',
-      builder: (BuildContext context, GoRouterState state) {
-        return const CameraRegistrationPage();
-      },
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: CameraRegistrationPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return child;
+        },
+      ),
       routes: [
         GoRoute(
           path: 'presensi',
-          builder: (BuildContext context, GoRouterState state) {
-            // Pastikan extra tidak null, dan lakukan cast dengan aman
+          pageBuilder: (context, state) {
             final Map<String, dynamic> extraData =
                 state.extra as Map<String, dynamic>? ?? {};
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: CameraPresensiPage(
+                openedAt: extraData['openedAt'] as String? ?? '00:00:00',
+                scheduleWeekId: extraData['scheduleWeekId'] as int? ?? 0,
+              ),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                const begin = Offset(1.0, 0.0); // Right-to-left slide
+                const end = Offset.zero;
+                const curve = Curves.ease;
 
-            return CameraPresensiPage(
-              openedAt: extraData['openedAt'] as String? ?? '00:00:00',
-              scheduleWeekId: extraData['scheduleWeekId'] as int? ?? 0,
+                var tween = Tween(begin: begin, end: end)
+                    .chain(CurveTween(curve: curve));
+                var offsetAnimation = animation.drive(tween);
+
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: child,
+                );
+              },
             );
           },
         ),
@@ -119,29 +189,82 @@ final GoRouter _router = GoRouter(
         ]),
     GoRoute(
       path: '/pengajuan_izin',
-      builder: (BuildContext context, GoRouterState state) {
+      pageBuilder: (context, state) {
         final Map<String, dynamic> extraData =
             state.extra as Map<String, dynamic>? ?? {};
-        return FormPengajuanBeforeClassPage(
-          startDate: extraData['startDate'] as String,
-          endDate: extraData['endDate'] as String,
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: FormPengajuanBeforeClassPage(
+            startDate: extraData['startDate'] as String,
+            endDate: extraData['endDate'] as String,
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const begin = Offset(1.0, 0.0); // Right-to-left slide
+            const end = Offset.zero;
+            const curve = Curves.ease;
+
+            var tween =
+                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            var offsetAnimation = animation.drive(tween);
+
+            return SlideTransition(
+              position: offsetAnimation,
+              child: child,
+            );
+          },
         );
       },
       routes: [
         GoRoute(
           path: 'during',
-          builder: (BuildContext context, GoRouterState state) {
+          pageBuilder: (context, state) {
             final Map<String, dynamic> extraData =
                 state.extra as Map<String, dynamic>? ?? {};
-            return FormPengajuanDuringClassPage(
-              scheduleWeek: extraData['scheduleWeek'] as ScheduleWeek,
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: FormPengajuanDuringClassPage(
+                scheduleWeek: extraData['scheduleWeek'] as ScheduleWeek,
+              ),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                const begin = Offset(1.0, 0.0); // Right-to-left slide
+                const end = Offset.zero;
+                const curve = Curves.ease;
+
+                var tween = Tween(begin: begin, end: end)
+                    .chain(CurveTween(curve: curve));
+                var offsetAnimation = animation.drive(tween);
+
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: child,
+                );
+              },
             );
           },
         ),
         GoRoute(
           path: 'after',
-          builder: (BuildContext context, GoRouterState state) {
-            return const FormPengajuanAfterClassPage();
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: FormPengajuanAfterClassPage(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                const begin = Offset(1.0, 0.0); // Right-to-left slide
+                const end = Offset.zero;
+                const curve = Curves.ease;
+
+                var tween = Tween(begin: begin, end: end)
+                    .chain(CurveTween(curve: curve));
+                var offsetAnimation = animation.drive(tween);
+
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: child,
+                );
+              },
+            );
           },
         ),
       ],
@@ -221,7 +344,8 @@ final GoRouter _router = GoRouter(
       }
 
       // User is logged in; check token expiration
-      if (authData.expiration!.isAfter(DateTime.now())) {
+      if (authData.expiration != null &&
+          authData.expiration!.isAfter(DateTime.now())) {
         return '/homepage'; // Redirect to homepage if token is valid
       } else {
         return '/login'; // Redirect to login if token is expired
