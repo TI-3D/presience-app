@@ -35,7 +35,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
 
           if (openedSchedule != null) {
             // Cancel polling if condition is met
-            _pollingTimer?.cancel();
+            // _pollingTimer?.cancel();
             emit(ScheduleState.success(r));
           } else {
             // Otherwise, continue polling and update the state if needed

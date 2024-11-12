@@ -13,6 +13,7 @@ class Attendance with _$Attendance {
     String? entryTime,
     bool? isChanged,
     bool? lecturerVerified,
+    int? precentage,
   }) = _Attendance;
 
   factory Attendance.fromJson(Map<String, dynamic> json) => Attendance(
@@ -23,5 +24,6 @@ class Attendance with _$Attendance {
         entryTime: json['entry_time'],
         isChanged: json['is_changed'],
         lecturerVerified: json['lecturer_verified'],
+        precentage: json['precentage'],
       );
 }

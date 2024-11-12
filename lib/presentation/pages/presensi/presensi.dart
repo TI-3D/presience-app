@@ -3,19 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
+import 'package:presience_app/data/dto/requests/get_history_attendance_dto.dart';
+import 'package:presience_app/presentation/blocs/course/course_bloc.dart';
+import 'package:presience_app/presentation/blocs/history_attendance/history_attendance_bloc.dart';
 import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
 import 'package:presience_app/presentation/pages/presensi/perizinan.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/cards/history_presensi_card.dart';
-import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/cards/today_presensi.dart';
-import 'package:presience_app/presentation/widgets/empty_state/types/empty_filtered.dart';
 import 'package:presience_app/presentation/widgets/empty_state/types/empty_history_presensi.dart';
 import 'package:presience_app/presentation/widgets/form/dropdown.dart';
 import 'package:presience_app/presentation/widgets/skeletons/today_presensi_skeleton.dart';
 
 import '../../../domain/entities/schedule_week.dart';
+import '../../utils/methods.dart';
+import '../../widgets/form/dropdown_status.dart';
+import '../../widgets/skeletons/history_presensi_skeleton.dart';
 
 class TabPresensiPage extends StatefulWidget {
   final int? selectedTab;
@@ -122,12 +126,13 @@ class PresensiPage extends StatefulWidget {
 class _PresensiPageState extends State<PresensiPage> {
   bool isEmpty = false;
   bool isFilterEmpty = false;
+  int courseId = 0;
+  String attendanceStatus = '';
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.only(bottom: 16),
-      // shrinkWrap: true,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -138,16 +143,45 @@ class _PresensiPageState extends State<PresensiPage> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: [
-                CustomDropdown(
-                    icon: TablerIcons.book_2,
-                    width: MediaQuery.of(context).size.width - 183,
-                    items: const [
-                      "Semua Mata Kuliah",
-                      "Mata Kuliah1",
-                      "Mata Kuliah2",
-                      "Mata Kuliah3",
-                      "Mata Kuliah4"
-                    ]),
+                BlocBuilder<CourseBloc, CourseState>(
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                      success: (data) {
+                        return CustomDropdown(
+                          icon: TablerIcons.book_2,
+                          width: MediaQuery.of(context).size.width - 183,
+                          items: [
+                            const {"id": 0, "name": "Semua Mata Kuliah"},
+                            ...data.map((e) => {"id": e.id, "name": e.name!})
+                          ],
+                          onChange: (int id) {
+                            courseId = id;
+                            context.read<HistoryAttendanceBloc>().add(
+                                  HistoryAttendanceEvent.getHistoryAttendance(
+                                    GetHistoryAttendanceDto(
+                                      courseId: courseId,
+                                      attendanceStatus: attendanceStatus,
+                                    ),
+                                  ),
+                                );
+                          },
+                        );
+                      },
+                      orElse: () {
+                        return CustomDropdown(
+                          icon: TablerIcons.book_2,
+                          width: MediaQuery.of(context).size.width - 183,
+                          items: const [
+                            {
+                              "id": 0,
+                              "name": "Semua Mata Kuliah",
+                            }
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
                 const SizedBox(
                   width: 8,
                 ),
@@ -159,16 +193,42 @@ class _PresensiPageState extends State<PresensiPage> {
                 const SizedBox(
                   width: 8,
                 ),
-                const CustomDropdown(
+                DropdownStatus(
                   icon: TablerIcons.empathize,
                   width: 133,
-                  items: [
-                    "Semua Status",
-                    "Status 1",
-                    "Status 2",
-                    "Status 3",
-                    "Status 4"
+                  items: const [
+                    {
+                      "value": "",
+                      "name": "Semua Status",
+                    },
+                    {
+                      "value": "hadir",
+                      "name": "Hadir",
+                    },
+                    {
+                      "value": "sakit",
+                      "name": "Sakit",
+                    },
+                    {
+                      "value": "izin",
+                      "name": "Izin",
+                    },
+                    {
+                      "value": "alpha",
+                      "name": "Alpha",
+                    },
                   ],
+                  onChange: (String status) {
+                    attendanceStatus = status;
+                    context.read<HistoryAttendanceBloc>().add(
+                          HistoryAttendanceEvent.getHistoryAttendance(
+                            GetHistoryAttendanceDto(
+                              courseId: courseId,
+                              attendanceStatus: attendanceStatus,
+                            ),
+                          ),
+                        );
+                  },
                 ),
               ],
             ),
@@ -232,24 +292,92 @@ class _PresensiPageState extends State<PresensiPage> {
               );
             },
           ),
+          BlocBuilder<HistoryAttendanceBloc, HistoryAttendanceState>(
+            builder: (context, state) {
+              return state.maybeWhen(
+                success: (data) {
+                  if (data.isEmpty) {
+                    return const Padding(
+                      padding: EdgeInsets.only(top: 8),
+                      child: EmptyHistoryPresensi(),
+                    );
+                  }
+
+                  return ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: HistoryPresensiCard(
+                          courseName: data[index].schedule!.course!.name!,
+                          date: getFormattedDate(data[index].date!),
+                          openedTime: data[index].openedAt!,
+                          closedTime: data[index].closedAt ?? 'Belum ditutup',
+                          courseTime: data[index].schedule!.course!.time!,
+                          alpha: data[index].attendance!.alpha!,
+                          sakit: data[index].attendance!.sakit!,
+                          izin: data[index].attendance!.izin!,
+                          onTap: () {
+                            context.read<HistoryAttendanceBloc>().add(
+                                  HistoryAttendanceEvent.getHistoryAttendance(
+                                    GetHistoryAttendanceDto(
+                                      courseId:
+                                          data[index].schedule!.course!.id!,
+                                    ),
+                                  ),
+                                );
+                            context.push(
+                              '/presensi/detail',
+                              extra: data[index],
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) => const SizedBox(
+                      height: 8,
+                    ),
+                  );
+                },
+                orElse: () {
+                  return ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: HistoryPresensiSkeleton(),
+                      );
+                    },
+                    separatorBuilder: (context, index) => const SizedBox(
+                      height: 8,
+                    ),
+                  );
+                },
+              );
+            },
+          ),
           // DATA PRESENSI
-          if (!isEmpty)
-            const CustomSection(
-                title: "Minggu ke-2", child: ContentofWeekPresensi()),
-          if (!isEmpty)
-            const SizedBox(
-              height: 12,
-            ),
-          if (!isEmpty)
-            const CustomSection(
-                title: "Minggu ke-1", child: ContentofWeekPresensi()),
-          if (isEmpty)
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 28),
-              child: isFilterEmpty
-                  ? const EmptyFiltered()
-                  : const EmptyHistoryPresensi(),
-            ),
+          // if (!isEmpty)
+          //   const CustomSection(
+          //       title: "Minggu ke-2", child: ContentofWeekPresensi()),
+          // if (!isEmpty)
+          //   const SizedBox(
+          //     height: 12,
+          //   ),
+          // if (!isEmpty)
+          //   const CustomSection(
+          //       title: "Minggu ke-1", child: ContentofWeekPresensi()),
+          // if (isEmpty)
+          //   Container(
+          //     padding: const EdgeInsets.symmetric(vertical: 28),
+          //     child: isFilterEmpty
+          //         ? const EmptyFiltered()
+          //         : const EmptyHistoryPresensi(),
+          //   ),
         ],
       ),
     );

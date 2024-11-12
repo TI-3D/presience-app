@@ -40,7 +40,9 @@ class ScheduleRemoteDatasource {
     final request = http.MultipartRequest('POST', url)
       ..headers['Authorization'] = 'Bearer ${authData!.token}'
       ..fields['description'] = params.description ?? '-'
-      ..fields['sw_id'] = params.scheduleWeekId.toString();
+      ..fields['sw_id'] = params.scheduleWeekId.toString()
+      ..fields['latitude'] = params.latitude.toString()
+      ..fields['longitude'] = params.longitude.toString();
 
     // Attach the evidence file if it exists
     if (params.evidence != null) {

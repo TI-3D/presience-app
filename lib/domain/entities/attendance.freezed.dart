@@ -27,6 +27,7 @@ mixin _$Attendance {
   String? get entryTime => throw _privateConstructorUsedError;
   bool? get isChanged => throw _privateConstructorUsedError;
   bool? get lecturerVerified => throw _privateConstructorUsedError;
+  int? get precentage => throw _privateConstructorUsedError;
 
   /// Serializes this Attendance to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -51,7 +52,8 @@ abstract class $AttendanceCopyWith<$Res> {
       int? alpha,
       String? entryTime,
       bool? isChanged,
-      bool? lecturerVerified});
+      bool? lecturerVerified,
+      int? precentage});
 }
 
 /// @nodoc
@@ -76,6 +78,7 @@ class _$AttendanceCopyWithImpl<$Res, $Val extends Attendance>
     Object? entryTime = freezed,
     Object? isChanged = freezed,
     Object? lecturerVerified = freezed,
+    Object? precentage = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -106,6 +109,10 @@ class _$AttendanceCopyWithImpl<$Res, $Val extends Attendance>
           ? _value.lecturerVerified
           : lecturerVerified // ignore: cast_nullable_to_non_nullable
               as bool?,
+      precentage: freezed == precentage
+          ? _value.precentage
+          : precentage // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -125,7 +132,8 @@ abstract class _$$AttendanceImplCopyWith<$Res>
       int? alpha,
       String? entryTime,
       bool? isChanged,
-      bool? lecturerVerified});
+      bool? lecturerVerified,
+      int? precentage});
 }
 
 /// @nodoc
@@ -148,6 +156,7 @@ class __$$AttendanceImplCopyWithImpl<$Res>
     Object? entryTime = freezed,
     Object? isChanged = freezed,
     Object? lecturerVerified = freezed,
+    Object? precentage = freezed,
   }) {
     return _then(_$AttendanceImpl(
       id: freezed == id
@@ -178,6 +187,10 @@ class __$$AttendanceImplCopyWithImpl<$Res>
           ? _value.lecturerVerified
           : lecturerVerified // ignore: cast_nullable_to_non_nullable
               as bool?,
+      precentage: freezed == precentage
+          ? _value.precentage
+          : precentage // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -192,7 +205,8 @@ class _$AttendanceImpl implements _Attendance {
       this.alpha,
       this.entryTime,
       this.isChanged,
-      this.lecturerVerified});
+      this.lecturerVerified,
+      this.precentage});
 
   factory _$AttendanceImpl.fromJson(Map<String, dynamic> json) =>
       _$$AttendanceImplFromJson(json);
@@ -211,10 +225,12 @@ class _$AttendanceImpl implements _Attendance {
   final bool? isChanged;
   @override
   final bool? lecturerVerified;
+  @override
+  final int? precentage;
 
   @override
   String toString() {
-    return 'Attendance(id: $id, sakit: $sakit, izin: $izin, alpha: $alpha, entryTime: $entryTime, isChanged: $isChanged, lecturerVerified: $lecturerVerified)';
+    return 'Attendance(id: $id, sakit: $sakit, izin: $izin, alpha: $alpha, entryTime: $entryTime, isChanged: $isChanged, lecturerVerified: $lecturerVerified, precentage: $precentage)';
   }
 
   @override
@@ -231,13 +247,15 @@ class _$AttendanceImpl implements _Attendance {
             (identical(other.isChanged, isChanged) ||
                 other.isChanged == isChanged) &&
             (identical(other.lecturerVerified, lecturerVerified) ||
-                other.lecturerVerified == lecturerVerified));
+                other.lecturerVerified == lecturerVerified) &&
+            (identical(other.precentage, precentage) ||
+                other.precentage == precentage));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, sakit, izin, alpha,
-      entryTime, isChanged, lecturerVerified);
+      entryTime, isChanged, lecturerVerified, precentage);
 
   /// Create a copy of Attendance
   /// with the given fields replaced by the non-null parameter values.
@@ -263,7 +281,8 @@ abstract class _Attendance implements Attendance {
       final int? alpha,
       final String? entryTime,
       final bool? isChanged,
-      final bool? lecturerVerified}) = _$AttendanceImpl;
+      final bool? lecturerVerified,
+      final int? precentage}) = _$AttendanceImpl;
 
   factory _Attendance.fromJson(Map<String, dynamic> json) =
       _$AttendanceImpl.fromJson;
@@ -282,6 +301,8 @@ abstract class _Attendance implements Attendance {
   bool? get isChanged;
   @override
   bool? get lecturerVerified;
+  @override
+  int? get precentage;
 
   /// Create a copy of Attendance
   /// with the given fields replaced by the non-null parameter values.

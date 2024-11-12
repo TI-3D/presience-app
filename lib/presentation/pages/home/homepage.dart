@@ -25,6 +25,8 @@ import 'package:presience_app/presentation/widgets/skeletons/last_week_skeleton.
 import 'package:presience_app/presentation/widgets/skeletons/today_presensi_skeleton.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../data/dto/requests/get_history_attendance_dto.dart';
+import '../../blocs/history_attendance/history_attendance_bloc.dart';
 import '../../widgets/cards/section.dart';
 import '../../widgets/empty_state/types/empty_history_presensi.dart';
 
@@ -372,10 +374,19 @@ class _ContentofRiwayatPresensiState extends State<ContentofRiwayatPresensi> {
           alpha: widget.scheduleWeek[index].attendance!.alpha!,
           sakit: widget.scheduleWeek[index].attendance!.sakit!,
           izin: widget.scheduleWeek[index].attendance!.izin!,
-          onTap: () => context.push(
-            '/presensi/detail',
-            extra: widget.scheduleWeek[index],
-          ),
+          onTap: () {
+            context.read<HistoryAttendanceBloc>().add(
+                  HistoryAttendanceEvent.getHistoryAttendance(
+                    GetHistoryAttendanceDto(
+                      courseId: widget.scheduleWeek[index].schedule!.course!.id,
+                    ),
+                  ),
+                );
+            context.push(
+              '/presensi/detail',
+              extra: widget.scheduleWeek[index],
+            );
+          },
         );
       },
       separatorBuilder: (context, index) => const SizedBox(
