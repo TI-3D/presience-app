@@ -5,10 +5,12 @@ import 'package:presience_app/data/datasources/remote_datasources/auth_remote_da
 import 'package:presience_app/data/datasources/remote_datasources/course_remote_datasource.dart';
 import 'package:presience_app/data/datasources/remote_datasources/permit_remote_datasource.dart';
 import 'package:presience_app/data/datasources/remote_datasources/schedule_remote_datasource.dart';
+import 'package:presience_app/data/dto/requests/get_history_attendance_dto.dart';
 import 'package:presience_app/presentation/blocs/attendance/attendance_bloc.dart';
 import 'package:presience_app/presentation/blocs/attendance_week/attendance_week_bloc.dart';
 import 'package:presience_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:presience_app/presentation/blocs/course/course_bloc.dart';
+import 'package:presience_app/presentation/blocs/history_attendance/history_attendance_bloc.dart';
 import 'package:presience_app/presentation/blocs/permit/permit_bloc.dart';
 import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
 import 'package:presience_app/presentation/router/routes.dart';
@@ -55,6 +57,13 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => CourseBloc(CourseRemoteDatasource())
             ..add(const CourseEvent.getCourses()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              HistoryAttendanceBloc(AttendanceRemoteDatasource())
+                ..add(const HistoryAttendanceEvent.getHistoryAttendance(
+                  GetHistoryAttendanceDto(attendanceStatus: '', courseId: 0),
+                )),
         ),
       ],
       child: MaterialApp.router(

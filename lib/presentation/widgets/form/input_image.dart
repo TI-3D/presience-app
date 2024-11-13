@@ -95,12 +95,15 @@ class CustomImageInputFill extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Path Image
-                    Text(
-                      pathImage!,
-                      style: regularBodyTextS.copyWith(
-                        color: neutralTheme[300],
+                    Expanded(
+                      child: Text(
+                        pathImage!,
+                        style: regularBodyTextS.copyWith(
+                          color: neutralTheme[300],
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
-                      overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(width: 8),
                     Text(

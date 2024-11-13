@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
+import 'package:presience_app/presentation/blocs/history_attendance/history_attendance_bloc.dart';
 import 'package:presience_app/presentation/utils/methods.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/cards/attendance.dart';
-import 'package:presience_app/presentation/widgets/cards/history_course_card.dart';
 import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/cards/title_section.dart';
 import 'package:presience_app/presentation/widgets/containers/content.dart';
@@ -14,7 +15,10 @@ import 'package:presience_app/presentation/widgets/labels/icon_label.dart';
 import 'package:presience_app/presentation/widgets/labels/tag_label.dart';
 import 'package:presience_app/presentation/widgets/navigations/app_bar.dart';
 
+import '../../../data/dto/requests/get_history_attendance_dto.dart';
 import '../../../domain/entities/schedule_week.dart';
+import '../../widgets/cards/history_course_card.dart';
+import '../../widgets/skeletons/history_presensi_skeleton.dart';
 
 class DetailPresensiPage extends StatelessWidget {
   final ScheduleWeek scheduleWeek;
@@ -32,6 +36,11 @@ class DetailPresensiPage extends StatelessWidget {
       appBar: CustomAppBar(
         title: 'Detail Presensi',
         onTap: () {
+          context.read<HistoryAttendanceBloc>().add(
+                const HistoryAttendanceEvent.getHistoryAttendance(
+                  GetHistoryAttendanceDto(attendanceStatus: '', courseId: 0),
+                ),
+              );
           GoRouter.of(context).pop();
         },
       ),
@@ -99,17 +108,18 @@ class DetailPresensiPage extends StatelessWidget {
               thickness: 1,
               color: neutralTheme[100],
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TitleSection(title: 'Total Presentase Kehadiran'),
+                      const TitleSection(title: 'Total Presentase Kehadiran'),
                       AttendancePercentage(
-                        attendancePercentage: 82,
+                        attendancePercentage:
+                            scheduleWeek.attendance!.precentage!,
                       ),
                     ],
                   ),
@@ -283,7 +293,9 @@ class DetailPresensiPage extends StatelessWidget {
                   MainAxisAlignment.start, // Menambahkan ini untuk rata kiri
               children: [
                 CustomSection(
-                    title: 'Riwayat Presensi', child: ContentofWeekCourse())
+                  title: 'Riwayat Presensi',
+                  child: ContentofWeekCourse(),
+                )
               ],
             )
           ],
@@ -303,102 +315,44 @@ class ContentofWeekCourse extends StatefulWidget {
 }
 
 class _ContentofWeekCourseState extends State<ContentofWeekCourse> {
-  List<Map<String, dynamic>> lastWeekCourses = [
-    {
-      'courseName': "Pembelajaran Mesin",
-      'date': "21/10/2024",
-      'openedTime': "12:00",
-      'closedTime': "00:00",
-      'courseTime': 6,
-      'alpha': 0,
-      'izin': 3,
-      'sakit': 0,
-      'courseWeek': 6,
-    },
-    {
-      'courseName': "Pembelajaran Mesin",
-      'date': "21/10/2024",
-      'openedTime': "12:00",
-      'closedTime': "00:00",
-      'courseTime': 6,
-      'alpha': 0,
-      'izin': 0,
-      'sakit': 3,
-      'courseWeek': 5,
-    },
-    {
-      'courseName': "Pembelajaran Mesin",
-      'date': "21/10/2024",
-      'openedTime': "12:00",
-      'closedTime': "00:00",
-      'courseTime': 6,
-      'alpha': 3,
-      'izin': 0,
-      'sakit': 0,
-      'courseWeek': 4,
-    },
-    {
-      'courseName': "Pembelajaran Mesin",
-      'date': "21/10/2024",
-      'openedTime': "12:00",
-      'closedTime': "00:00",
-      'courseTime': 6,
-      'alpha': 0,
-      'izin': 0,
-      'sakit': 0,
-      'courseWeek': 3,
-    },
-    {
-      'courseName': "Pembelajaran Mesin",
-      'date': "21/10/2024",
-      'openedTime': "12:00",
-      'closedTime': "00:00",
-      'courseTime': 6,
-      'alpha': 0,
-      'izin': 0,
-      'sakit': 6,
-      'courseWeek': 2,
-    },
-    {
-      'courseName': "Pembelajaran Mesin",
-      'date': "21/10/2024",
-      'openedTime': "12:00",
-      'closedTime': "00:00",
-      'courseTime': 6,
-      'alpha': 0,
-      'izin': 0,
-      'sakit': 0,
-      'courseWeek': 1,
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: lastWeekCourses.length,
-      itemBuilder: (context, index) {
-        return
-            //  HistoryPresensiSkeleton();
-            HistoryCourseCard(
-          courseName: lastWeekCourses[index]['courseName'],
-          date: lastWeekCourses[index]['date'],
-          openedTime: lastWeekCourses[index]['openedTime'],
-          closedTime: lastWeekCourses[index]['closedTime'],
-          courseTime: lastWeekCourses[index]['courseTime'],
-          alpha: lastWeekCourses[index]['alpha'],
-          sakit: lastWeekCourses[index]['sakit'],
-          izin: lastWeekCourses[index]['izin'],
-          courseWeek: lastWeekCourses[index]['courseWeek'].toString(),
-          onTap: () => context.push('/presensi/detail'),
-          // onTap: () => context.push('/presensi/detail'),
+    return BlocBuilder<HistoryAttendanceBloc, HistoryAttendanceState>(
+      builder: (context, state) {
+        return state.maybeWhen(
+          orElse: () => const HistoryPresensiSkeleton(),
+          success: (data) {
+            return ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return HistoryCourseCard(
+                  courseName: data[index].schedule!.course!.name!,
+                  date: getFormattedDate(data[index].date!),
+                  openedTime: data[index].openedAt!,
+                  closedTime: data[index].closedAt ?? 'Belum ditutup',
+                  courseTime: data[index].schedule!.course!.time!,
+                  alpha: data[index].attendance!.alpha!,
+                  sakit: data[index].attendance!.sakit!,
+                  izin: data[index].attendance!.izin!,
+                  courseWeek: data[index].schedule!.week!.name!,
+                  onTap: () {},
+                  // onTap: () {
+                  //   context.push(
+                  //     '/presensi/detail',
+                  //     extra: data[index],
+                  //   );
+                  // },
+                );
+              },
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 8,
+              ),
+            );
+          },
         );
-        // return Text(lastWeekCourses[index]['courseName']);
       },
-      separatorBuilder: (context, index) => const SizedBox(
-        height: 8,
-      ),
     );
   }
 }

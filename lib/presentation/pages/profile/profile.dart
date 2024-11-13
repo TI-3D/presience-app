@@ -249,7 +249,7 @@ class ProfilPage extends StatelessWidget {
           listener: (context, state) {
             state.maybeWhen(
               initial: () {
-                context.go('/login');
+                context.go('/');
               },
               orElse: () {},
             );

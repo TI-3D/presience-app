@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 
-class CustomDropdown extends StatefulWidget {
+class DropdownStatus extends StatefulWidget {
   final double width;
   final IconData icon;
   final List<Map<String, dynamic>> items;
-  final Function(int)? onChange;
+  final Function(String)? onChange;
 
-  const CustomDropdown({
+  const DropdownStatus({
     super.key,
     required this.width,
     required this.items,
@@ -17,10 +17,10 @@ class CustomDropdown extends StatefulWidget {
   });
 
   @override
-  State<CustomDropdown> createState() => _CustomDropdownState();
+  State<DropdownStatus> createState() => _DropdownStatusState();
 }
 
-class _CustomDropdownState extends State<CustomDropdown> {
+class _DropdownStatusState extends State<DropdownStatus> {
   final LayerLink _layerLink = LayerLink();
   OverlayEntry? _overlayEntry;
   late Map<String, dynamic> selectedItem = widget.items[0];
@@ -51,7 +51,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
                   child: Text(
                     selectedItem['name'],
                     style: mediumBodyText.copyWith(
-                      color: selectedItem['id'] == 0
+                      color: selectedItem['value'] == ""
                           ? neutralTheme[300]
                           : blackTheme,
                     ),
@@ -117,7 +117,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
                             setState(() {
                               selectedItem = item;
                             });
-                            widget.onChange?.call(item['id']);
+                            widget.onChange?.call(item['value']);
                             _closeDropdown();
                           },
                           child: Container(

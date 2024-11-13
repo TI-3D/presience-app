@@ -21,9 +21,11 @@ import 'package:presience_app/presentation/widgets/form/radio_desc.dart';
 import 'package:presience_app/presentation/widgets/form/text_field.dart';
 import 'package:presience_app/presentation/widgets/navigations/app_bar.dart';
 
+import '../../../data/dto/requests/get_history_attendance_dto.dart';
 import '../../../data/dto/requests/permit_dto.dart';
 import '../../blocs/attendance/attendance_bloc.dart';
 import '../../blocs/attendance_week/attendance_week_bloc.dart';
+import '../../blocs/history_attendance/history_attendance_bloc.dart';
 import '../../widgets/modal/button.dart';
 import '../../widgets/modal/dialog.dart';
 import '../../widgets/modal/loading.dart';
@@ -253,6 +255,12 @@ class _FormPengajuanDuringClassPageState
                     );
                 context.read<PermitBloc>().add(
                       const PermitEvent.getHistoryPermit(),
+                    );
+                context.read<HistoryAttendanceBloc>().add(
+                      const HistoryAttendanceEvent.getHistoryAttendance(
+                        GetHistoryAttendanceDto(
+                            attendanceStatus: '', courseId: 0),
+                      ),
                     );
                 return context.go('/homepage');
               },

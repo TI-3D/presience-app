@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
+import 'package:location/location.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:presience_app/data/dto/requests/attendance_dto.dart';
@@ -24,7 +26,9 @@ import 'package:presience_app/presentation/widgets/modal/button.dart';
 import 'package:presience_app/presentation/widgets/modal/dialog.dart';
 import 'package:presience_app/presentation/widgets/modal/loading.dart';
 
+import '../../../data/dto/requests/get_history_attendance_dto.dart';
 import '../../blocs/attendance/attendance_bloc.dart';
+import '../../blocs/history_attendance/history_attendance_bloc.dart';
 
 class CameraPresensiPage extends StatefulWidget {
   final String? openedAt;
@@ -46,6 +50,53 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
   int _currentCameraIndex = 0;
   bool isLate = false;
 
+  double? latitude;
+  double? longitude;
+  bool _locationRetrieved = false;
+
+  Future<void> getCurrentPosition() async {
+    try {
+      Location location = Location();
+
+      bool serviceEnabled;
+      PermissionStatus permissionGranted;
+      LocationData locationData;
+
+      serviceEnabled = await location.serviceEnabled();
+      if (!serviceEnabled) {
+        serviceEnabled = await location.requestService();
+        if (!serviceEnabled) {
+          return;
+        }
+      }
+
+      permissionGranted = await location.hasPermission();
+      if (permissionGranted == PermissionStatus.denied) {
+        permissionGranted = await location.requestPermission();
+        if (permissionGranted != PermissionStatus.granted) {
+          return;
+        }
+      }
+
+      locationData = await location.getLocation();
+      latitude = locationData.latitude;
+      longitude = locationData.longitude;
+
+      setState(() {
+        _locationRetrieved = true;
+      });
+    } on PlatformException catch (e) {
+      if (e.code == 'IO_ERROR') {
+        debugPrint(
+            'A network error occurred trying to lookup the supplied coordinates: ${e.message}');
+      } else {
+        debugPrint('Failed to lookup coordinates: ${e.message}');
+      }
+    } catch (e) {
+      debugPrint('An unknown error occurred: $e');
+    }
+  }
+
   Future<void> initializeController() async {
     List<CameraDescription> cameras = await availableCameras();
     controller = CameraController(
@@ -55,6 +106,10 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
 
   @override
   void initState() {
+    Future.microtask(() async {
+      await getCurrentPosition();
+    });
+
     // Check if 'openedAt' is more than 15 minutes from current time
     if (widget.openedAt != null) {
       final now = DateTime.now();
@@ -112,104 +167,123 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: FutureBuilder(
-          future: initializeController(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              // Tampilkan bottom sheet hanya sekali setelah kamera diinisialisasi
-              if (isLate) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  _showBottomSheet();
-                  setState(() {
-                    isLate = false; // Set agar tidak tampil lagi
-                  });
-                });
-              }
-              return Stack(
-                children: [
-                  CameraFullRatio(controller: controller),
-                  BlocConsumer<ScheduleBloc, ScheduleState>(
-                    listener: (context, state) {
-                      state.maybeWhen(
-                        success: (data) {
-                          context.read<AttendanceBloc>().add(
-                                const AttendanceEvent
-                                    .getAttendanceInformation(),
-                              );
-                          context.read<AttendanceWeekBloc>().add(
-                                const AttendanceWeekEvent
-                                    .getHistoryAttendanceWeek(),
-                              );
-                          return context.push('/homepage');
-                        },
-                        failure: (message) {
-                          showCustomDialog(
-                            context,
-                            child: CustomDialog(
-                              child: DialogContentButton(
-                                title:
-                                    "Wajah Tidak Dikenali / Lokasi Tidak Valid",
-                                subtitle:
-                                    "Kami tidak dapat mengenali wajahmu. / Sepertinya kamu sedang tidak di kampus.",
-                                label: "Ulangi",
-                                onPressed: () {
-                                  context.pop();
-                                },
-                              ),
-                            ),
-                          );
-                        },
-                        orElse: () {},
-                      );
-                    },
-                    builder: (context, state) {
-                      return state.maybeWhen(
-                        orElse: () {
-                          return CameraButtons(
-                            onTapCamera: () {
-                              context.read<ScheduleBloc>().add(
-                                    ScheduleEvent.storeAttendance(
-                                      AttendanceDto(
-                                        scheduleWeekId: widget.scheduleWeekId!,
-                                        description:
-                                            _attendanceDto?.description,
-                                        evidence: _attendanceDto?.evidence,
+        body: _locationRetrieved
+            ? FutureBuilder(
+                future: initializeController(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    // Tampilkan bottom sheet hanya sekali setelah kamera diinisialisasi
+                    if (isLate) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        _showBottomSheet();
+                        setState(() {
+                          isLate = false; // Set agar tidak tampil lagi
+                        });
+                      });
+                    }
+                    return Stack(
+                      children: [
+                        CameraFullRatio(controller: controller),
+                        BlocConsumer<ScheduleBloc, ScheduleState>(
+                          listener: (context, state) {
+                            state.maybeWhen(
+                              success: (data) {
+                                context.read<AttendanceBloc>().add(
+                                      const AttendanceEvent
+                                          .getAttendanceInformation(),
+                                    );
+                                context.read<AttendanceWeekBloc>().add(
+                                      const AttendanceWeekEvent
+                                          .getHistoryAttendanceWeek(),
+                                    );
+                                context.read<HistoryAttendanceBloc>().add(
+                                      const HistoryAttendanceEvent
+                                          .getHistoryAttendance(
+                                        GetHistoryAttendanceDto(
+                                            attendanceStatus: '', courseId: 0),
                                       ),
+                                    );
+                                return context.push('/homepage');
+                              },
+                              failure: (message) {
+                                showCustomDialog(
+                                  context,
+                                  child: CustomDialog(
+                                    child: DialogContentButton(
+                                      title:
+                                          "Wajah Tidak Dikenali / Lokasi Tidak Valid",
+                                      subtitle:
+                                          "Kami tidak dapat mengenali wajahmu. / Sepertinya kamu sedang tidak di kampus.",
+                                      label: "Ulangi",
+                                      onPressed: () {
+                                        context.pop();
+                                      },
                                     ),
-                                  );
-                            },
-                            onTapRotateCamera: () {
-                              setState(() {
-                                _currentCameraIndex =
-                                    _currentCameraIndex == 0 ? 1 : 0;
-                              });
-                            },
-                            onTapBack: () {
-                              GoRouter.of(context).pop();
-                              context
-                                  .read<ScheduleBloc>()
-                                  .add(const ScheduleEvent.getSchedulesToday());
-                            },
-                          );
-                        },
-                        loading: () {
-                          return const CustomDialog(
-                            child: DialogContentLoading(
-                              title: "Tunggu sebentar",
-                              subtitle: "Wajah kamu sedang di proses",
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ],
-              );
-            } else {
-              return Container(color: Colors.black); // Menunggu inisialisasi
-            }
-          },
-        ),
+                                  ),
+                                );
+                              },
+                              orElse: () {},
+                            );
+                          },
+                          builder: (context, state) {
+                            return state.maybeWhen(
+                              orElse: () {
+                                return CameraButtons(
+                                  onTapCamera: () {
+                                    context.read<ScheduleBloc>().add(
+                                          ScheduleEvent.storeAttendance(
+                                            AttendanceDto(
+                                              scheduleWeekId:
+                                                  widget.scheduleWeekId!,
+                                              description:
+                                                  _attendanceDto?.description,
+                                              evidence:
+                                                  _attendanceDto?.evidence,
+                                              latitude: latitude,
+                                              longitude: longitude,
+                                            ),
+                                          ),
+                                        );
+                                  },
+                                  onTapRotateCamera: () {
+                                    setState(() {
+                                      _currentCameraIndex =
+                                          _currentCameraIndex == 0 ? 1 : 0;
+                                    });
+                                  },
+                                  onTapBack: () {
+                                    GoRouter.of(context).pop();
+                                    context.read<ScheduleBloc>().add(
+                                        const ScheduleEvent
+                                            .getSchedulesToday());
+                                  },
+                                );
+                              },
+                              loading: () {
+                                return const CustomDialog(
+                                  child: DialogContentLoading(
+                                    title: "Tunggu sebentar",
+                                    subtitle: "Wajah kamu sedang di proses",
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Container(
+                        color: Colors.black); // Menunggu inisialisasi
+                  }
+                },
+              )
+            : const CustomDialog(
+                child: DialogContentLoading(
+                  title: "Tunggu sebentar",
+                  subtitle: "Kami sedang mengambil lokasi kamu",
+                ),
+              ),
       ),
     );
   }
