@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:presience_app/data/datasources/remote_datasources/attendance_remote_datasource.dart';
 import 'package:presience_app/data/datasources/remote_datasources/auth_remote_datasource.dart';
 import 'package:presience_app/data/datasources/remote_datasources/course_remote_datasource.dart';
@@ -15,7 +16,6 @@ import 'package:presience_app/presentation/blocs/permit/permit_bloc.dart';
 import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
 import 'package:presience_app/presentation/router/routes.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +24,6 @@ void main() {
 
   // Menghapus splash screen setelah aplikasi siap
   FlutterNativeSplash.remove();
-
 }
 
 class MyApp extends StatelessWidget {

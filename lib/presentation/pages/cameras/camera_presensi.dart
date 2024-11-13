@@ -203,6 +203,9 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                                             attendanceStatus: '', courseId: 0),
                                       ),
                                     );
+                                context
+                                    .read<ScheduleBloc>()
+                                    .add(const ScheduleEvent.startPolling());
                                 return context.push('/homepage');
                               },
                               failure: (message) {
@@ -230,6 +233,9 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                               orElse: () {
                                 return CameraButtons(
                                   onTapCamera: () {
+                                    context
+                                        .read<ScheduleBloc>()
+                                        .add(const ScheduleEvent.stopPolling());
                                     context.read<ScheduleBloc>().add(
                                           ScheduleEvent.storeAttendance(
                                             AttendanceDto(
@@ -320,7 +326,7 @@ class _FormLateState extends State<FormLate> {
     }
 
     return CustomButtomSheet(
-      child: Container(
+      child: SizedBox(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

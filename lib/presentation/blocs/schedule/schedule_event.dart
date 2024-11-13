@@ -8,4 +8,6 @@ class ScheduleEvent with _$ScheduleEvent {
       _StoreAttendance;
   const factory ScheduleEvent.storeCurrentPermit(PermitDto params) =
       _StoreCurrentPermit;
+  const factory ScheduleEvent.startPolling() = _StartPolling;
+  const factory ScheduleEvent.stopPolling() = _StopPolling;
 }

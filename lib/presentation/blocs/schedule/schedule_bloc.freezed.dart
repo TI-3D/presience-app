@@ -22,6 +22,8 @@ mixin _$ScheduleEvent {
     required TResult Function() getSchedulesToday,
     required TResult Function(AttendanceDto params) storeAttendance,
     required TResult Function(PermitDto params) storeCurrentPermit,
+    required TResult Function() startPolling,
+    required TResult Function() stopPolling,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,6 +32,8 @@ mixin _$ScheduleEvent {
     TResult? Function()? getSchedulesToday,
     TResult? Function(AttendanceDto params)? storeAttendance,
     TResult? Function(PermitDto params)? storeCurrentPermit,
+    TResult? Function()? startPolling,
+    TResult? Function()? stopPolling,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +42,8 @@ mixin _$ScheduleEvent {
     TResult Function()? getSchedulesToday,
     TResult Function(AttendanceDto params)? storeAttendance,
     TResult Function(PermitDto params)? storeCurrentPermit,
+    TResult Function()? startPolling,
+    TResult Function()? stopPolling,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -47,6 +53,8 @@ mixin _$ScheduleEvent {
     required TResult Function(_GetSchedulesToday value) getSchedulesToday,
     required TResult Function(_StoreAttendance value) storeAttendance,
     required TResult Function(_StoreCurrentPermit value) storeCurrentPermit,
+    required TResult Function(_StartPolling value) startPolling,
+    required TResult Function(_StopPolling value) stopPolling,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -55,6 +63,8 @@ mixin _$ScheduleEvent {
     TResult? Function(_GetSchedulesToday value)? getSchedulesToday,
     TResult? Function(_StoreAttendance value)? storeAttendance,
     TResult? Function(_StoreCurrentPermit value)? storeCurrentPermit,
+    TResult? Function(_StartPolling value)? startPolling,
+    TResult? Function(_StopPolling value)? stopPolling,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -63,6 +73,8 @@ mixin _$ScheduleEvent {
     TResult Function(_GetSchedulesToday value)? getSchedulesToday,
     TResult Function(_StoreAttendance value)? storeAttendance,
     TResult Function(_StoreCurrentPermit value)? storeCurrentPermit,
+    TResult Function(_StartPolling value)? startPolling,
+    TResult Function(_StopPolling value)? stopPolling,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -134,6 +146,8 @@ class _$StartedImpl implements _Started {
     required TResult Function() getSchedulesToday,
     required TResult Function(AttendanceDto params) storeAttendance,
     required TResult Function(PermitDto params) storeCurrentPermit,
+    required TResult Function() startPolling,
+    required TResult Function() stopPolling,
   }) {
     return started();
   }
@@ -145,6 +159,8 @@ class _$StartedImpl implements _Started {
     TResult? Function()? getSchedulesToday,
     TResult? Function(AttendanceDto params)? storeAttendance,
     TResult? Function(PermitDto params)? storeCurrentPermit,
+    TResult? Function()? startPolling,
+    TResult? Function()? stopPolling,
   }) {
     return started?.call();
   }
@@ -156,6 +172,8 @@ class _$StartedImpl implements _Started {
     TResult Function()? getSchedulesToday,
     TResult Function(AttendanceDto params)? storeAttendance,
     TResult Function(PermitDto params)? storeCurrentPermit,
+    TResult Function()? startPolling,
+    TResult Function()? stopPolling,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -171,6 +189,8 @@ class _$StartedImpl implements _Started {
     required TResult Function(_GetSchedulesToday value) getSchedulesToday,
     required TResult Function(_StoreAttendance value) storeAttendance,
     required TResult Function(_StoreCurrentPermit value) storeCurrentPermit,
+    required TResult Function(_StartPolling value) startPolling,
+    required TResult Function(_StopPolling value) stopPolling,
   }) {
     return started(this);
   }
@@ -182,6 +202,8 @@ class _$StartedImpl implements _Started {
     TResult? Function(_GetSchedulesToday value)? getSchedulesToday,
     TResult? Function(_StoreAttendance value)? storeAttendance,
     TResult? Function(_StoreCurrentPermit value)? storeCurrentPermit,
+    TResult? Function(_StartPolling value)? startPolling,
+    TResult? Function(_StopPolling value)? stopPolling,
   }) {
     return started?.call(this);
   }
@@ -193,6 +215,8 @@ class _$StartedImpl implements _Started {
     TResult Function(_GetSchedulesToday value)? getSchedulesToday,
     TResult Function(_StoreAttendance value)? storeAttendance,
     TResult Function(_StoreCurrentPermit value)? storeCurrentPermit,
+    TResult Function(_StartPolling value)? startPolling,
+    TResult Function(_StopPolling value)? stopPolling,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -251,6 +275,8 @@ class _$GetSchedulesTodayImpl implements _GetSchedulesToday {
     required TResult Function() getSchedulesToday,
     required TResult Function(AttendanceDto params) storeAttendance,
     required TResult Function(PermitDto params) storeCurrentPermit,
+    required TResult Function() startPolling,
+    required TResult Function() stopPolling,
   }) {
     return getSchedulesToday();
   }
@@ -262,6 +288,8 @@ class _$GetSchedulesTodayImpl implements _GetSchedulesToday {
     TResult? Function()? getSchedulesToday,
     TResult? Function(AttendanceDto params)? storeAttendance,
     TResult? Function(PermitDto params)? storeCurrentPermit,
+    TResult? Function()? startPolling,
+    TResult? Function()? stopPolling,
   }) {
     return getSchedulesToday?.call();
   }
@@ -273,6 +301,8 @@ class _$GetSchedulesTodayImpl implements _GetSchedulesToday {
     TResult Function()? getSchedulesToday,
     TResult Function(AttendanceDto params)? storeAttendance,
     TResult Function(PermitDto params)? storeCurrentPermit,
+    TResult Function()? startPolling,
+    TResult Function()? stopPolling,
     required TResult orElse(),
   }) {
     if (getSchedulesToday != null) {
@@ -288,6 +318,8 @@ class _$GetSchedulesTodayImpl implements _GetSchedulesToday {
     required TResult Function(_GetSchedulesToday value) getSchedulesToday,
     required TResult Function(_StoreAttendance value) storeAttendance,
     required TResult Function(_StoreCurrentPermit value) storeCurrentPermit,
+    required TResult Function(_StartPolling value) startPolling,
+    required TResult Function(_StopPolling value) stopPolling,
   }) {
     return getSchedulesToday(this);
   }
@@ -299,6 +331,8 @@ class _$GetSchedulesTodayImpl implements _GetSchedulesToday {
     TResult? Function(_GetSchedulesToday value)? getSchedulesToday,
     TResult? Function(_StoreAttendance value)? storeAttendance,
     TResult? Function(_StoreCurrentPermit value)? storeCurrentPermit,
+    TResult? Function(_StartPolling value)? startPolling,
+    TResult? Function(_StopPolling value)? stopPolling,
   }) {
     return getSchedulesToday?.call(this);
   }
@@ -310,6 +344,8 @@ class _$GetSchedulesTodayImpl implements _GetSchedulesToday {
     TResult Function(_GetSchedulesToday value)? getSchedulesToday,
     TResult Function(_StoreAttendance value)? storeAttendance,
     TResult Function(_StoreCurrentPermit value)? storeCurrentPermit,
+    TResult Function(_StartPolling value)? startPolling,
+    TResult Function(_StopPolling value)? stopPolling,
     required TResult orElse(),
   }) {
     if (getSchedulesToday != null) {
@@ -396,6 +432,8 @@ class _$StoreAttendanceImpl implements _StoreAttendance {
     required TResult Function() getSchedulesToday,
     required TResult Function(AttendanceDto params) storeAttendance,
     required TResult Function(PermitDto params) storeCurrentPermit,
+    required TResult Function() startPolling,
+    required TResult Function() stopPolling,
   }) {
     return storeAttendance(params);
   }
@@ -407,6 +445,8 @@ class _$StoreAttendanceImpl implements _StoreAttendance {
     TResult? Function()? getSchedulesToday,
     TResult? Function(AttendanceDto params)? storeAttendance,
     TResult? Function(PermitDto params)? storeCurrentPermit,
+    TResult? Function()? startPolling,
+    TResult? Function()? stopPolling,
   }) {
     return storeAttendance?.call(params);
   }
@@ -418,6 +458,8 @@ class _$StoreAttendanceImpl implements _StoreAttendance {
     TResult Function()? getSchedulesToday,
     TResult Function(AttendanceDto params)? storeAttendance,
     TResult Function(PermitDto params)? storeCurrentPermit,
+    TResult Function()? startPolling,
+    TResult Function()? stopPolling,
     required TResult orElse(),
   }) {
     if (storeAttendance != null) {
@@ -433,6 +475,8 @@ class _$StoreAttendanceImpl implements _StoreAttendance {
     required TResult Function(_GetSchedulesToday value) getSchedulesToday,
     required TResult Function(_StoreAttendance value) storeAttendance,
     required TResult Function(_StoreCurrentPermit value) storeCurrentPermit,
+    required TResult Function(_StartPolling value) startPolling,
+    required TResult Function(_StopPolling value) stopPolling,
   }) {
     return storeAttendance(this);
   }
@@ -444,6 +488,8 @@ class _$StoreAttendanceImpl implements _StoreAttendance {
     TResult? Function(_GetSchedulesToday value)? getSchedulesToday,
     TResult? Function(_StoreAttendance value)? storeAttendance,
     TResult? Function(_StoreCurrentPermit value)? storeCurrentPermit,
+    TResult? Function(_StartPolling value)? startPolling,
+    TResult? Function(_StopPolling value)? stopPolling,
   }) {
     return storeAttendance?.call(this);
   }
@@ -455,6 +501,8 @@ class _$StoreAttendanceImpl implements _StoreAttendance {
     TResult Function(_GetSchedulesToday value)? getSchedulesToday,
     TResult Function(_StoreAttendance value)? storeAttendance,
     TResult Function(_StoreCurrentPermit value)? storeCurrentPermit,
+    TResult Function(_StartPolling value)? startPolling,
+    TResult Function(_StopPolling value)? stopPolling,
     required TResult orElse(),
   }) {
     if (storeAttendance != null) {
@@ -550,6 +598,8 @@ class _$StoreCurrentPermitImpl implements _StoreCurrentPermit {
     required TResult Function() getSchedulesToday,
     required TResult Function(AttendanceDto params) storeAttendance,
     required TResult Function(PermitDto params) storeCurrentPermit,
+    required TResult Function() startPolling,
+    required TResult Function() stopPolling,
   }) {
     return storeCurrentPermit(params);
   }
@@ -561,6 +611,8 @@ class _$StoreCurrentPermitImpl implements _StoreCurrentPermit {
     TResult? Function()? getSchedulesToday,
     TResult? Function(AttendanceDto params)? storeAttendance,
     TResult? Function(PermitDto params)? storeCurrentPermit,
+    TResult? Function()? startPolling,
+    TResult? Function()? stopPolling,
   }) {
     return storeCurrentPermit?.call(params);
   }
@@ -572,6 +624,8 @@ class _$StoreCurrentPermitImpl implements _StoreCurrentPermit {
     TResult Function()? getSchedulesToday,
     TResult Function(AttendanceDto params)? storeAttendance,
     TResult Function(PermitDto params)? storeCurrentPermit,
+    TResult Function()? startPolling,
+    TResult Function()? stopPolling,
     required TResult orElse(),
   }) {
     if (storeCurrentPermit != null) {
@@ -587,6 +641,8 @@ class _$StoreCurrentPermitImpl implements _StoreCurrentPermit {
     required TResult Function(_GetSchedulesToday value) getSchedulesToday,
     required TResult Function(_StoreAttendance value) storeAttendance,
     required TResult Function(_StoreCurrentPermit value) storeCurrentPermit,
+    required TResult Function(_StartPolling value) startPolling,
+    required TResult Function(_StopPolling value) stopPolling,
   }) {
     return storeCurrentPermit(this);
   }
@@ -598,6 +654,8 @@ class _$StoreCurrentPermitImpl implements _StoreCurrentPermit {
     TResult? Function(_GetSchedulesToday value)? getSchedulesToday,
     TResult? Function(_StoreAttendance value)? storeAttendance,
     TResult? Function(_StoreCurrentPermit value)? storeCurrentPermit,
+    TResult? Function(_StartPolling value)? startPolling,
+    TResult? Function(_StopPolling value)? stopPolling,
   }) {
     return storeCurrentPermit?.call(this);
   }
@@ -609,6 +667,8 @@ class _$StoreCurrentPermitImpl implements _StoreCurrentPermit {
     TResult Function(_GetSchedulesToday value)? getSchedulesToday,
     TResult Function(_StoreAttendance value)? storeAttendance,
     TResult Function(_StoreCurrentPermit value)? storeCurrentPermit,
+    TResult Function(_StartPolling value)? startPolling,
+    TResult Function(_StopPolling value)? stopPolling,
     required TResult orElse(),
   }) {
     if (storeCurrentPermit != null) {
@@ -629,6 +689,264 @@ abstract class _StoreCurrentPermit implements ScheduleEvent {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StoreCurrentPermitImplCopyWith<_$StoreCurrentPermitImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$StartPollingImplCopyWith<$Res> {
+  factory _$$StartPollingImplCopyWith(
+          _$StartPollingImpl value, $Res Function(_$StartPollingImpl) then) =
+      __$$StartPollingImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$StartPollingImplCopyWithImpl<$Res>
+    extends _$ScheduleEventCopyWithImpl<$Res, _$StartPollingImpl>
+    implements _$$StartPollingImplCopyWith<$Res> {
+  __$$StartPollingImplCopyWithImpl(
+      _$StartPollingImpl _value, $Res Function(_$StartPollingImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ScheduleEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$StartPollingImpl implements _StartPolling {
+  const _$StartPollingImpl();
+
+  @override
+  String toString() {
+    return 'ScheduleEvent.startPolling()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$StartPollingImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() getSchedulesToday,
+    required TResult Function(AttendanceDto params) storeAttendance,
+    required TResult Function(PermitDto params) storeCurrentPermit,
+    required TResult Function() startPolling,
+    required TResult Function() stopPolling,
+  }) {
+    return startPolling();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? getSchedulesToday,
+    TResult? Function(AttendanceDto params)? storeAttendance,
+    TResult? Function(PermitDto params)? storeCurrentPermit,
+    TResult? Function()? startPolling,
+    TResult? Function()? stopPolling,
+  }) {
+    return startPolling?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? getSchedulesToday,
+    TResult Function(AttendanceDto params)? storeAttendance,
+    TResult Function(PermitDto params)? storeCurrentPermit,
+    TResult Function()? startPolling,
+    TResult Function()? stopPolling,
+    required TResult orElse(),
+  }) {
+    if (startPolling != null) {
+      return startPolling();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_GetSchedulesToday value) getSchedulesToday,
+    required TResult Function(_StoreAttendance value) storeAttendance,
+    required TResult Function(_StoreCurrentPermit value) storeCurrentPermit,
+    required TResult Function(_StartPolling value) startPolling,
+    required TResult Function(_StopPolling value) stopPolling,
+  }) {
+    return startPolling(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_GetSchedulesToday value)? getSchedulesToday,
+    TResult? Function(_StoreAttendance value)? storeAttendance,
+    TResult? Function(_StoreCurrentPermit value)? storeCurrentPermit,
+    TResult? Function(_StartPolling value)? startPolling,
+    TResult? Function(_StopPolling value)? stopPolling,
+  }) {
+    return startPolling?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_GetSchedulesToday value)? getSchedulesToday,
+    TResult Function(_StoreAttendance value)? storeAttendance,
+    TResult Function(_StoreCurrentPermit value)? storeCurrentPermit,
+    TResult Function(_StartPolling value)? startPolling,
+    TResult Function(_StopPolling value)? stopPolling,
+    required TResult orElse(),
+  }) {
+    if (startPolling != null) {
+      return startPolling(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _StartPolling implements ScheduleEvent {
+  const factory _StartPolling() = _$StartPollingImpl;
+}
+
+/// @nodoc
+abstract class _$$StopPollingImplCopyWith<$Res> {
+  factory _$$StopPollingImplCopyWith(
+          _$StopPollingImpl value, $Res Function(_$StopPollingImpl) then) =
+      __$$StopPollingImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$StopPollingImplCopyWithImpl<$Res>
+    extends _$ScheduleEventCopyWithImpl<$Res, _$StopPollingImpl>
+    implements _$$StopPollingImplCopyWith<$Res> {
+  __$$StopPollingImplCopyWithImpl(
+      _$StopPollingImpl _value, $Res Function(_$StopPollingImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ScheduleEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$StopPollingImpl implements _StopPolling {
+  const _$StopPollingImpl();
+
+  @override
+  String toString() {
+    return 'ScheduleEvent.stopPolling()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$StopPollingImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() getSchedulesToday,
+    required TResult Function(AttendanceDto params) storeAttendance,
+    required TResult Function(PermitDto params) storeCurrentPermit,
+    required TResult Function() startPolling,
+    required TResult Function() stopPolling,
+  }) {
+    return stopPolling();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? getSchedulesToday,
+    TResult? Function(AttendanceDto params)? storeAttendance,
+    TResult? Function(PermitDto params)? storeCurrentPermit,
+    TResult? Function()? startPolling,
+    TResult? Function()? stopPolling,
+  }) {
+    return stopPolling?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? getSchedulesToday,
+    TResult Function(AttendanceDto params)? storeAttendance,
+    TResult Function(PermitDto params)? storeCurrentPermit,
+    TResult Function()? startPolling,
+    TResult Function()? stopPolling,
+    required TResult orElse(),
+  }) {
+    if (stopPolling != null) {
+      return stopPolling();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_GetSchedulesToday value) getSchedulesToday,
+    required TResult Function(_StoreAttendance value) storeAttendance,
+    required TResult Function(_StoreCurrentPermit value) storeCurrentPermit,
+    required TResult Function(_StartPolling value) startPolling,
+    required TResult Function(_StopPolling value) stopPolling,
+  }) {
+    return stopPolling(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_GetSchedulesToday value)? getSchedulesToday,
+    TResult? Function(_StoreAttendance value)? storeAttendance,
+    TResult? Function(_StoreCurrentPermit value)? storeCurrentPermit,
+    TResult? Function(_StartPolling value)? startPolling,
+    TResult? Function(_StopPolling value)? stopPolling,
+  }) {
+    return stopPolling?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_GetSchedulesToday value)? getSchedulesToday,
+    TResult Function(_StoreAttendance value)? storeAttendance,
+    TResult Function(_StoreCurrentPermit value)? storeCurrentPermit,
+    TResult Function(_StartPolling value)? startPolling,
+    TResult Function(_StopPolling value)? stopPolling,
+    required TResult orElse(),
+  }) {
+    if (stopPolling != null) {
+      return stopPolling(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _StopPolling implements ScheduleEvent {
+  const factory _StopPolling() = _$StopPollingImpl;
 }
 
 /// @nodoc
