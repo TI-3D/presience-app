@@ -23,7 +23,7 @@ final GoRouter _router = GoRouter(
       path: '/login',
       pageBuilder: (context, state) => CustomTransitionPage(
         key: state.pageKey,
-        child: LoginPage(),
+        child: const LoginPage(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return child;
         },
@@ -34,7 +34,7 @@ final GoRouter _router = GoRouter(
           pageBuilder: (context, state) {
             return CustomTransitionPage(
               key: state.pageKey,
-              child: LoginSuccessPage(),
+              child: const LoginSuccessPage(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 const begin = Offset(1.0, 0.0); // Right-to-left slide
@@ -57,7 +57,7 @@ final GoRouter _router = GoRouter(
           path: 'first_change_password',
           pageBuilder: (context, state) => CustomTransitionPage(
             key: state.pageKey,
-            child: FirstChangePasswordPage(),
+            child: const FirstChangePasswordPage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return child;
@@ -69,7 +69,7 @@ final GoRouter _router = GoRouter(
               pageBuilder: (context, state) {
                 return CustomTransitionPage(
                   key: state.pageKey,
-                  child: FirstChangePasswordSuccessPage(),
+                  child: const FirstChangePasswordSuccessPage(),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
                     const begin = Offset(1.0, 0.0); // Right-to-left slide
@@ -94,7 +94,7 @@ final GoRouter _router = GoRouter(
           path: 'register_face',
           pageBuilder: (context, state) => CustomTransitionPage(
             key: state.pageKey,
-            child: RegisterFacePage(),
+            child: const RegisterFacePage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return child;
@@ -107,7 +107,7 @@ final GoRouter _router = GoRouter(
       path: '/camera',
       pageBuilder: (context, state) => CustomTransitionPage(
         key: state.pageKey,
-        child: CameraRegistrationPage(),
+        child: const CameraRegistrationPage(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return child;
         },
@@ -248,7 +248,7 @@ final GoRouter _router = GoRouter(
           pageBuilder: (context, state) {
             return CustomTransitionPage(
               key: state.pageKey,
-              child: FormPengajuanAfterClassPage(),
+              child: const FormPengajuanAfterClassPage(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 const begin = Offset(1.0, 0.0); // Right-to-left slide

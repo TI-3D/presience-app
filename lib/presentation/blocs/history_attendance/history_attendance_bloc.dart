@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:presience_app/data/dto/requests/get_history_attendance_dto.dart';
-import 'package:presience_app/data/dto/requests/get_schedule_dto.dart';
 import 'package:presience_app/domain/entities/schedule_week.dart';
 
 import '../../../data/datasources/remote_datasources/attendance_remote_datasource.dart';

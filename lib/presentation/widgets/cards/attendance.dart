@@ -137,7 +137,7 @@ class AttendanceCard extends StatelessWidget {
                 )),
           ),
           if (attendanceInformation.description != null) ...[
-            SizedBox(
+            const SizedBox(
               height: 4,
             ),
             CustomIconLabel(

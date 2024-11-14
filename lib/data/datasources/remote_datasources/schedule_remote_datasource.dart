@@ -39,7 +39,6 @@ class ScheduleRemoteDatasource {
 
     final request = http.MultipartRequest('POST', url)
       ..headers['Authorization'] = 'Bearer ${authData!.token}'
-      ..fields['description'] = params.description ?? '-'
       ..fields['sw_id'] = params.scheduleWeekId.toString()
       ..fields['latitude'] = params.latitude.toString()
       ..fields['longitude'] = params.longitude.toString();
@@ -49,6 +48,7 @@ class ScheduleRemoteDatasource {
       request.files.add(
         await http.MultipartFile.fromPath('evidence', params.evidence!.path),
       );
+      request.fields['description'] = params.description!;
     }
 
     try {
@@ -58,7 +58,7 @@ class ScheduleRemoteDatasource {
       if (response.statusCode == 200) {
         return Right(ScheduleWeek.fromJson(jsonDecode(response.body)['data']));
       } else {
-        return Left(jsonDecode(response.body)['message']);
+        return Left(jsonDecode(response.body)['message'] as String);
       }
     } catch (e) {
       return Left('An error occurred: $e');
@@ -72,8 +72,8 @@ class ScheduleRemoteDatasource {
 
     final request = http.MultipartRequest('POST', url)
       ..headers['Authorization'] = 'Bearer ${authData!.token}'
-      ..fields['permit_type'] = params.type ?? '-'
-      ..fields['description'] = params.description ?? '-'
+      ..fields['permit_type'] = params.type.toString()
+      ..fields['description'] = params.description.toString()
       ..fields['sw_id'] = params.scheduleWeekId.toString();
 
     // Attach the evidence file if it exists

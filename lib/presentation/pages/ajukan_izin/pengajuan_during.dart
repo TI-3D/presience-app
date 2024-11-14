@@ -262,6 +262,9 @@ class _FormPengajuanDuringClassPageState
                             attendanceStatus: '', courseId: 0),
                       ),
                     );
+                context
+                    .read<ScheduleBloc>()
+                    .add(const ScheduleEvent.startPolling());
                 return context.go('/homepage');
               },
               failure: (message) {
@@ -291,6 +294,9 @@ class _FormPengajuanDuringClassPageState
                   child: LargeFillButton(
                     label: "Konfirmasi",
                     onPressed: () {
+                      context
+                          .read<ScheduleBloc>()
+                          .add(const ScheduleEvent.stopPolling());
                       context.read<ScheduleBloc>().add(
                             ScheduleEvent.storeCurrentPermit(
                               PermitDto(
