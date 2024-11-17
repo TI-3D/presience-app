@@ -330,7 +330,7 @@ class _ContentofWeekCourseState extends State<ContentofWeekCourse> {
                 return HistoryCourseCard(
                   courseName: data[index].schedule!.course!.name!,
                   date: getFormattedDate(data[index].date!),
-                  openedTime: data[index].openedAt!,
+                  openedTime: data[index].openedAt ?? 'Belum dibuka',
                   closedTime: data[index].closedAt ?? 'Belum ditutup',
                   courseTime: data[index].schedule!.course!.time!,
                   alpha: data[index].attendance!.alpha!,

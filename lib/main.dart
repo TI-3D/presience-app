@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -7,6 +8,7 @@ import 'package:presience_app/data/datasources/remote_datasources/course_remote_
 import 'package:presience_app/data/datasources/remote_datasources/permit_remote_datasource.dart';
 import 'package:presience_app/data/datasources/remote_datasources/schedule_remote_datasource.dart';
 import 'package:presience_app/data/dto/requests/get_history_attendance_dto.dart';
+import 'package:presience_app/firebase_options.dart';
 import 'package:presience_app/presentation/blocs/attendance/attendance_bloc.dart';
 import 'package:presience_app/presentation/blocs/attendance_week/attendance_week_bloc.dart';
 import 'package:presience_app/presentation/blocs/auth/auth_bloc.dart';
@@ -17,8 +19,11 @@ import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
 import 'package:presience_app/presentation/router/routes.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 
-void main() {
+void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
 

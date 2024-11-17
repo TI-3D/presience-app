@@ -132,6 +132,8 @@ class TodayPresensiCard extends StatelessWidget {
                     style: mediumBodyTextXL.copyWith(
                       color: textColor,
                     ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                   Text(
                     scheduleWeek.schedule!.lecturer!.name!,

@@ -5,6 +5,7 @@ import 'package:presience_app/presentation/blocs/attendance/attendance_bloc.dart
 import 'package:presience_app/presentation/blocs/attendance_week/attendance_week_bloc.dart';
 import 'package:presience_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:presience_app/presentation/blocs/course/course_bloc.dart';
+import 'package:presience_app/presentation/blocs/history_attendance/history_attendance_bloc.dart';
 import 'package:presience_app/presentation/blocs/permit/permit_bloc.dart';
 import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
@@ -12,6 +13,7 @@ import 'package:presience_app/presentation/widgets/buttons/button.dart';
 import 'package:presience_app/presentation/widgets/form/text_field.dart';
 import 'package:presience_app/presentation/widgets/login/heading.dart';
 
+import '../../../data/dto/requests/get_history_attendance_dto.dart';
 import '../../../data/dto/requests/login_dto.dart';
 
 class LoginPage extends StatefulWidget {
@@ -91,6 +93,12 @@ class _LoginPageState extends State<LoginPage> {
                     .read<PermitBloc>()
                     .add(const PermitEvent.getHistoryPermit());
                 context.read<CourseBloc>().add(const CourseEvent.getCourses());
+                context.read<HistoryAttendanceBloc>().add(
+                      const HistoryAttendanceEvent.getHistoryAttendance(
+                        GetHistoryAttendanceDto(
+                            attendanceStatus: '', courseId: 0),
+                      ),
+                    );
 
                 if (data.user!.isVerified!) {
                   return context.go('/homepage');

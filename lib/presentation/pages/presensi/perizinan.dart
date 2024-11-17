@@ -141,7 +141,6 @@ class _FormDateState extends State<FormDate> {
                 isToday,
               }) {
                 Widget? dayWidget;
-                print(date.weekday);
                 if (date.weekday == 7 || date.weekday == 6) {
                   dayWidget = Container(
                     decoration: decoration,
@@ -254,6 +253,8 @@ class _FormDateState extends State<FormDate> {
                 state.maybeWhen(
                   success: (data) {
                     context.pop();
+                    print(_startDateController.text);
+                    print(_endDateController.text);
                     return context.push('/pengajuan_izin', extra: {
                       'startDate': _startDateController.text,
                       'endDate': _endDateController.text,
@@ -291,8 +292,6 @@ class _FormDateState extends State<FormDate> {
                                 ),
                               ),
                             );
-                        print(_startDateController.text);
-                        print(_endDateController.text);
                       },
                     );
                   },

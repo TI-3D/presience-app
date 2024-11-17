@@ -13,6 +13,7 @@ import '../local_datasources/auth_local_datasources.dart';
 class AuthRemoteDatasource {
   Future<Either<String, AuthDto>> login(LoginDto params) async {
     final url = Uri.parse('$baseUrl/api/users/login');
+    print(url);
     final response = await http.post(
       url,
       body: params.toJson(),
@@ -45,6 +46,27 @@ class AuthRemoteDatasource {
       return const Right('Yeay! Berhasil mengubah kata sandi');
     } else {
       return const Left('Konfirmasi kata sandi salah atau minimal 8 karakter');
+    }
+  }
+
+  Future<Either<String, String>> changeFcmId(String fcmId) async {
+    final authData = await AuthLocalDataSource().getAuthData();
+    final url = Uri.parse('$baseUrl/api/users/update-fcmId');
+    final response = await http.put(
+      url,
+      body: jsonEncode({
+        'fcm_id': fcmId,
+      }),
+      headers: {
+        'Authorization': 'Bearer ${authData!.token}',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return const Right('Yeay! Berhasil mengubah FCM ID');
+    } else {
+      return const Left('Konfirmasi FCM ID salah atau FCM ID sudah digunakan');
     }
   }
 }
