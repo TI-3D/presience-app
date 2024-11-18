@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
+import 'package:presience_app/data/datasources/remote_datasources/firebase_remote_datasource.dart';
 import 'package:presience_app/domain/entities/schedule_week.dart';
 import 'package:presience_app/presentation/blocs/attendance/attendance_bloc.dart';
 import 'package:presience_app/presentation/blocs/attendance_week/attendance_week_bloc.dart';
@@ -53,6 +54,12 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
       widget.selectedPageIndex = index;
       context.go(_routeNames[index]);
     });
+  }
+
+  @override
+  void initState() {
+    FirebaseRemoteDatasource().initialize();
+    super.initState();
   }
 
   @override

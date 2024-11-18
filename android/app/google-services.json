@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "458195833502",
+    "project_id": "presience-ea1ec",
+    "storage_bucket": "presience-ea1ec.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458195833502:android:c00982b2b33a6c3dc2e18f",
+        "android_client_info": {
+          "package_name": "com.presience.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMGEsKx9iYlcHVeR8q3gN6eCHnGPop3nI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

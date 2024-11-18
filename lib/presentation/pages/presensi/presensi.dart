@@ -55,13 +55,12 @@ class _TabPresensiStatePage extends State<TabPresensiPage>
           backgroundColor: neutralTheme,
           toolbarHeight: 0,
           bottom: PreferredSize(
-              preferredSize: Size.fromHeight(56),
+              preferredSize: const Size.fromHeight(56),
               child: TabBar(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                tabs: [
-                  Container(height: 54, child: Center(child: Text("Presensi"))),
-                  Container(
-                      height: 54, child: Center(child: Text("Perizinan"))),
+                tabs: const [
+                  SizedBox(height: 54, child: Center(child: Text("Presensi"))),
+                  SizedBox(height: 54, child: Center(child: Text("Perizinan"))),
                 ],
                 labelStyle: mediumBodyTextL.copyWith(color: purpleTheme),
                 unselectedLabelStyle:
@@ -71,7 +70,7 @@ class _TabPresensiStatePage extends State<TabPresensiPage>
                 unselectedLabelColor: neutralTheme[400],
                 dividerHeight: 1.5,
                 dividerColor: neutralTheme[100],
-                indicator: BoxDecoration(
+                indicator: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
                       color: purpleTheme,
@@ -285,7 +284,7 @@ class _PresensiPageState extends State<PresensiPage> {
                         child: HistoryPresensiCard(
                           courseName: data[index].schedule!.course!.name!,
                           date: getFormattedDate(data[index].date!),
-                          openedTime: data[index].openedAt!,
+                          openedTime: data[index].openedAt ?? 'Belum dibuka',
                           closedTime: data[index].closedAt ?? 'Belum ditutup',
                           courseTime: data[index].schedule!.course!.time!,
                           alpha: data[index].attendance!.alpha!,

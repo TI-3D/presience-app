@@ -114,3 +114,10 @@ String convertToLongDateFormat(String dateString) {
 
   return formattedDate;
 }
+
+String convertDateRequest(String date) {
+  final DateFormat inputFormat = DateFormat('dd/MM/yyyy');
+  final DateFormat outputFormat = DateFormat('yyyy-MM-dd');
+  DateTime parsedDate = inputFormat.parse(date);
+  return outputFormat.format(parsedDate);
+}

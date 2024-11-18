@@ -21,18 +21,23 @@ mixin _$HistoryAttendanceEvent {
     required TResult Function() started,
     required TResult Function(GetHistoryAttendanceDto params)
         getHistoryAttendance,
+    required TResult Function(PermitBeforeScheduleDto params)
+        storePermitBeforeSchedule,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(GetHistoryAttendanceDto params)? getHistoryAttendance,
+    TResult? Function(PermitBeforeScheduleDto params)?
+        storePermitBeforeSchedule,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(GetHistoryAttendanceDto params)? getHistoryAttendance,
+    TResult Function(PermitBeforeScheduleDto params)? storePermitBeforeSchedule,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -40,18 +45,24 @@ mixin _$HistoryAttendanceEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetHistoryAttendance value) getHistoryAttendance,
+    required TResult Function(_StorePermitBeforeSchedule value)
+        storePermitBeforeSchedule,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetHistoryAttendance value)? getHistoryAttendance,
+    TResult? Function(_StorePermitBeforeSchedule value)?
+        storePermitBeforeSchedule,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetHistoryAttendance value)? getHistoryAttendance,
+    TResult Function(_StorePermitBeforeSchedule value)?
+        storePermitBeforeSchedule,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -123,6 +134,8 @@ class _$StartedImpl implements _Started {
     required TResult Function() started,
     required TResult Function(GetHistoryAttendanceDto params)
         getHistoryAttendance,
+    required TResult Function(PermitBeforeScheduleDto params)
+        storePermitBeforeSchedule,
   }) {
     return started();
   }
@@ -132,6 +145,8 @@ class _$StartedImpl implements _Started {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(GetHistoryAttendanceDto params)? getHistoryAttendance,
+    TResult? Function(PermitBeforeScheduleDto params)?
+        storePermitBeforeSchedule,
   }) {
     return started?.call();
   }
@@ -141,6 +156,7 @@ class _$StartedImpl implements _Started {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(GetHistoryAttendanceDto params)? getHistoryAttendance,
+    TResult Function(PermitBeforeScheduleDto params)? storePermitBeforeSchedule,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -154,6 +170,8 @@ class _$StartedImpl implements _Started {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetHistoryAttendance value) getHistoryAttendance,
+    required TResult Function(_StorePermitBeforeSchedule value)
+        storePermitBeforeSchedule,
   }) {
     return started(this);
   }
@@ -163,6 +181,8 @@ class _$StartedImpl implements _Started {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetHistoryAttendance value)? getHistoryAttendance,
+    TResult? Function(_StorePermitBeforeSchedule value)?
+        storePermitBeforeSchedule,
   }) {
     return started?.call(this);
   }
@@ -172,6 +192,8 @@ class _$StartedImpl implements _Started {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetHistoryAttendance value)? getHistoryAttendance,
+    TResult Function(_StorePermitBeforeSchedule value)?
+        storePermitBeforeSchedule,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -259,6 +281,8 @@ class _$GetHistoryAttendanceImpl implements _GetHistoryAttendance {
     required TResult Function() started,
     required TResult Function(GetHistoryAttendanceDto params)
         getHistoryAttendance,
+    required TResult Function(PermitBeforeScheduleDto params)
+        storePermitBeforeSchedule,
   }) {
     return getHistoryAttendance(params);
   }
@@ -268,6 +292,8 @@ class _$GetHistoryAttendanceImpl implements _GetHistoryAttendance {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(GetHistoryAttendanceDto params)? getHistoryAttendance,
+    TResult? Function(PermitBeforeScheduleDto params)?
+        storePermitBeforeSchedule,
   }) {
     return getHistoryAttendance?.call(params);
   }
@@ -277,6 +303,7 @@ class _$GetHistoryAttendanceImpl implements _GetHistoryAttendance {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(GetHistoryAttendanceDto params)? getHistoryAttendance,
+    TResult Function(PermitBeforeScheduleDto params)? storePermitBeforeSchedule,
     required TResult orElse(),
   }) {
     if (getHistoryAttendance != null) {
@@ -290,6 +317,8 @@ class _$GetHistoryAttendanceImpl implements _GetHistoryAttendance {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetHistoryAttendance value) getHistoryAttendance,
+    required TResult Function(_StorePermitBeforeSchedule value)
+        storePermitBeforeSchedule,
   }) {
     return getHistoryAttendance(this);
   }
@@ -299,6 +328,8 @@ class _$GetHistoryAttendanceImpl implements _GetHistoryAttendance {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetHistoryAttendance value)? getHistoryAttendance,
+    TResult? Function(_StorePermitBeforeSchedule value)?
+        storePermitBeforeSchedule,
   }) {
     return getHistoryAttendance?.call(this);
   }
@@ -308,6 +339,8 @@ class _$GetHistoryAttendanceImpl implements _GetHistoryAttendance {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetHistoryAttendance value)? getHistoryAttendance,
+    TResult Function(_StorePermitBeforeSchedule value)?
+        storePermitBeforeSchedule,
     required TResult orElse(),
   }) {
     if (getHistoryAttendance != null) {
@@ -327,6 +360,163 @@ abstract class _GetHistoryAttendance implements HistoryAttendanceEvent {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetHistoryAttendanceImplCopyWith<_$GetHistoryAttendanceImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$StorePermitBeforeScheduleImplCopyWith<$Res> {
+  factory _$$StorePermitBeforeScheduleImplCopyWith(
+          _$StorePermitBeforeScheduleImpl value,
+          $Res Function(_$StorePermitBeforeScheduleImpl) then) =
+      __$$StorePermitBeforeScheduleImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({PermitBeforeScheduleDto params});
+}
+
+/// @nodoc
+class __$$StorePermitBeforeScheduleImplCopyWithImpl<$Res>
+    extends _$HistoryAttendanceEventCopyWithImpl<$Res,
+        _$StorePermitBeforeScheduleImpl>
+    implements _$$StorePermitBeforeScheduleImplCopyWith<$Res> {
+  __$$StorePermitBeforeScheduleImplCopyWithImpl(
+      _$StorePermitBeforeScheduleImpl _value,
+      $Res Function(_$StorePermitBeforeScheduleImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of HistoryAttendanceEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? params = null,
+  }) {
+    return _then(_$StorePermitBeforeScheduleImpl(
+      null == params
+          ? _value.params
+          : params // ignore: cast_nullable_to_non_nullable
+              as PermitBeforeScheduleDto,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$StorePermitBeforeScheduleImpl implements _StorePermitBeforeSchedule {
+  const _$StorePermitBeforeScheduleImpl(this.params);
+
+  @override
+  final PermitBeforeScheduleDto params;
+
+  @override
+  String toString() {
+    return 'HistoryAttendanceEvent.storePermitBeforeSchedule(params: $params)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$StorePermitBeforeScheduleImpl &&
+            (identical(other.params, params) || other.params == params));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, params);
+
+  /// Create a copy of HistoryAttendanceEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$StorePermitBeforeScheduleImplCopyWith<_$StorePermitBeforeScheduleImpl>
+      get copyWith => __$$StorePermitBeforeScheduleImplCopyWithImpl<
+          _$StorePermitBeforeScheduleImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(GetHistoryAttendanceDto params)
+        getHistoryAttendance,
+    required TResult Function(PermitBeforeScheduleDto params)
+        storePermitBeforeSchedule,
+  }) {
+    return storePermitBeforeSchedule(params);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(GetHistoryAttendanceDto params)? getHistoryAttendance,
+    TResult? Function(PermitBeforeScheduleDto params)?
+        storePermitBeforeSchedule,
+  }) {
+    return storePermitBeforeSchedule?.call(params);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(GetHistoryAttendanceDto params)? getHistoryAttendance,
+    TResult Function(PermitBeforeScheduleDto params)? storePermitBeforeSchedule,
+    required TResult orElse(),
+  }) {
+    if (storePermitBeforeSchedule != null) {
+      return storePermitBeforeSchedule(params);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_GetHistoryAttendance value) getHistoryAttendance,
+    required TResult Function(_StorePermitBeforeSchedule value)
+        storePermitBeforeSchedule,
+  }) {
+    return storePermitBeforeSchedule(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_GetHistoryAttendance value)? getHistoryAttendance,
+    TResult? Function(_StorePermitBeforeSchedule value)?
+        storePermitBeforeSchedule,
+  }) {
+    return storePermitBeforeSchedule?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_GetHistoryAttendance value)? getHistoryAttendance,
+    TResult Function(_StorePermitBeforeSchedule value)?
+        storePermitBeforeSchedule,
+    required TResult orElse(),
+  }) {
+    if (storePermitBeforeSchedule != null) {
+      return storePermitBeforeSchedule(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _StorePermitBeforeSchedule implements HistoryAttendanceEvent {
+  const factory _StorePermitBeforeSchedule(
+      final PermitBeforeScheduleDto params) = _$StorePermitBeforeScheduleImpl;
+
+  PermitBeforeScheduleDto get params;
+
+  /// Create a copy of HistoryAttendanceEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$StorePermitBeforeScheduleImplCopyWith<_$StorePermitBeforeScheduleImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
