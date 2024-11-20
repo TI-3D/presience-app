@@ -17,6 +17,7 @@ import 'package:presience_app/presentation/utils/methods.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
 import 'package:presience_app/presentation/widgets/cameras/camera_buttons.dart';
+import 'package:presience_app/presentation/widgets/cameras/camera_frame.dart';
 import 'package:presience_app/presentation/widgets/cameras/camera_full.dart';
 import 'package:presience_app/presentation/widgets/cards/title_section.dart';
 import 'package:presience_app/presentation/widgets/containers/button_sheet.dart';
@@ -185,6 +186,7 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                     return Stack(
                       children: [
                         CameraFullRatio(controller: controller),
+                        CameraFrame(),
                         BlocListener<FaceRecognitionBloc, FaceRecognitionState>(
                           listener: (context, state) {
                             state.maybeWhen(

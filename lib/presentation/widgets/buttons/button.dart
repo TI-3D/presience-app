@@ -7,12 +7,14 @@ class LargeFillButton extends StatelessWidget {
   final double? width;
   final VoidCallback onPressed;
   final bool? isDisabled;
+  final Color? color;
 
   const LargeFillButton(
       {super.key,
       required this.label,
       required this.onPressed,
       this.width,
+      this.color = purpleTheme,
       this.isDisabled});
 
   @override
@@ -26,7 +28,7 @@ class LargeFillButton extends StatelessWidget {
         width: width ?? double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: isDisabled != true ? purpleTheme : neutralTheme[300],
+          color: isDisabled != true ? color : neutralTheme[300],
         ),
         child: Center(
           child: Text(
@@ -44,12 +46,14 @@ class SmallFillButton extends StatelessWidget {
   final double? width;
   final VoidCallback onPressed;
   final bool? isDisabled;
+  final Color? color;
 
   const SmallFillButton(
       {super.key,
       required this.label,
       required this.onPressed,
       this.width,
+      this.color = purpleTheme,
       this.isDisabled});
 
   @override
@@ -63,7 +67,7 @@ class SmallFillButton extends StatelessWidget {
         width: width ?? double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: isDisabled != true ? purpleTheme : neutralTheme[300],
+          color: isDisabled != true ? color : neutralTheme[300],
         ),
         child: Center(
           child: Text(
@@ -81,12 +85,14 @@ class LargeTextButton extends StatelessWidget {
   final double? width;
   final VoidCallback onPressed;
   final bool? isDisabled;
+  final Color? color;
 
   const LargeTextButton(
       {super.key,
       required this.label,
       required this.onPressed,
       this.width,
+      this.color = purpleTheme,
       this.isDisabled});
 
   @override
@@ -105,7 +111,7 @@ class LargeTextButton extends StatelessWidget {
           child: Text(
             label,
             style: mediumBodyText.copyWith(
-                color: isDisabled != true ? purpleTheme : neutralTheme[400]),
+                color: isDisabled != true ? color : neutralTheme[400]),
           ),
         ),
       ),
@@ -118,12 +124,14 @@ class SmallTextButton extends StatelessWidget {
   final double? width;
   final VoidCallback onPressed;
   final bool? isDisabled;
+  final Color? color;
 
   const SmallTextButton(
       {super.key,
       required this.label,
       required this.onPressed,
       this.width,
+      this.color = purpleTheme,
       this.isDisabled});
 
   @override
@@ -142,7 +150,7 @@ class SmallTextButton extends StatelessWidget {
           child: Text(
             label,
             style: mediumBodyText.copyWith(
-                color: isDisabled != true ? purpleTheme : neutralTheme[400]),
+                color: isDisabled != true ? color : neutralTheme[400]),
           ),
         ),
       ),

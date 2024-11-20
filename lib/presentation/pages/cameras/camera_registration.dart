@@ -7,6 +7,11 @@ import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:presience_app/presentation/blocs/face_recognition/face_recognition_bloc.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
+import 'package:presience_app/presentation/utils/methods.dart';
+import 'package:presience_app/presentation/utils/text.dart';
+import 'package:presience_app/presentation/utils/theme.dart';
+import 'package:presience_app/presentation/widgets/cameras/camera_buttons.dart';
+import 'package:presience_app/presentation/widgets/cameras/camera_frame.dart';
 import 'package:presience_app/presentation/widgets/cameras/camera_full.dart';
 
 import '../../utils/methods.dart';
@@ -63,6 +68,7 @@ class _CameraRegistrationPageState extends State<CameraRegistrationPage> {
                   ConnectionState.done
               ? Stack(children: [
                   CameraFullRatio(controller: controller),
+                  CameraFrame(),
                   BlocConsumer<FaceRecognitionBloc, FaceRecognitionState>(
                     listener: (context, state) {
                       state.maybeWhen(
