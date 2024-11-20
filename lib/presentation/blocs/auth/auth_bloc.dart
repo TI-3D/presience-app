@@ -13,6 +13,7 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRemoteDatasource _authRemoteDatasource;
+  AuthDto? user;
   AuthBloc(
     this._authRemoteDatasource,
   ) : super(const _Initial()) {
@@ -38,10 +39,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<_ChangePassword>((event, emit) async {
-      AuthDto? user;
       state.maybeWhen(
         loginSuccess: (model) => user = model,
-        orElse: () => emit(const _Failure('User not logged in')),
+        orElse: () => null,
       );
 
       // Pastikan data `user` sudah terisi sebelum melanjutkan
