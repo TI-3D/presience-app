@@ -2,17 +2,23 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:presience_app/presentation/blocs/face_recognition/face_recognition_bloc.dart';
+import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/utils/methods.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/cameras/camera_buttons.dart';
 import 'package:presience_app/presentation/widgets/cameras/camera_frame.dart';
 import 'package:presience_app/presentation/widgets/cameras/camera_full.dart';
-import 'package:presience_app/presentation/widgets/modal/button.dart';
-import 'package:presience_app/presentation/widgets/modal/dialog.dart';
-import 'package:presience_app/presentation/widgets/modal/loading.dart';
+
+import '../../utils/methods.dart';
+import '../../widgets/cameras/camera_buttons.dart';
+import '../../widgets/modal/button.dart';
+import '../../widgets/modal/dialog.dart';
+import '../../widgets/modal/loading.dart';
 
 class CameraRegistrationPage extends StatefulWidget {
   const CameraRegistrationPage({super.key});
@@ -44,76 +50,89 @@ class _CameraRegistrationPageState extends State<CameraRegistrationPage> {
     await Directory(directoryPath).create(recursive: true);
     String filePath = '$directoryPath/image.jpg';
     try {
-      await controller.takePicture();
+      XFile picture = await controller.takePicture();
+      File file = File(picture.path);
+      return file.copy(filePath);
     } catch (e) {
       return null;
     }
-
-    return File(filePath);
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      body: FutureBuilder(
-        future: initializeController(),
-        builder: (_, snapshot) =>
-            snapshot.connectionState == ConnectionState.done
-                ? Stack(children: [
-                    CameraFullRatio(controller: controller),
-                    CameraFrame(),
-                    CameraButtons(
-                      onTapCamera: () {
-                        // context.go('/homepage');
-                        showCustomDialog(
-                          context,
-                          isLoading: true,
-                          getResponse: () async {
-                            await Future.delayed(const Duration(seconds: 5));
-                            return true; // change to false to simulate failure
-                          },
-                          onResponse: (response) {
-                            if (response) {
-                              context.pop();
-                              context.go('/homepage');
-                            } else {
-                              context.pop();
-                              showCustomDialog(context,
-                                  child: CustomDialog(
-                                    child: DialogContentButton(
-                                        title: "Proses Gagal",
-                                        subtitle:
-                                            "Kami kesulitan mengenali wajahmu. Coba lagi dengan pencahayaan yang lebih terang.",
-                                        label: "Ulangi",
-                                        onPressed: () {
-                                          context.pop();
-                                        }),
-                                  ));
-                            }
-                          },
-                          child: const CustomDialog(
+      child: Scaffold(
+        body: FutureBuilder(
+          future: initializeController(),
+          builder: (_, snapshot) => snapshot.connectionState ==
+                  ConnectionState.done
+              ? Stack(children: [
+                  CameraFullRatio(controller: controller),
+                  CameraFrame(),
+                  BlocConsumer<FaceRecognitionBloc, FaceRecognitionState>(
+                    listener: (context, state) {
+                      state.maybeWhen(
+                        success: (message) {
+                          return context.go('/homepage');
+                        },
+                        failure: (message) {
+                          showCustomDialog(
+                            context,
+                            child: CustomDialog(
+                              child: DialogContentButton(
+                                title: "Proses Gagal",
+                                subtitle:
+                                    "Kami kesulitan mengenali wajahmu. Coba lagi dengan pencahayaan yang lebih terang.",
+                                label: "Ulangi",
+                                onPressed: () {
+                                  context.pop();
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                        orElse: () {},
+                      );
+                    },
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        loading: () {
+                          return const CustomDialog(
                             child: DialogContentLoading(
-                                title: "Tunggu sebentar",
-                                subtitle: "Wajah kamu sedang di proses"),
-                          ),
-                        );
-                      },
-                      onTapRotateCamera: () {
-                        setState(() {
-                          _currentCameraIndex =
-                              _currentCameraIndex == 0 ? 1 : 0;
-                        });
-                      },
-                      onTapBack: () {
-                        GoRouter.of(context).pop();
-                      },
-                    ),
-                  ])
-                : Container(
-                    color: blackTheme,
+                              title: "Tunggu sebentar",
+                              subtitle: "Wajah kamu sedang di proses",
+                            ),
+                          );
+                        },
+                        orElse: () {
+                          return CameraButtons(
+                            onTapCamera: () async {
+                              File? picture = await takePicture();
+                              if (picture != null) {
+                                context.read<FaceRecognitionBloc>().add(
+                                    FaceRecognitionEvent.storeFace(picture));
+                              }
+                            },
+                            onTapRotateCamera: () {
+                              setState(() {
+                                _currentCameraIndex =
+                                    _currentCameraIndex == 0 ? 1 : 0;
+                              });
+                            },
+                            onTapBack: () {
+                              GoRouter.of(context).pop();
+                            },
+                          );
+                        },
+                      );
+                    },
                   ),
+                ])
+              : Container(
+                  color: blackTheme,
+                ),
+        ),
       ),
-    ));
+    );
   }
 }

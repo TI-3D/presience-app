@@ -11,6 +11,7 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:presience_app/data/dto/requests/attendance_dto.dart';
 import 'package:presience_app/presentation/blocs/attendance_week/attendance_week_bloc.dart';
+import 'package:presience_app/presentation/blocs/face_recognition/face_recognition_bloc.dart';
 import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
 import 'package:presience_app/presentation/utils/methods.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
@@ -156,12 +157,12 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
     await Directory(directoryPath).create(recursive: true);
     String filePath = '$directoryPath/image.jpg';
     try {
-      await controller.takePicture();
+      XFile picture = await controller.takePicture();
+      File file = File(picture.path);
+      return file.copy(filePath);
     } catch (e) {
       return null;
     }
-
-    return File(filePath);
   }
 
   @override
@@ -186,39 +187,32 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                       children: [
                         CameraFullRatio(controller: controller),
                         CameraFrame(),
-                        BlocConsumer<ScheduleBloc, ScheduleState>(
+                        BlocListener<FaceRecognitionBloc, FaceRecognitionState>(
                           listener: (context, state) {
                             state.maybeWhen(
-                              success: (data) {
-                                context.read<AttendanceBloc>().add(
-                                      const AttendanceEvent
-                                          .getAttendanceInformation(),
-                                    );
-                                context.read<AttendanceWeekBloc>().add(
-                                      const AttendanceWeekEvent
-                                          .getHistoryAttendanceWeek(),
-                                    );
-                                context.read<HistoryAttendanceBloc>().add(
-                                      const HistoryAttendanceEvent
-                                          .getHistoryAttendance(
-                                        GetHistoryAttendanceDto(
-                                            attendanceStatus: '', courseId: 0),
+                              success: (message) {
+                                context.read<ScheduleBloc>().add(
+                                      ScheduleEvent.storeAttendance(
+                                        AttendanceDto(
+                                          scheduleWeekId:
+                                              widget.scheduleWeekId!,
+                                          description:
+                                              _attendanceDto?.description,
+                                          evidence: _attendanceDto?.evidence,
+                                          latitude: latitude,
+                                          longitude: longitude,
+                                        ),
                                       ),
                                     );
-                                context
-                                    .read<ScheduleBloc>()
-                                    .add(const ScheduleEvent.startPolling());
-                                return context.push('/homepage');
                               },
                               failure: (message) {
                                 showCustomDialog(
                                   context,
                                   child: CustomDialog(
                                     child: DialogContentButton(
-                                      title:
-                                          "Wajah Tidak Dikenali / Lokasi Tidak Valid",
+                                      title: "Wajah Tidak Dikenali",
                                       subtitle:
-                                          "Kami tidak dapat mengenali wajahmu. / Sepertinya kamu sedang tidak di kampus.",
+                                          "Kami tidak dapat mengenali wajahmu.",
                                       label: "Ulangi",
                                       onPressed: () {
                                         context.pop();
@@ -230,43 +224,93 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                               orElse: () {},
                             );
                           },
+                          child: BlocConsumer<ScheduleBloc, ScheduleState>(
+                            listener: (context, state) {
+                              state.maybeWhen(
+                                success: (data) {
+                                  context.read<AttendanceBloc>().add(
+                                        const AttendanceEvent
+                                            .getAttendanceInformation(),
+                                      );
+                                  context.read<AttendanceWeekBloc>().add(
+                                        const AttendanceWeekEvent
+                                            .getHistoryAttendanceWeek(),
+                                      );
+                                  context.read<HistoryAttendanceBloc>().add(
+                                        const HistoryAttendanceEvent
+                                            .getHistoryAttendance(
+                                          GetHistoryAttendanceDto(
+                                              attendanceStatus: '',
+                                              courseId: 0),
+                                        ),
+                                      );
+                                  context
+                                      .read<ScheduleBloc>()
+                                      .add(const ScheduleEvent.startPolling());
+                                  return context.push('/homepage');
+                                },
+                                failure: (message) {
+                                  showCustomDialog(
+                                    context,
+                                    child: CustomDialog(
+                                      child: DialogContentButton(
+                                        title: "Lokasi Tidak Valid",
+                                        subtitle:
+                                            "Sepertinya kamu sedang tidak di kampus.",
+                                        label: "Ulangi",
+                                        onPressed: () {
+                                          context.pop();
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                },
+                                orElse: () {},
+                              );
+                            },
+                            builder: (context, state) {
+                              return state.maybeWhen(
+                                orElse: () {
+                                  return CameraButtons(
+                                    onTapCamera: () async {
+                                      context.read<ScheduleBloc>().add(
+                                          const ScheduleEvent.stopPolling());
+                                      File? picture = await takePicture();
+                                      if (picture != null) {
+                                        context.read<FaceRecognitionBloc>().add(
+                                            FaceRecognitionEvent.validateFace(
+                                                picture));
+                                      }
+                                    },
+                                    onTapRotateCamera: () {
+                                      setState(() {
+                                        _currentCameraIndex =
+                                            _currentCameraIndex == 0 ? 1 : 0;
+                                      });
+                                    },
+                                    onTapBack: () {
+                                      GoRouter.of(context).pop();
+                                      context.read<ScheduleBloc>().add(
+                                          const ScheduleEvent
+                                              .getSchedulesToday());
+                                    },
+                                  );
+                                },
+                                loading: () {
+                                  return const CustomDialog(
+                                    child: DialogContentLoading(
+                                      title: "Tunggu sebentar",
+                                      subtitle: "Wajah kamu sedang di proses",
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                        BlocBuilder<FaceRecognitionBloc, FaceRecognitionState>(
                           builder: (context, state) {
                             return state.maybeWhen(
-                              orElse: () {
-                                return CameraButtons(
-                                  onTapCamera: () {
-                                    context
-                                        .read<ScheduleBloc>()
-                                        .add(const ScheduleEvent.stopPolling());
-                                    context.read<ScheduleBloc>().add(
-                                          ScheduleEvent.storeAttendance(
-                                            AttendanceDto(
-                                              scheduleWeekId:
-                                                  widget.scheduleWeekId!,
-                                              description:
-                                                  _attendanceDto?.description,
-                                              evidence:
-                                                  _attendanceDto?.evidence,
-                                              latitude: latitude,
-                                              longitude: longitude,
-                                            ),
-                                          ),
-                                        );
-                                  },
-                                  onTapRotateCamera: () {
-                                    setState(() {
-                                      _currentCameraIndex =
-                                          _currentCameraIndex == 0 ? 1 : 0;
-                                    });
-                                  },
-                                  onTapBack: () {
-                                    GoRouter.of(context).pop();
-                                    context.read<ScheduleBloc>().add(
-                                        const ScheduleEvent
-                                            .getSchedulesToday());
-                                  },
-                                );
-                              },
                               loading: () {
                                 return const CustomDialog(
                                   child: DialogContentLoading(
@@ -274,6 +318,9 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                                     subtitle: "Wajah kamu sedang di proses",
                                   ),
                                 );
+                              },
+                              orElse: () {
+                                return Container();
                               },
                             );
                           },
