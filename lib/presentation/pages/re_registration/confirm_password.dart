@@ -1,32 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
-import 'package:presience_app/data/dto/requests/change_password_dto.dart';
-import 'package:presience_app/presentation/blocs/auth/auth_bloc.dart';
+import 'package:presience_app/presentation/blocs/face_recognition/face_recognition_bloc.dart';
 import 'package:presience_app/presentation/blocs/history_attendance/history_attendance_bloc.dart';
 import 'package:presience_app/presentation/utils/methods.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
-import 'package:presience_app/presentation/widgets/cards/attendance.dart';
-import 'package:presience_app/presentation/widgets/cards/section.dart';
-import 'package:presience_app/presentation/widgets/cards/title_section.dart';
-import 'package:presience_app/presentation/widgets/containers/content.dart';
-import 'package:presience_app/presentation/widgets/containers/detail.dart';
 import 'package:presience_app/presentation/widgets/form/text_field.dart';
-import 'package:presience_app/presentation/widgets/labels/icon_label.dart';
-import 'package:presience_app/presentation/widgets/labels/tag_label.dart';
-import 'package:presience_app/presentation/widgets/login/heading.dart';
 import 'package:presience_app/presentation/widgets/navigations/app_bar.dart';
 
-import '../../../data/dto/requests/get_history_attendance_dto.dart';
-import '../../../domain/entities/schedule_week.dart';
 import '../../widgets/cards/history_course_card.dart';
+import '../../widgets/modal/button.dart';
+import '../../widgets/modal/dialog.dart';
 import '../../widgets/skeletons/history_presensi_skeleton.dart';
 
 class ReRegisterFacePage extends StatefulWidget {
-  ReRegisterFacePage({
+  const ReRegisterFacePage({
     super.key,
   });
 
@@ -50,124 +40,114 @@ class _ReRegisterFacePageState extends State<ReRegisterFacePage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-            backgroundColor: neutralTheme,
-            appBar: CustomAppBar(
-              title: 'Detail Presensi',
-              onTap: () {
-                context.read<HistoryAttendanceBloc>().add(
-                      const HistoryAttendanceEvent.getHistoryAttendance(
-                        GetHistoryAttendanceDto(
-                            attendanceStatus: '', courseId: 0),
-                      ),
-                    );
-                GoRouter.of(context).pop();
-              },
-            ),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+      child: Scaffold(
+        backgroundColor: neutralTheme,
+        appBar: CustomAppBar(
+          title: 'Detail Presensi',
+          onTap: () {
+            GoRouter.of(context).pop();
+          },
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Masukkan Kata Sandi", style: heading3),
-                        const SizedBox(
-                          height: 6,
-                        ),
-                        Text(
-                          "Lihat sekitarmu! Awas diintip orang. Nanti wajah kamu jadi gabisa dikenali.",
-                          style: regularBodyText.copyWith(
-                              color: neutralTheme[500]),
-                        ),
-                      ],
-                    ),
+                    Text("Masukkan Kata Sandi", style: heading3),
                     const SizedBox(
-                      height: 32,
+                      height: 6,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomPasswordField(
-                          label: "Kata Sandi",
-                          hint: "Kata Sandi",
-                          controller: _passwordController,
-                        ),
-                      ],
-                    )
+                    Text(
+                      "Lihat sekitarmu! Awas diintip orang. Nanti wajah kamu jadi gabisa dikenali.",
+                      style: regularBodyText.copyWith(color: neutralTheme[500]),
+                    ),
                   ],
                 ),
-              ),
+                const SizedBox(
+                  height: 32,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomPasswordField(
+                      label: "Kata Sandi",
+                      hint: "Kata Sandi",
+                      controller: _passwordController,
+                      onChanged: (value) {
+                        setState(() {
+                          _passwordController.text = value;
+                        });
+                      },
+                    ),
+                  ],
+                )
+              ],
             ),
-            bottomNavigationBar: Container(
-              padding: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
-              child: LargeFillButton(
-                label: "Konfirmasi",
-                onPressed: () {
-                  context.go("/re_register_face/camera");
-                  // context.read<AuthBloc>().add(
-                  //       AuthEvent.changePassword(
-                  //         ChangePasswordDto(
-                  //           password: _passwordController.text,
-                  //           passwordConfirmation:
-                  //               _passwordConfirmationController.text,
-                  //         ),
-                  //       ),
-                  //     );
-                },
-              ),
-            )
-
-            // BULDER
-            // BlocConsumer<AuthBloc, AuthState>(
-            //   listener: (context, state) {
-            //     state.maybeWhen(
-            //       loginSuccess: (data) {
-            //         // return context.go('/login/first_change_password/success');
-            //       },
-            //       orElse: () {},
-            //     );
-            //   },
-
-            //   builder: (context, state) {
-            //     return state.maybeWhen(
-            //       orElse: () {
-            //         return
-            //         Container(
-            //           padding: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
-            //           child: LargeFillButton(
-            //             label: "Konfirmasi",
-            //             onPressed: () {
-            //               context.read<AuthBloc>().add(
-            //                     AuthEvent.changePassword(
-            //                       ChangePasswordDto(
-            //                         password: _passwordController.text,
-            //                         passwordConfirmation:
-            //                             _passwordConfirmationController.text,
-            //                       ),
-            //                     ),
-            //                   );
-            //             },
-            //           ),
-            //         );
-            //       },
-            //       loading: () {
-            //         return Container(
-            //           padding: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
-            //           child: LargeFillButton(
-            //             label: "Masuk",
-            //             isDisabled: true,
-            //             onPressed: () {},
-            //           ),
-            //         );
-            //       },
-            //     );
-            //   },
-            // ),
-            ));
+          ),
+        ),
+        bottomNavigationBar:
+            BlocConsumer<FaceRecognitionBloc, FaceRecognitionState>(
+          listener: (context, state) {
+            state.maybeWhen(
+              success: (message) {
+                return context.go("/re_register_face/camera");
+              },
+              failure: (message) {
+                showCustomDialog(
+                  context,
+                  child: CustomDialog(
+                    child: DialogContentButton(
+                      title: "Verifikasi Password Gagal",
+                      subtitle: "Password yang kamu masukkan salah.",
+                      label: "Ulangi",
+                      onPressed: () {
+                        context.pop();
+                      },
+                    ),
+                  ),
+                );
+              },
+              orElse: () {},
+            );
+          },
+          builder: (context, state) {
+            return state.maybeWhen(
+              orElse: () {
+                return Container(
+                  padding:
+                      const EdgeInsets.only(bottom: 16, right: 16, left: 16),
+                  child: LargeFillButton(
+                    label: "Konfirmasi",
+                    isDisabled: _passwordController.text.isEmpty,
+                    onPressed: () {
+                      context.read<FaceRecognitionBloc>().add(
+                          FaceRecognitionEvent.validatePassword(
+                              _passwordController.text));
+                    },
+                  ),
+                );
+              },
+              loading: () {
+                return Container(
+                  padding:
+                      const EdgeInsets.only(bottom: 16, right: 16, left: 16),
+                  child: LargeFillButton(
+                    label: "Konfirmasi",
+                    isDisabled: true,
+                    onPressed: () {},
+                  ),
+                );
+              },
+            );
+          },
+        ),
+      ),
+    );
   }
 }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_after.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
 import 'package:presience_app/presentation/widgets/modal/text.dart';
@@ -38,7 +37,7 @@ class DialogContentButton extends StatelessWidget {
         ),
         LargeFillButton(label: label, onPressed: onPressed, color: buttonColor),
         if (isBack != null && isBack == true) ...[
-          SizedBox(
+          const SizedBox(
             height: 4,
           ),
           LargeTextButton(
