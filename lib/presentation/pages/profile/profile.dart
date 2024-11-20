@@ -3,12 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:presience_app/presentation/blocs/auth/auth_bloc.dart';
+import 'package:presience_app/presentation/utils/methods.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/cards/card.dart';
 import 'package:presience_app/presentation/widgets/cards/section.dart';
 import 'package:presience_app/presentation/widgets/labels/icon_label.dart';
 import 'package:presience_app/presentation/widgets/labels/text_label.dart';
+import 'package:presience_app/presentation/widgets/modal/button.dart';
+import 'package:presience_app/presentation/widgets/modal/dialog.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ProfilPage extends StatelessWidget {
@@ -256,43 +259,116 @@ class ProfilPage extends StatelessWidget {
           },
           child: CustomSection(
             title: "Pengaturan",
-            child: GestureDetector(
-              onTap: () {
-                context.read<AuthBloc>().add(const AuthEvent.logout());
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                  color: neutralTheme,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    topRight: Radius.circular(8),
-                    bottomLeft: Radius.circular(8),
-                    bottomRight: Radius.circular(8),
-                  ),
-                  border: Border(
-                    left: BorderSide(color: neutralTheme[100]!, width: 1),
-                    right: BorderSide(color: neutralTheme[100]!, width: 1),
-                    top: BorderSide(color: neutralTheme[100]!, width: 1),
-                    bottom: BorderSide(color: neutralTheme[100]!, width: 1),
-                  ),
-                ),
-                constraints: const BoxConstraints(minHeight: 52),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const CustomLargeIconLabel(
-                        label: "Keluar",
-                        icon: TablerIcons.logout,
-                        color: redTheme),
-                    Icon(
-                      TablerIcons.chevron_right,
-                      size: 20,
-                      color: neutralTheme[300],
+            child: Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    showCustomDialog(context,
+                        child: CustomDialog(
+                          child: DialogContentButton(
+                            title: "Daftar Ulang Wajah?",
+                            subtitle:
+                                "Wajah yang sudah terdaftar akan diperbarui dengan wajah yang baru",
+                            onPressed: () {
+                              context.pop();
+                              context
+                                  .push("/re_register_face/confirm_password");
+                            },
+                            label: "Daftar Ulang",
+                            isBack: true,
+                            buttonColor: redTheme,
+                          ),
+                        ));
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: neutralTheme,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8),
+                        // bottomLeft: Radius.circular(8),
+                        // bottomRight: Radius.circular(8),
+                      ),
+                      border: Border(
+                        left: BorderSide(color: neutralTheme[100]!, width: 1),
+                        right: BorderSide(color: neutralTheme[100]!, width: 1),
+                        top: BorderSide(color: neutralTheme[100]!, width: 1),
+                        bottom: BorderSide(color: neutralTheme[100]!, width: 1),
+                      ),
                     ),
-                  ],
+                    constraints: const BoxConstraints(minHeight: 52),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const CustomLargeIconLabel(
+                            label: "Daftar Ulang Wajah",
+                            icon: TablerIcons.user_scan,
+                            color: blackTheme),
+                        Icon(
+                          TablerIcons.chevron_right,
+                          size: 20,
+                          color: neutralTheme[300],
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
+                GestureDetector(
+                  onTap: () {
+                    showCustomDialog(context,
+                        child: CustomDialog(
+                          child: DialogContentButton(
+                            title: "Yakin Ingin Keluar?",
+                            subtitle:
+                                "Keluar dari aplikasi akan menghapus sesi Anda",
+                            onPressed: () {
+                              context.pop();
+                              context
+                                  .read<AuthBloc>()
+                                  .add(const AuthEvent.logout());
+                            },
+                            label: "Keluar",
+                            isBack: true,
+                            buttonColor: redTheme,
+                          ),
+                        ));
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: neutralTheme,
+                      borderRadius: const BorderRadius.only(
+                        // topLeft: Radius.circular(8),
+                        // topRight: Radius.circular(8),
+                        bottomLeft: Radius.circular(8),
+                        bottomRight: Radius.circular(8),
+                      ),
+                      border: Border(
+                        left: BorderSide(color: neutralTheme[100]!, width: 1),
+                        right: BorderSide(color: neutralTheme[100]!, width: 1),
+                        // top: BorderSide(color: neutralTheme[100]!, width: 1),
+                        bottom: BorderSide(color: neutralTheme[100]!, width: 1),
+                      ),
+                    ),
+                    constraints: const BoxConstraints(minHeight: 52),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const CustomLargeIconLabel(
+                            label: "Keluar",
+                            icon: TablerIcons.logout,
+                            color: redTheme),
+                        Icon(
+                          TablerIcons.chevron_right,
+                          size: 20,
+                          color: neutralTheme[300],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         )
