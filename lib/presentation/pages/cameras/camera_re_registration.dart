@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:presience_app/presentation/utils/methods.dart';
-import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/cameras/camera_buttons.dart';
 import 'package:presience_app/presentation/widgets/cameras/camera_frame.dart';
@@ -14,21 +13,22 @@ import 'package:presience_app/presentation/widgets/modal/button.dart';
 import 'package:presience_app/presentation/widgets/modal/dialog.dart';
 import 'package:presience_app/presentation/widgets/modal/loading.dart';
 
-class CameraRegistrationPage extends StatefulWidget {
-  const CameraRegistrationPage({super.key});
+class CameraReRegistrationPage extends StatefulWidget {
+  const CameraReRegistrationPage({super.key});
 
   @override
-  State<CameraRegistrationPage> createState() => _CameraRegistrationPageState();
+  State<CameraReRegistrationPage> createState() =>
+      _CameraReRegistrationPageState();
 }
 
-class _CameraRegistrationPageState extends State<CameraRegistrationPage> {
+class _CameraReRegistrationPageState extends State<CameraReRegistrationPage> {
   late CameraController controller;
-  int _currentCameraIndex = 1;
+  int? _currentCameraIndex = 1;
 
   Future<void> initializeController() async {
     List<CameraDescription> cameras = await availableCameras();
     controller = CameraController(
-        cameras[_currentCameraIndex], ResolutionPreset.ultraHigh);
+        cameras[_currentCameraIndex!], ResolutionPreset.ultraHigh);
     await controller.initialize();
   }
 
@@ -106,7 +106,7 @@ class _CameraRegistrationPageState extends State<CameraRegistrationPage> {
                         });
                       },
                       onTapBack: () {
-                        GoRouter.of(context).pop();
+                        context.go("/homepage/profil");
                       },
                     ),
                   ])

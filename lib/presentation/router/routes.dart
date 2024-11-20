@@ -7,12 +7,14 @@ import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_after.dar
 import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_before.dart';
 import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_during.dart';
 import 'package:presience_app/presentation/pages/cameras/camera_presensi.dart';
+import 'package:presience_app/presentation/pages/cameras/camera_re_registration.dart';
 import 'package:presience_app/presentation/pages/cameras/camera_registration.dart';
 import 'package:presience_app/presentation/pages/home/homepage.dart';
 import 'package:presience_app/presentation/pages/logins/login.dart';
 import 'package:presience_app/presentation/pages/logins/success.dart';
 import 'package:presience_app/presentation/pages/presensi/detail.dart';
 import 'package:presience_app/presentation/pages/presensi/pengajuan/detail.dart';
+import 'package:presience_app/presentation/pages/re_registration/confirm_password.dart';
 import 'package:presience_app/presentation/pages/registrations/change_password.dart';
 import 'package:presience_app/presentation/pages/registrations/change_succes.dart';
 import 'package:presience_app/presentation/pages/registrations/register_face.dart';
@@ -331,6 +333,46 @@ final GoRouter _router = GoRouter(
         ),
       ],
     ),
+    GoRoute(
+        path: '/re_register_face',
+        redirect: (BuildContext context, GoRouterState state) {
+          return;
+        },
+        routes: [
+          GoRoute(
+            path: 'confirm_password',
+            pageBuilder: (context, state) => CustomTransitionPage(
+              key: state.pageKey,
+              child: ReRegisterFacePage(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                const begin = Offset(1.0, 0.0); // Right-to-left slide
+                const end = Offset.zero;
+                const curve = Curves.ease;
+
+                var tween = Tween(begin: begin, end: end)
+                    .chain(CurveTween(curve: curve));
+                var offsetAnimation = animation.drive(tween);
+
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: child,
+                );
+              },
+            ),
+          ),
+          GoRoute(
+            path: 'camera',
+            pageBuilder: (context, state) => CustomTransitionPage(
+              key: state.pageKey,
+              child: const CameraReRegistrationPage(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return child;
+              },
+            ),
+          )
+        ]),
   ],
   redirect: (BuildContext context, GoRouterState state) async {
     // Fetch login status using the AuthLocalDataSource

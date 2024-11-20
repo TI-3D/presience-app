@@ -16,6 +16,7 @@ import 'package:presience_app/presentation/utils/methods.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
 import 'package:presience_app/presentation/widgets/cameras/camera_buttons.dart';
+import 'package:presience_app/presentation/widgets/cameras/camera_frame.dart';
 import 'package:presience_app/presentation/widgets/cameras/camera_full.dart';
 import 'package:presience_app/presentation/widgets/cards/title_section.dart';
 import 'package:presience_app/presentation/widgets/containers/button_sheet.dart';
@@ -47,7 +48,7 @@ class CameraPresensiPage extends StatefulWidget {
 class _CameraPresensiPageState extends State<CameraPresensiPage> {
   AttendanceDto? _attendanceDto;
   late CameraController controller;
-  int _currentCameraIndex = 0;
+  int _currentCameraIndex = 1;
   bool isLate = false;
 
   double? latitude;
@@ -184,6 +185,7 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                     return Stack(
                       children: [
                         CameraFullRatio(controller: controller),
+                        CameraFrame(),
                         BlocConsumer<ScheduleBloc, ScheduleState>(
                           listener: (context, state) {
                             state.maybeWhen(

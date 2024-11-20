@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:presience_app/presentation/pages/ajukan_izin/pengajuan_after.dart';
+import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
 import 'package:presience_app/presentation/widgets/modal/text.dart';
 
@@ -7,12 +10,17 @@ class DialogContentButton extends StatelessWidget {
   final String subtitle;
   final String label;
   final VoidCallback onPressed;
+  final bool? isBack;
+  final Color? buttonColor;
+
   const DialogContentButton({
     super.key,
     required this.title,
     required this.subtitle,
     required this.onPressed,
     required this.label,
+    this.isBack = false,
+    this.buttonColor = purpleTheme,
   });
 
   @override
@@ -28,7 +36,27 @@ class DialogContentButton extends StatelessWidget {
         const SizedBox(
           height: 32,
         ),
-        LargeFillButton(label: label, onPressed: onPressed)
+        LargeFillButton(label: label, onPressed: onPressed, color: buttonColor),
+        if (isBack != null && isBack == true) ...[
+          SizedBox(
+            height: 4,
+          ),
+          LargeTextButton(
+              label: "Batal",
+              color: blackTheme,
+              onPressed: () {
+                context.pop();
+              })
+        ]
+        // Container(
+        //   width: double.infinity,
+        // child: Row(
+        //   mainAxisSize: MainAxisSize.max,
+        //   children: [
+
+        //   ],
+        // ),
+        // )
         // SizedBox(
         //   height: 20,
         // ),
