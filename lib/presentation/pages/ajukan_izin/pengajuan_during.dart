@@ -189,10 +189,6 @@ class _FormPengajuanDuringClassPageState
                                       _descriptionController.text = value;
                                     });
                                   },
-                                  errorMessage:
-                                      (_descriptionController.text.isEmpty)
-                                          ? 'Masukkan deskripsi'
-                                          : null,
                                 )
                               ],
                             )
@@ -293,6 +289,8 @@ class _FormPengajuanDuringClassPageState
                       const EdgeInsets.only(bottom: 16, right: 16, left: 16),
                   child: LargeFillButton(
                     label: "Konfirmasi",
+                    isDisabled: _descriptionController.text.isEmpty ||
+                        evidancePhoto == null,
                     onPressed: () {
                       context
                           .read<ScheduleBloc>()

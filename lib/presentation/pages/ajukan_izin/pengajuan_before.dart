@@ -299,10 +299,6 @@ class _FormPengajuanBeforeClassPageState
                                   label: 'Deskripsi',
                                   hint: 'Deskripsi',
                                   isMultiline: true,
-                                  errorMessage:
-                                      (_descriptionController.text.isEmpty)
-                                          ? 'Masukkan deskripsi'
-                                          : null,
                                   controller: _descriptionController,
                                   onChanged: (value) {
                                     setState(() {
@@ -413,6 +409,8 @@ class _FormPengajuanBeforeClassPageState
                 padding: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
                 child: LargeFillButton(
                   label: "Konfirmasi",
+                  isDisabled: _descriptionController.text.isEmpty ||
+                      evidancePhoto == null,
                   onPressed: () {
                     print(_selectedScheduleId.values.toList());
                     context.read<HistoryAttendanceBloc>().add(

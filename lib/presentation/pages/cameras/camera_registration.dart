@@ -6,16 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:presience_app/presentation/blocs/face_recognition/face_recognition_bloc.dart';
-import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/utils/methods.dart';
-import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/cameras/camera_buttons.dart';
 import 'package:presience_app/presentation/widgets/cameras/camera_frame.dart';
 import 'package:presience_app/presentation/widgets/cameras/camera_full.dart';
 
-import '../../utils/methods.dart';
-import '../../widgets/cameras/camera_buttons.dart';
 import '../../widgets/modal/button.dart';
 import '../../widgets/modal/dialog.dart';
 import '../../widgets/modal/loading.dart';
@@ -29,7 +25,7 @@ class CameraRegistrationPage extends StatefulWidget {
 
 class _CameraRegistrationPageState extends State<CameraRegistrationPage> {
   late CameraController controller;
-  int _currentCameraIndex = 1;
+  int _currentCameraIndex = 0;
 
   Future<void> initializeController() async {
     List<CameraDescription> cameras = await availableCameras();
@@ -68,7 +64,7 @@ class _CameraRegistrationPageState extends State<CameraRegistrationPage> {
                   ConnectionState.done
               ? Stack(children: [
                   CameraFullRatio(controller: controller),
-                  CameraFrame(),
+                  const CameraFrame(),
                   BlocConsumer<FaceRecognitionBloc, FaceRecognitionState>(
                     listener: (context, state) {
                       state.maybeWhen(

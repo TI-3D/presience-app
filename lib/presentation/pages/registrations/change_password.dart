@@ -55,6 +55,11 @@ class _FirstChangePasswordPageState extends State<FirstChangePasswordPage> {
                       label: "Kata Sandi Baru",
                       hint: "Kata Sandi Baru",
                       controller: _passwordController,
+                      onChanged: (value) {
+                        setState(() {
+                          _passwordController.text = value;
+                        });
+                      },
                     ),
                     const SizedBox(
                       height: 8,
@@ -63,6 +68,11 @@ class _FirstChangePasswordPageState extends State<FirstChangePasswordPage> {
                       label: "Ulangi Kata Sandi",
                       hint: "Ulangi Kata Sandi",
                       controller: _passwordConfirmationController,
+                      onChanged: (value) {
+                        setState(() {
+                          _passwordConfirmationController.text = value;
+                        });
+                      },
                     ),
                   ],
                 )
@@ -87,6 +97,8 @@ class _FirstChangePasswordPageState extends State<FirstChangePasswordPage> {
                       const EdgeInsets.only(bottom: 16, right: 16, left: 16),
                   child: LargeFillButton(
                     label: "Masuk",
+                    isDisabled: _passwordController.text.isEmpty ||
+                        _passwordConfirmationController.text.isEmpty,
                     onPressed: () {
                       context.read<AuthBloc>().add(
                             AuthEvent.changePassword(
