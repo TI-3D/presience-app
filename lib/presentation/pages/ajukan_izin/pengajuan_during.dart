@@ -48,6 +48,26 @@ class _FormPengajuanDuringClassPageState
   String? evidancePhoto;
   String? pathImage;
   String selectedPermission = "sakit";
+  Map<String, String?> errorMessage = {
+    "description": null,
+    "document": null,
+  };
+
+  validationForm() {
+    setState(() {
+      if (_descriptionController.text.isEmpty) {
+        errorMessage['description'] = "Masukkan deskripsi";
+      } else {
+        errorMessage['description'] = null;
+      }
+
+      if (evidancePhoto == null) {
+        errorMessage['document'] = "Unggah Gambar";
+      } else {
+        errorMessage['document'] = null;
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -189,6 +209,7 @@ class _FormPengajuanDuringClassPageState
                                       _descriptionController.text = value;
                                     });
                                   },
+                                  errorMessage: errorMessage['description'],
                                 )
                               ],
                             )
@@ -212,7 +233,9 @@ class _FormPengajuanDuringClassPageState
                               ? CustomImageInputFill(
                                   imageProvider: imageProvider,
                                   pathImage: pathImage)
-                              : const CustomImageInputEmpty(),
+                              : CustomImageInputEmpty(
+                                  errorMessage: errorMessage['document'],
+                                ),
                         ),
                       ],
                     ),
@@ -289,22 +312,24 @@ class _FormPengajuanDuringClassPageState
                       const EdgeInsets.only(bottom: 16, right: 16, left: 16),
                   child: LargeFillButton(
                     label: "Konfirmasi",
-                    isDisabled: _descriptionController.text.isEmpty ||
-                        evidancePhoto == null,
                     onPressed: () {
-                      context
-                          .read<ScheduleBloc>()
-                          .add(const ScheduleEvent.stopPolling());
-                      context.read<ScheduleBloc>().add(
-                            ScheduleEvent.storeCurrentPermit(
-                              PermitDto(
-                                scheduleWeekId: widget.scheduleWeek.id!,
-                                type: selectedPermission,
-                                description: _descriptionController.text,
-                                evidence: File(evidancePhoto!),
+                      validationForm();
+                      if (errorMessage["description"] == null &&
+                          errorMessage['document'] == null) {
+                        context
+                            .read<ScheduleBloc>()
+                            .add(const ScheduleEvent.stopPolling());
+                        context.read<ScheduleBloc>().add(
+                              ScheduleEvent.storeCurrentPermit(
+                                PermitDto(
+                                  scheduleWeekId: widget.scheduleWeek.id!,
+                                  type: selectedPermission,
+                                  description: _descriptionController.text,
+                                  evidence: File(evidancePhoto!),
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                      }
                     },
                   ),
                 );

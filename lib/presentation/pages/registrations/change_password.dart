@@ -20,6 +20,37 @@ class _FirstChangePasswordPageState extends State<FirstChangePasswordPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordConfirmationController =
       TextEditingController();
+  Map<String, String?> errorMessage = {
+    "password": null,
+    "password_confirmation": null,
+  };
+
+  validationForm() {
+    setState(() {
+      if (_passwordController.text.isEmpty) {
+        errorMessage['password'] = "Masukkan Kata Sandi Baru";
+      } else if (_passwordController.text.length < 8 &&
+          _passwordController.text.isNotEmpty) {
+        errorMessage['password'] = "Kata Sandi harus minimal 8 karakter";
+      } else {
+        errorMessage['password'] = null;
+      }
+
+      if (_passwordConfirmationController.text.isEmpty) {
+        errorMessage['password_confirmation'] = "Masukkan Ulangi Kata Sandi";
+      } else if (_passwordConfirmationController.text.length < 8 &&
+          _passwordConfirmationController.text.isNotEmpty) {
+        errorMessage['password_confirmation'] =
+            "Kata Sandi harus minimal 8 karakter";
+      } else if (_passwordController.text !=
+          _passwordConfirmationController.text) {
+        errorMessage['password_confirmation'] =
+            "Masukkan Kata Sandi baru yang sama";
+      } else {
+        errorMessage['password_confirmation'] = null;
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -55,6 +86,7 @@ class _FirstChangePasswordPageState extends State<FirstChangePasswordPage> {
                       label: "Kata Sandi Baru",
                       hint: "Kata Sandi Baru",
                       controller: _passwordController,
+                      errorMessage: errorMessage['password'],
                       onChanged: (value) {
                         setState(() {
                           _passwordController.text = value;
@@ -68,6 +100,7 @@ class _FirstChangePasswordPageState extends State<FirstChangePasswordPage> {
                       label: "Ulangi Kata Sandi",
                       hint: "Ulangi Kata Sandi",
                       controller: _passwordConfirmationController,
+                      errorMessage: errorMessage['password_confirmation'],
                       onChanged: (value) {
                         setState(() {
                           _passwordConfirmationController.text = value;
@@ -100,15 +133,19 @@ class _FirstChangePasswordPageState extends State<FirstChangePasswordPage> {
                     isDisabled: _passwordController.text.isEmpty ||
                         _passwordConfirmationController.text.isEmpty,
                     onPressed: () {
-                      context.read<AuthBloc>().add(
-                            AuthEvent.changePassword(
-                              ChangePasswordDto(
-                                password: _passwordController.text,
-                                passwordConfirmation:
-                                    _passwordConfirmationController.text,
+                      validationForm();
+                      if (errorMessage["password"] == null &&
+                          errorMessage['password_confirmation'] == null) {
+                        context.read<AuthBloc>().add(
+                              AuthEvent.changePassword(
+                                ChangePasswordDto(
+                                  password: _passwordController.text,
+                                  passwordConfirmation:
+                                      _passwordConfirmationController.text,
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                      }
                     },
                   ),
                 );

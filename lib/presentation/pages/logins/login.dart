@@ -26,6 +26,28 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _nimController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  Map<String, String?> errorMessage = {
+    "nim": null,
+    "password": null,
+  };
+
+  void validateForm() {
+    setState(() {
+      // Validasi password
+      if (_nimController.text.isEmpty) {
+        errorMessage['nim'] = "Masukkan NIM";
+      } else {
+        errorMessage['nim'] = null;
+      }
+
+      // Validasi konfirmasi password
+      if (_passwordController.text.isEmpty) {
+        errorMessage['password'] = "Masukkan Kata Sandi";
+      } else {
+        errorMessage['password'] = null;
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -61,6 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                       label: "NIM",
                       hint: "NIM",
                       controller: _nimController,
+                      errorMessage: errorMessage['nim'],
                       onChanged: (value) {
                         setState(() {
                           _nimController.text = value;
@@ -74,6 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                       label: "Kata Sandi",
                       hint: "Kata Sandi",
                       controller: _passwordController,
+                      errorMessage: errorMessage['password'],
                       onChanged: (value) {
                         setState(() {
                           _passwordController.text = value;
@@ -116,12 +140,10 @@ class _LoginPageState extends State<LoginPage> {
                 return context.go('/login/success');
               },
               failure: (message) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(message),
-                    backgroundColor: Colors.red,
-                  ),
-                );
+                setState(() {
+                  errorMessage['nim'] = message;
+                  errorMessage['password'] = message;
+                });
               },
               orElse: () {},
             );
@@ -137,14 +159,18 @@ class _LoginPageState extends State<LoginPage> {
                     isDisabled: _nimController.text.isEmpty ||
                         _passwordController.text.isEmpty,
                     onPressed: () {
-                      context.read<AuthBloc>().add(
-                            AuthEvent.login(
-                              LoginDto(
-                                nim: _nimController.text,
-                                password: _passwordController.text,
+                      validateForm();
+                      if (errorMessage["nim"] == null &&
+                          errorMessage['password'] == null) {
+                        context.read<AuthBloc>().add(
+                              AuthEvent.login(
+                                LoginDto(
+                                  nim: _nimController.text,
+                                  password: _passwordController.text,
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                      }
                     },
                   ),
                 );

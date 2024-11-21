@@ -40,7 +40,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: (widget.isMultiline == false) ? 97 : 154,
+      height: (widget.isMultiline == false) ? 106 : 154,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -135,7 +135,7 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 97,
+      height: 106,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
