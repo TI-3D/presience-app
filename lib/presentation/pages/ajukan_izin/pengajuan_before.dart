@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,6 +53,34 @@ class _FormPengajuanBeforeClassPageState
   // Keep track of the selected options
   final Map<String, bool> _selectedOptions = {};
   final Map<String, int> _selectedScheduleId = {};
+
+  Map<String, String?> errorMessage = {
+    'schedule': null,
+    'description': null,
+    'document': null,
+  };
+
+  validationForm() {
+    setState(() {
+      if (_selectedScheduleId.isEmpty) {
+        errorMessage['schedule'] = "Pilih Semester";
+      } else {
+        errorMessage['schedule'] = null;
+      }
+
+      if (_descriptionController.text.isEmpty) {
+        errorMessage['description'] = "Masukkan deskripsi";
+      } else {
+        errorMessage['description'] = null;
+      }
+
+      if (evidancePhoto == null) {
+        errorMessage['document'] = "Unggah Gambar";
+      } else {
+        errorMessage['document'] = null;
+      }
+    });
+  }
 
   // void _submitForm() {
   //   // Print selected options
@@ -248,6 +277,18 @@ class _FormPengajuanBeforeClassPageState
                             );
                           },
                         ),
+                        if (errorMessage['schedule'] != null)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: Text(
+                              errorMessage['schedule']!,
+                              style: mediumBodyTextS.copyWith(color: redTheme),
+                            ),
+                          ),
+                        if (errorMessage['schedule'] == null)
+                          const SizedBox(
+                            height: 16,
+                          ),
                         const SizedBox(
                           height: 8,
                         ),
@@ -299,10 +340,7 @@ class _FormPengajuanBeforeClassPageState
                                   label: 'Deskripsi',
                                   hint: 'Deskripsi',
                                   isMultiline: true,
-                                  errorMessage:
-                                      (_descriptionController.text.isEmpty)
-                                          ? 'Masukkan deskripsi'
-                                          : null,
+                                  errorMessage: errorMessage['description'],
                                   controller: _descriptionController,
                                   onChanged: (value) {
                                     setState(() {
@@ -337,7 +375,9 @@ class _FormPengajuanBeforeClassPageState
                                     ? CustomImageInputFill(
                                         imageProvider: imageProvider,
                                         pathImage: pathImage)
-                                    : const CustomImageInputEmpty(),
+                                    : CustomImageInputEmpty(
+                                        errorMessage: errorMessage['document'],
+                                      ),
                               ),
                             ],
                           ),
@@ -415,17 +455,23 @@ class _FormPengajuanBeforeClassPageState
                   label: "Konfirmasi",
                   onPressed: () {
                     print(_selectedScheduleId.values.toList());
-                    context.read<HistoryAttendanceBloc>().add(
-                          HistoryAttendanceEvent.storePermitBeforeSchedule(
-                              PermitBeforeScheduleDto(
-                            description: _descriptionController.text,
-                            evidence: File(evidancePhoto!),
-                            type: selectedPermission,
-                            startDate: convertDateRequest(widget.startDate),
-                            endDate: convertDateRequest(widget.endDate),
-                            scheduleWeekId: _selectedScheduleId.values.toList(),
-                          )),
-                        );
+                    validationForm();
+                    if (errorMessage["schedule"] == null &&
+                        errorMessage['description'] == null &&
+                        errorMessage['document'] == null) {
+                      context.read<HistoryAttendanceBloc>().add(
+                            HistoryAttendanceEvent.storePermitBeforeSchedule(
+                                PermitBeforeScheduleDto(
+                              description: _descriptionController.text,
+                              evidence: File(evidancePhoto!),
+                              type: selectedPermission,
+                              startDate: convertDateRequest(widget.startDate),
+                              endDate: convertDateRequest(widget.endDate),
+                              scheduleWeekId:
+                                  _selectedScheduleId.values.toList(),
+                            )),
+                          );
+                    }
                   },
                 ),
               ),

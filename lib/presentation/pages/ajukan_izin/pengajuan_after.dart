@@ -27,9 +27,38 @@ class FormPengajuanAfterClassPage extends StatefulWidget {
 
 class _FormPengajuanAfterClassPageState
     extends State<FormPengajuanAfterClassPage> {
-  String? profilePicture;
+  final TextEditingController _descriptionController = TextEditingController();
+  String? evidancePhoto;
   String? pathImage;
   String selectedPermission = "sakit";
+
+  Map<String, String?> errorMessage = {
+    'description': null,
+    'document': null,
+  };
+
+  validateForm() {
+    setState(() {
+      if (_descriptionController.text.isEmpty) {
+        errorMessage['description'] = "Masukkan deskripsi";
+      } else {
+        errorMessage['description'] = null;
+      }
+
+      if (evidancePhoto == null) {
+        errorMessage['document'] = "Unggah Gambar";
+      } else {
+        errorMessage['document'] = null;
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Future<XFile?> selectImage() async {
@@ -40,13 +69,13 @@ class _FormPengajuanAfterClassPageState
     }
 
     ImageProvider imageProvider;
-    if (profilePicture == null || profilePicture == '') {
+    if (evidancePhoto == null || evidancePhoto == '') {
       imageProvider = const AssetImage('assets/images/user-profile.png');
-    } else if (profilePicture!.startsWith('http') ||
-        profilePicture!.startsWith('https')) {
-      imageProvider = NetworkImage(profilePicture!);
+    } else if (evidancePhoto!.startsWith('http') ||
+        evidancePhoto!.startsWith('https')) {
+      imageProvider = NetworkImage(evidancePhoto!);
     } else {
-      imageProvider = FileImage(File(profilePicture!));
+      imageProvider = FileImage(File(evidancePhoto!));
     }
 
     return SafeArea(
@@ -136,7 +165,7 @@ class _FormPengajuanAfterClassPageState
                       ],
                     ),
                     const SizedBox(height: 8),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: 8),
@@ -147,7 +176,8 @@ class _FormPengajuanAfterClassPageState
                               label: 'Deskripsi',
                               hint: 'Deskripsi',
                               isMultiline: true,
-                              errorMessage: "Masukkan Deskripsi",
+                              controller: _descriptionController,
+                              errorMessage: errorMessage['description'],
                             )
                           ],
                         )
@@ -168,17 +198,19 @@ class _FormPengajuanAfterClassPageState
                               onTap: () async {
                                 final image = await selectImage();
                                 setState(() {
-                                  profilePicture = image!.path;
+                                  evidancePhoto = image!.path;
                                   pathImage = path.basename(image.path);
                                 });
-                                print(profilePicture);
+                                print(evidancePhoto);
                                 print(pathImage);
                               },
-                              child: (profilePicture != null)
+                              child: (evidancePhoto != null)
                                   ? CustomImageInputFill(
                                       imageProvider: imageProvider,
                                       pathImage: pathImage)
-                                  : const CustomImageInputEmpty())
+                                  : CustomImageInputEmpty(
+                                      errorMessage: errorMessage['document'],
+                                    ))
                         ],
                       ),
                     ),
@@ -193,8 +225,12 @@ class _FormPengajuanAfterClassPageState
           child: LargeFillButton(
             label: "Konfirmasi",
             onPressed: () {
-              context.go('/homepage',
-                  extra: {'selectedPageIndex': 1, 'selectedTab': 1});
+              validateForm();
+              if (errorMessage["description"] == null &&
+                  errorMessage['document'] == null) {
+                context.go('/homepage',
+                    extra: {'selectedPageIndex': 1, 'selectedTab': 1});
+              }
             },
           ),
         ),
