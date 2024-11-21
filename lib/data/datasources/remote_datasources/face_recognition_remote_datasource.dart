@@ -57,4 +57,25 @@ class FaceRecognitionRemoteDatasource {
       return Left('An error occurred: $e');
     }
   }
+
+  Future<Either<String, String>> validatePassword(String password) async {
+    final authData = await AuthLocalDataSource().getAuthData();
+    final url = Uri.parse('$baseUrl/api/users/validate-password');
+    final response = await http.post(
+      url,
+      headers: {
+        'Authorization': 'Bearer ${authData!.token}',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'password': password,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return Right(jsonDecode(response.body)['message'] as String);
+    } else {
+      return Left(jsonDecode(response.body)['message'] as String);
+    }
+  }
 }

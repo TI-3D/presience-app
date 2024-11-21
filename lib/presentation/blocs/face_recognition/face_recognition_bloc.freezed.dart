@@ -21,6 +21,7 @@ mixin _$FaceRecognitionEvent {
     required TResult Function() started,
     required TResult Function(File params) storeFace,
     required TResult Function(File params) validateFace,
+    required TResult Function(String password) validatePassword,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -28,6 +29,7 @@ mixin _$FaceRecognitionEvent {
     TResult? Function()? started,
     TResult? Function(File params)? storeFace,
     TResult? Function(File params)? validateFace,
+    TResult? Function(String password)? validatePassword,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -35,6 +37,7 @@ mixin _$FaceRecognitionEvent {
     TResult Function()? started,
     TResult Function(File params)? storeFace,
     TResult Function(File params)? validateFace,
+    TResult Function(String password)? validatePassword,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +46,7 @@ mixin _$FaceRecognitionEvent {
     required TResult Function(_Started value) started,
     required TResult Function(_StoreFace value) storeFace,
     required TResult Function(_ValidateFace value) validateFace,
+    required TResult Function(_ValidatePassword value) validatePassword,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +54,7 @@ mixin _$FaceRecognitionEvent {
     TResult? Function(_Started value)? started,
     TResult? Function(_StoreFace value)? storeFace,
     TResult? Function(_ValidateFace value)? validateFace,
+    TResult? Function(_ValidatePassword value)? validatePassword,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +62,7 @@ mixin _$FaceRecognitionEvent {
     TResult Function(_Started value)? started,
     TResult Function(_StoreFace value)? storeFace,
     TResult Function(_ValidateFace value)? validateFace,
+    TResult Function(_ValidatePassword value)? validatePassword,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -128,6 +134,7 @@ class _$StartedImpl implements _Started {
     required TResult Function() started,
     required TResult Function(File params) storeFace,
     required TResult Function(File params) validateFace,
+    required TResult Function(String password) validatePassword,
   }) {
     return started();
   }
@@ -138,6 +145,7 @@ class _$StartedImpl implements _Started {
     TResult? Function()? started,
     TResult? Function(File params)? storeFace,
     TResult? Function(File params)? validateFace,
+    TResult? Function(String password)? validatePassword,
   }) {
     return started?.call();
   }
@@ -148,6 +156,7 @@ class _$StartedImpl implements _Started {
     TResult Function()? started,
     TResult Function(File params)? storeFace,
     TResult Function(File params)? validateFace,
+    TResult Function(String password)? validatePassword,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -162,6 +171,7 @@ class _$StartedImpl implements _Started {
     required TResult Function(_Started value) started,
     required TResult Function(_StoreFace value) storeFace,
     required TResult Function(_ValidateFace value) validateFace,
+    required TResult Function(_ValidatePassword value) validatePassword,
   }) {
     return started(this);
   }
@@ -172,6 +182,7 @@ class _$StartedImpl implements _Started {
     TResult? Function(_Started value)? started,
     TResult? Function(_StoreFace value)? storeFace,
     TResult? Function(_ValidateFace value)? validateFace,
+    TResult? Function(_ValidatePassword value)? validatePassword,
   }) {
     return started?.call(this);
   }
@@ -182,6 +193,7 @@ class _$StartedImpl implements _Started {
     TResult Function(_Started value)? started,
     TResult Function(_StoreFace value)? storeFace,
     TResult Function(_ValidateFace value)? validateFace,
+    TResult Function(_ValidatePassword value)? validatePassword,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -266,6 +278,7 @@ class _$StoreFaceImpl implements _StoreFace {
     required TResult Function() started,
     required TResult Function(File params) storeFace,
     required TResult Function(File params) validateFace,
+    required TResult Function(String password) validatePassword,
   }) {
     return storeFace(params);
   }
@@ -276,6 +289,7 @@ class _$StoreFaceImpl implements _StoreFace {
     TResult? Function()? started,
     TResult? Function(File params)? storeFace,
     TResult? Function(File params)? validateFace,
+    TResult? Function(String password)? validatePassword,
   }) {
     return storeFace?.call(params);
   }
@@ -286,6 +300,7 @@ class _$StoreFaceImpl implements _StoreFace {
     TResult Function()? started,
     TResult Function(File params)? storeFace,
     TResult Function(File params)? validateFace,
+    TResult Function(String password)? validatePassword,
     required TResult orElse(),
   }) {
     if (storeFace != null) {
@@ -300,6 +315,7 @@ class _$StoreFaceImpl implements _StoreFace {
     required TResult Function(_Started value) started,
     required TResult Function(_StoreFace value) storeFace,
     required TResult Function(_ValidateFace value) validateFace,
+    required TResult Function(_ValidatePassword value) validatePassword,
   }) {
     return storeFace(this);
   }
@@ -310,6 +326,7 @@ class _$StoreFaceImpl implements _StoreFace {
     TResult? Function(_Started value)? started,
     TResult? Function(_StoreFace value)? storeFace,
     TResult? Function(_ValidateFace value)? validateFace,
+    TResult? Function(_ValidatePassword value)? validatePassword,
   }) {
     return storeFace?.call(this);
   }
@@ -320,6 +337,7 @@ class _$StoreFaceImpl implements _StoreFace {
     TResult Function(_Started value)? started,
     TResult Function(_StoreFace value)? storeFace,
     TResult Function(_ValidateFace value)? validateFace,
+    TResult Function(_ValidatePassword value)? validatePassword,
     required TResult orElse(),
   }) {
     if (storeFace != null) {
@@ -412,6 +430,7 @@ class _$ValidateFaceImpl implements _ValidateFace {
     required TResult Function() started,
     required TResult Function(File params) storeFace,
     required TResult Function(File params) validateFace,
+    required TResult Function(String password) validatePassword,
   }) {
     return validateFace(params);
   }
@@ -422,6 +441,7 @@ class _$ValidateFaceImpl implements _ValidateFace {
     TResult? Function()? started,
     TResult? Function(File params)? storeFace,
     TResult? Function(File params)? validateFace,
+    TResult? Function(String password)? validatePassword,
   }) {
     return validateFace?.call(params);
   }
@@ -432,6 +452,7 @@ class _$ValidateFaceImpl implements _ValidateFace {
     TResult Function()? started,
     TResult Function(File params)? storeFace,
     TResult Function(File params)? validateFace,
+    TResult Function(String password)? validatePassword,
     required TResult orElse(),
   }) {
     if (validateFace != null) {
@@ -446,6 +467,7 @@ class _$ValidateFaceImpl implements _ValidateFace {
     required TResult Function(_Started value) started,
     required TResult Function(_StoreFace value) storeFace,
     required TResult Function(_ValidateFace value) validateFace,
+    required TResult Function(_ValidatePassword value) validatePassword,
   }) {
     return validateFace(this);
   }
@@ -456,6 +478,7 @@ class _$ValidateFaceImpl implements _ValidateFace {
     TResult? Function(_Started value)? started,
     TResult? Function(_StoreFace value)? storeFace,
     TResult? Function(_ValidateFace value)? validateFace,
+    TResult? Function(_ValidatePassword value)? validatePassword,
   }) {
     return validateFace?.call(this);
   }
@@ -466,6 +489,7 @@ class _$ValidateFaceImpl implements _ValidateFace {
     TResult Function(_Started value)? started,
     TResult Function(_StoreFace value)? storeFace,
     TResult Function(_ValidateFace value)? validateFace,
+    TResult Function(_ValidatePassword value)? validatePassword,
     required TResult orElse(),
   }) {
     if (validateFace != null) {
@@ -484,6 +508,161 @@ abstract class _ValidateFace implements FaceRecognitionEvent {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ValidateFaceImplCopyWith<_$ValidateFaceImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ValidatePasswordImplCopyWith<$Res> {
+  factory _$$ValidatePasswordImplCopyWith(_$ValidatePasswordImpl value,
+          $Res Function(_$ValidatePasswordImpl) then) =
+      __$$ValidatePasswordImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String password});
+}
+
+/// @nodoc
+class __$$ValidatePasswordImplCopyWithImpl<$Res>
+    extends _$FaceRecognitionEventCopyWithImpl<$Res, _$ValidatePasswordImpl>
+    implements _$$ValidatePasswordImplCopyWith<$Res> {
+  __$$ValidatePasswordImplCopyWithImpl(_$ValidatePasswordImpl _value,
+      $Res Function(_$ValidatePasswordImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of FaceRecognitionEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? password = null,
+  }) {
+    return _then(_$ValidatePasswordImpl(
+      null == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ValidatePasswordImpl implements _ValidatePassword {
+  const _$ValidatePasswordImpl(this.password);
+
+  @override
+  final String password;
+
+  @override
+  String toString() {
+    return 'FaceRecognitionEvent.validatePassword(password: $password)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ValidatePasswordImpl &&
+            (identical(other.password, password) ||
+                other.password == password));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, password);
+
+  /// Create a copy of FaceRecognitionEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ValidatePasswordImplCopyWith<_$ValidatePasswordImpl> get copyWith =>
+      __$$ValidatePasswordImplCopyWithImpl<_$ValidatePasswordImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(File params) storeFace,
+    required TResult Function(File params) validateFace,
+    required TResult Function(String password) validatePassword,
+  }) {
+    return validatePassword(password);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(File params)? storeFace,
+    TResult? Function(File params)? validateFace,
+    TResult? Function(String password)? validatePassword,
+  }) {
+    return validatePassword?.call(password);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(File params)? storeFace,
+    TResult Function(File params)? validateFace,
+    TResult Function(String password)? validatePassword,
+    required TResult orElse(),
+  }) {
+    if (validatePassword != null) {
+      return validatePassword(password);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_StoreFace value) storeFace,
+    required TResult Function(_ValidateFace value) validateFace,
+    required TResult Function(_ValidatePassword value) validatePassword,
+  }) {
+    return validatePassword(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_StoreFace value)? storeFace,
+    TResult? Function(_ValidateFace value)? validateFace,
+    TResult? Function(_ValidatePassword value)? validatePassword,
+  }) {
+    return validatePassword?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_StoreFace value)? storeFace,
+    TResult Function(_ValidateFace value)? validateFace,
+    TResult Function(_ValidatePassword value)? validatePassword,
+    required TResult orElse(),
+  }) {
+    if (validatePassword != null) {
+      return validatePassword(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _ValidatePassword implements FaceRecognitionEvent {
+  const factory _ValidatePassword(final String password) =
+      _$ValidatePasswordImpl;
+
+  String get password;
+
+  /// Create a copy of FaceRecognitionEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ValidatePasswordImplCopyWith<_$ValidatePasswordImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

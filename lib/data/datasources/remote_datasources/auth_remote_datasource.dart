@@ -13,7 +13,6 @@ import '../local_datasources/auth_local_datasources.dart';
 class AuthRemoteDatasource {
   Future<Either<String, AuthDto>> login(LoginDto params) async {
     final url = Uri.parse('$baseUrl/api/users/login');
-    print(url);
     final response = await http.post(
       url,
       body: params.toJson(),

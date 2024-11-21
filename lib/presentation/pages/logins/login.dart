@@ -84,6 +84,11 @@ class _LoginPageState extends State<LoginPage> {
                       hint: "NIM",
                       controller: _nimController,
                       errorMessage: errorMessage['nim'],
+                      onChanged: (value) {
+                        setState(() {
+                          _nimController.text = value;
+                        });
+                      },
                     ),
                     const SizedBox(
                       height: 8,
@@ -93,6 +98,11 @@ class _LoginPageState extends State<LoginPage> {
                       hint: "Kata Sandi",
                       controller: _passwordController,
                       errorMessage: errorMessage['password'],
+                      onChanged: (value) {
+                        setState(() {
+                          _passwordController.text = value;
+                        });
+                      },
                     ),
                   ],
                 )
@@ -146,6 +156,8 @@ class _LoginPageState extends State<LoginPage> {
                       const EdgeInsets.only(bottom: 16, right: 16, left: 16),
                   child: LargeFillButton(
                     label: "Masuk",
+                    isDisabled: _nimController.text.isEmpty ||
+                        _passwordController.text.isEmpty,
                     onPressed: () {
                       validateForm();
                       if (errorMessage["nim"] == null &&

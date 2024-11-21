@@ -283,6 +283,8 @@ class _FormDateState extends State<FormDate> {
                   orElse: () {
                     return LargeFillButton(
                       label: "Lanjut",
+                      isDisabled: _startDateController.text.isEmpty ||
+                          _endDateController.text.isEmpty,
                       onPressed: () {
                         context.read<AttendanceWeekBloc>().add(
                               AttendanceWeekEvent.getScheduleByDate(

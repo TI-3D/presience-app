@@ -33,5 +33,15 @@ class FaceRecognitionBloc
         (r) => emit(_Success(r)),
       );
     });
+
+    on<_ValidatePassword>((event, emit) async {
+      emit(const _Loading());
+      final response = await _faceRecognitionRemoteDatasource
+          .validatePassword(event.password);
+      response.fold(
+        (l) => emit(_Failure(l)),
+        (r) => emit(_Success(r)),
+      );
+    });
   }
 }

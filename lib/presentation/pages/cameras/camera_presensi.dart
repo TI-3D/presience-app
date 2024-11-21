@@ -49,7 +49,7 @@ class CameraPresensiPage extends StatefulWidget {
 class _CameraPresensiPageState extends State<CameraPresensiPage> {
   AttendanceDto? _attendanceDto;
   late CameraController controller;
-  int _currentCameraIndex = 1;
+  int _currentCameraIndex = 0;
   bool isLate = false;
 
   double? latitude;
@@ -186,7 +186,7 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                     return Stack(
                       children: [
                         CameraFullRatio(controller: controller),
-                        CameraFrame(),
+                        const CameraFrame(),
                         BlocListener<FaceRecognitionBloc, FaceRecognitionState>(
                           listener: (context, state) {
                             state.maybeWhen(
@@ -403,6 +403,11 @@ class _FormLateState extends State<FormLate> {
               label: "Deskripsi",
               hint: "Deskripsi",
               controller: _descriptionController,
+              onChanged: (value) {
+                setState(() {
+                  _descriptionController.text = value;
+                });
+              },
               isMultiline: true,
             ),
             const SizedBox(
@@ -429,6 +434,8 @@ class _FormLateState extends State<FormLate> {
             ),
             LargeFillButton(
               label: "Lanjut",
+              isDisabled:
+                  _descriptionController.text.isEmpty || evidancePhoto == null,
               onPressed: () {
                 _attendanceDto = AttendanceDto(
                   description: _descriptionController.text,

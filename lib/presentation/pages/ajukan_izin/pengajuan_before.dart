@@ -453,6 +453,8 @@ class _FormPengajuanBeforeClassPageState
                 padding: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
                 child: LargeFillButton(
                   label: "Konfirmasi",
+                  isDisabled: _descriptionController.text.isEmpty ||
+                      evidancePhoto == null,
                   onPressed: () {
                     print(_selectedScheduleId.values.toList());
                     validationForm();

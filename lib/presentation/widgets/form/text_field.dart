@@ -13,7 +13,6 @@ class CustomTextField extends StatefulWidget {
   final bool? readonly;
   final bool? readonlyFilled;
   final Widget? suffix;
-  // final ValueChanged<String> onChanged;
   final TextEditingController? controller;
   final GestureTapCallback? onTap;
   final ValueChanged<String>? onChanged;
@@ -25,7 +24,6 @@ class CustomTextField extends StatefulWidget {
     this.isOptional,
     this.errorMessage,
     this.isMultiline = false,
-    // required this.onChanged,
     this.controller,
     this.readonly = false,
     this.readonlyFilled = false,
@@ -115,7 +113,7 @@ class CustomPasswordField extends StatefulWidget {
   final String hint;
   final bool? isOptional;
   final String? errorMessage;
-  // final ValueChanged<String> onChanged;
+  final ValueChanged<String>? onChanged;
   final TextEditingController? controller;
 
   const CustomPasswordField({
@@ -124,7 +122,7 @@ class CustomPasswordField extends StatefulWidget {
     required this.hint,
     this.isOptional,
     this.errorMessage,
-    // required this.onChanged,
+    this.onChanged,
     this.controller,
   });
 
@@ -148,6 +146,7 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
           TextField(
             controller: widget.controller,
             obscureText: _isObscured,
+            onChanged: widget.onChanged,
             decoration: InputDecoration(
               // Focused
               focusedBorder: const OutlineInputBorder(

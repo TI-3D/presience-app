@@ -87,6 +87,11 @@ class _FirstChangePasswordPageState extends State<FirstChangePasswordPage> {
                       hint: "Kata Sandi Baru",
                       controller: _passwordController,
                       errorMessage: errorMessage['password'],
+                      onChanged: (value) {
+                        setState(() {
+                          _passwordController.text = value;
+                        });
+                      },
                     ),
                     const SizedBox(
                       height: 8,
@@ -96,6 +101,11 @@ class _FirstChangePasswordPageState extends State<FirstChangePasswordPage> {
                       hint: "Ulangi Kata Sandi",
                       controller: _passwordConfirmationController,
                       errorMessage: errorMessage['password_confirmation'],
+                      onChanged: (value) {
+                        setState(() {
+                          _passwordConfirmationController.text = value;
+                        });
+                      },
                     ),
                   ],
                 )
@@ -120,6 +130,8 @@ class _FirstChangePasswordPageState extends State<FirstChangePasswordPage> {
                       const EdgeInsets.only(bottom: 16, right: 16, left: 16),
                   child: LargeFillButton(
                     label: "Masuk",
+                    isDisabled: _passwordController.text.isEmpty ||
+                        _passwordConfirmationController.text.isEmpty,
                     onPressed: () {
                       validationForm();
                       if (errorMessage["password"] == null &&

@@ -343,7 +343,7 @@ final GoRouter _router = GoRouter(
             path: 'confirm_password',
             pageBuilder: (context, state) => CustomTransitionPage(
               key: state.pageKey,
-              child: ReRegisterFacePage(),
+              child: const ReRegisterFacePage(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 const begin = Offset(1.0, 0.0); // Right-to-left slide
@@ -383,6 +383,10 @@ final GoRouter _router = GoRouter(
     if (state.uri.toString() == '/') {
       if (!isLoggedIn) {
         return '/login'; // Redirect to login if not logged in
+      }
+
+      if (!authData.user!.isVerified!) {
+        return '/login/success';
       }
 
       // User is logged in; check token expiration
