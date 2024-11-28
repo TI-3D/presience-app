@@ -1,13 +1,15 @@
 import 'dart:convert';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:presience_app/data/dto/requests/auth_dto.dart';
 import 'package:presience_app/data/dto/responses/auth_response.dart';
 import 'package:presience_app/domain/entities/group.dart';
 import 'package:presience_app/domain/entities/user.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthLocalDataSource {
+  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+
   Future<AuthDto> saveAuthData(AuthResponse authResponse) async {
     final Map<String, dynamic> decodedToken =
         JwtDecoder.decode(authResponse.token!);
@@ -36,21 +38,22 @@ class AuthLocalDataSource {
       expiration: expirationDateTime,
     );
 
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('auth_data', jsonEncode(authData.toJson()));
+    // Save auth data securely
+    await secureStorage.write(
+      key: 'auth_data',
+      value: jsonEncode(authData.toJson()),
+    );
     return authData;
   }
 
   Future<void> removeAuthData() async {
-    // Remove auth data from local storage
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('auth_data');
+    // Remove auth data from secure storage
+    await secureStorage.delete(key: 'auth_data');
   }
 
   Future<AuthDto?> getAuthData() async {
-    // Get auth data from local storage
-    final prefs = await SharedPreferences.getInstance();
-    final authData = prefs.getString('auth_data');
+    // Get auth data from secure storage
+    final authData = await secureStorage.read(key: 'auth_data');
     if (authData != null) {
       return AuthDto.fromJson(jsonDecode(authData));
     } else {
@@ -60,7 +63,7 @@ class AuthLocalDataSource {
 
   Future<bool> isUserLoggedIn() async {
     // Check if user is logged in
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.containsKey('auth_data');
+    final authData = await secureStorage.read(key: 'auth_data');
+    return authData != null;
   }
 }
