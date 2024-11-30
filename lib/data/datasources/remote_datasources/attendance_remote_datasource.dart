@@ -35,7 +35,7 @@ class AttendanceRemoteDatasource {
 
   Future<Either<String, List<ScheduleWeek>>> getHistoryAttendanceWeek() async {
     final authData = await AuthLocalDataSource().getAuthData();
-    final url = Uri.parse('$baseUrl/api/users/history');
+    final url = Uri.parse('$baseUrl/api/users/history-week');
     final response = await http.get(
       url,
       headers: {
@@ -103,7 +103,7 @@ class AttendanceRemoteDatasource {
     }
   }
 
-  Future<Either<String, List<ScheduleWeek>>> storePermitBeforeSchedule(
+  Future<Either<String, void>> storePermitBeforeSchedule(
       PermitBeforeScheduleDto params) async {
     final authData = await AuthLocalDataSource().getAuthData();
     final url = Uri.parse('$baseUrl/api/users/store-before-schedule');
@@ -114,23 +114,8 @@ class AttendanceRemoteDatasource {
       ..fields['description'] = params.description.toString()
       ..fields['start_date'] = params.startDate!.toString()
       ..fields['end_date'] = params.endDate!.toString();
-    // ..fields['sw_id'] = params.scheduleWeekId!.toString();
 
-    // params.scheduleWeekId?.forEach((id) {
-    //   request.fields['sw_id[]'] = jsonEncode(id);
-    // });
-
-    request.fields['sw_id'] = jsonEncode(params.scheduleWeekId);
-
-    // params.scheduleWeekId?.forEach((id) {
-    //   request.fields.addAll({'sw_id': id.toString()});
-    // });
-
-    // params.scheduleWeekId?.forEach((id) {
-    //   request.fields.addAll({
-    //     'sw_id[]': id.toString(),
-    //   });
-    // });
+    request.fields['sw_id'] = params.scheduleWeekId!.toString();
 
     // Attach the evidence file if it exists
     if (params.evidence != null) {
@@ -139,24 +124,12 @@ class AttendanceRemoteDatasource {
       );
     }
 
-    print(request.fields);
-    print(request.files);
-
     try {
-      print('1');
       final streamedResponse = await request.send();
-      print('2');
       final response = await http.Response.fromStream(streamedResponse);
-      print('3');
-      print(response.body);
-      print(response.statusCode);
 
       if (response.statusCode == 200) {
-        final List<dynamic> jsonData =
-            jsonDecode(response.body)['data'] as List<dynamic>;
-        final permits =
-            jsonData.map((json) => ScheduleWeek.fromJson(json)).toList();
-        return Right(permits);
+        return const Right(null);
       } else {
         return Left(jsonDecode(response.body)['message']);
       }

@@ -40,16 +40,7 @@ class HistoryAttendanceBloc
           .storePermitBeforeSchedule(event.params);
       response.fold(
         (l) => emit(_Failure(l)),
-        (newSchedules) {
-          // Append new schedules to the existing list while avoiding duplicates
-          final updatedSchedules = [
-            ...schedules,
-            ...newSchedules.where((newSchedule) =>
-                schedules.every((existing) => existing.id != newSchedule.id))
-          ];
-
-          emit(_Success(updatedSchedules));
-        },
+        (r) => emit(_Success(schedules)),
       );
     });
   }

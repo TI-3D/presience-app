@@ -218,8 +218,6 @@ class _FormPengajuanBeforeClassPageState
                                                 _selectedScheduleId.remove(item
                                                     .schedule!.course!.name!);
                                               }
-
-                                              print(_selectedScheduleId);
                                             });
                                           },
                                           child: Container(
@@ -444,7 +442,7 @@ class _FormPengajuanBeforeClassPageState
                               attendanceStatus: '', courseId: 0),
                         ),
                       );
-                  return context.go('/homepage');
+                  return context.replace('/homepage');
                 },
                 failure: (message) {
                   showCustomDialog(
@@ -474,7 +472,6 @@ class _FormPengajuanBeforeClassPageState
                     isDisabled: _descriptionController.text.isEmpty ||
                         evidancePhoto == null,
                     onPressed: () {
-                      print(_selectedScheduleId.values.toList());
                       validationForm();
                       if (errorMessage["schedule"] == null &&
                           errorMessage['description'] == null &&
