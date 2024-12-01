@@ -14,7 +14,7 @@ class CustomImageInputEmpty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 220,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +79,7 @@ class CustomImageInputFill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 220,
       child: Column(
         children: [

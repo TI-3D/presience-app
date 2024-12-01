@@ -52,6 +52,7 @@ class _FormPengajuanBeforeClassPageState
   // Keep track of the selected options
   final Map<String, bool> _selectedOptions = {};
   final Map<String, int> _selectedScheduleId = {};
+  final List<ScheduleWeek> listScheduleWeek = [];
 
   Map<String, String?> errorMessage = {
     'schedule': null,
@@ -172,24 +173,29 @@ class _FormPengajuanBeforeClassPageState
                                   // Initialize _selectedOptions if it's empty
                                   if (_selectedOptions.isEmpty) {
                                     for (ScheduleWeek item in data) {
-                                      _selectedOptions[
-                                              item.schedule!.course!.name!] =
-                                          true; // Set initial state (e.g., true for selected)
-                                      _selectedScheduleId[item
-                                          .schedule!.course!.name!] = item.id!;
+                                      if (item.attendance == null) {
+                                        listScheduleWeek.add(item);
+
+                                        // Set initial state (e.g., true for selected)
+                                        _selectedOptions[item
+                                            .schedule!.course!.name!] = true;
+                                        _selectedScheduleId[item.schedule!
+                                            .course!.name!] = item.id!;
+                                      }
                                     }
                                   }
 
                                   return Column(
-                                    children: data.map<Widget>(
+                                    children: listScheduleWeek.map<Widget>(
                                       (item) {
                                         BorderRadius borderRadius;
-                                        if (item == data[0]) {
+                                        if (item == listScheduleWeek[0]) {
                                           borderRadius =
                                               const BorderRadius.vertical(
                                                   top: Radius.circular(8));
                                         } else if (item ==
-                                            data[data.length - 1]) {
+                                            listScheduleWeek[
+                                                listScheduleWeek.length - 1]) {
                                           borderRadius =
                                               const BorderRadius.vertical(
                                                   bottom: Radius.circular(8));
@@ -231,7 +237,7 @@ class _FormPengajuanBeforeClassPageState
                                                 left: BorderSide(
                                                     color: neutralTheme[100]!,
                                                     width: 1),
-                                                top: item == data[0]
+                                                top: item == listScheduleWeek[0]
                                                     ? BorderSide(
                                                         color:
                                                             neutralTheme[100]!,
@@ -470,7 +476,8 @@ class _FormPengajuanBeforeClassPageState
                   child: LargeFillButton(
                     label: "Konfirmasi",
                     isDisabled: _descriptionController.text.isEmpty ||
-                        evidancePhoto == null,
+                        evidancePhoto == null ||
+                        _selectedScheduleId.values.isEmpty,
                     onPressed: () {
                       validationForm();
                       if (errorMessage["schedule"] == null &&

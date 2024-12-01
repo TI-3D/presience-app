@@ -338,12 +338,6 @@ class _ContentofWeekCourseState extends State<ContentofWeekCourse> {
                   izin: data[index].attendance!.izin!,
                   courseWeek: data[index].schedule!.week!.name!,
                   onTap: () {},
-                  // onTap: () {
-                  //   context.push(
-                  //     '/presensi/detail',
-                  //     extra: data[index],
-                  //   );
-                  // },
                 );
               },
               separatorBuilder: (context, index) => const SizedBox(
