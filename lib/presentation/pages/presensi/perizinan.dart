@@ -253,8 +253,6 @@ class _FormDateState extends State<FormDate> {
                 state.maybeWhen(
                   success: (data) {
                     context.pop();
-                    print(_startDateController.text);
-                    print(_endDateController.text);
                     return context.push('/pengajuan_izin', extra: {
                       'startDate': _startDateController.text,
                       'endDate': _endDateController.text,

@@ -18,7 +18,7 @@ class CameraFrame extends StatelessWidget {
           fit: BoxFit.cover,
         ),
         Container(
-          padding: EdgeInsets.only(top: 52),
+          padding: const EdgeInsets.only(top: 52),
           width: double.infinity,
           child: Text(
             "Arahkan Wajah Pada Bingkai",
