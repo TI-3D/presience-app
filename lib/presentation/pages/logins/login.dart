@@ -156,8 +156,8 @@ class _LoginPageState extends State<LoginPage> {
                       const EdgeInsets.only(bottom: 16, right: 16, left: 16),
                   child: LargeFillButton(
                     label: "Masuk",
-                    isDisabled: _nimController.text.isEmpty ||
-                        _passwordController.text.isEmpty,
+                    // isDisabled: _nimController.text.isEmpty ||
+                    //     _passwordController.text.isEmpty,
                     onPressed: () {
                       validateForm();
                       if (errorMessage["nim"] == null &&

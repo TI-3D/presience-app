@@ -30,6 +30,21 @@ class _ReRegisterFacePageState extends State<ReRegisterFacePage> {
   final TextEditingController _passwordConfirmationController =
       TextEditingController();
 
+  Map<String, String?> errorMessage = {
+    "password": null,
+  };
+
+  void validateForm() {
+    setState(() {
+      // Validasi password
+      if (_passwordController.text.isEmpty) {
+        errorMessage['password'] = "Masukkan Kata Sandi";
+      } else {
+        errorMessage['password'] = null;
+      }
+    });
+  }
+
   @override
   void dispose() {
     _passwordController.dispose();
@@ -78,6 +93,7 @@ class _ReRegisterFacePageState extends State<ReRegisterFacePage> {
                       label: "Kata Sandi",
                       hint: "Kata Sandi",
                       controller: _passwordController,
+                      errorMessage: errorMessage['password'],
                       onChanged: (value) {
                         setState(() {
                           _passwordController.text = value;
@@ -123,11 +139,13 @@ class _ReRegisterFacePageState extends State<ReRegisterFacePage> {
                       const EdgeInsets.only(bottom: 16, right: 16, left: 16),
                   child: LargeFillButton(
                     label: "Konfirmasi",
-                    isDisabled: _passwordController.text.isEmpty,
                     onPressed: () {
-                      context.read<FaceRecognitionBloc>().add(
-                          FaceRecognitionEvent.validatePassword(
-                              _passwordController.text));
+                      validateForm();
+                      if (errorMessage["password"] == null) {
+                        context.read<FaceRecognitionBloc>().add(
+                            FaceRecognitionEvent.validatePassword(
+                                _passwordController.text));
+                      }
                     },
                   ),
                 );
