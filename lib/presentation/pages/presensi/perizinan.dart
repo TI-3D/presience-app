@@ -122,6 +122,21 @@ class _FormDateState extends State<FormDate> {
   List<DateTime?> _dates = [null, null]; // Initialize with nulls
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
+  Map<String, String?> errorMessage = {
+    "startDate": null,
+    "endDate": null,
+  };
+
+  void validateForm() {
+    setState(() {
+      // Validasi password
+      if (_startDateController.text.isEmpty) {
+        errorMessage['startDate'] = "Masukkan Tanggal Awal";
+      } else {
+        errorMessage['startDate'] = null;
+      }
+    });
+  }
 
   Future<void> _selectDateRange(BuildContext context) async {
     await showDialog<List<DateTime?>>(
@@ -229,6 +244,7 @@ class _FormDateState extends State<FormDate> {
               readonly: true,
               readonlyFilled: _startDateController.text != "",
               suffix: const Icon(TablerIcons.calendar),
+              errorMessage: errorMessage['startDate'],
               onTap: () => _selectDateRange(context),
             ),
             const SizedBox(
@@ -281,17 +297,21 @@ class _FormDateState extends State<FormDate> {
                   orElse: () {
                     return LargeFillButton(
                       label: "Lanjut",
-                      isDisabled: _startDateController.text.isEmpty ||
-                          _endDateController.text.isEmpty,
                       onPressed: () {
-                        context.read<AttendanceWeekBloc>().add(
-                              AttendanceWeekEvent.getScheduleByDate(
-                                GetScheduleDto(
-                                  startDate: _startDateController.text,
-                                  endDate: _endDateController.text,
+                        validateForm();
+                        if (errorMessage["startDate"] == null) {
+                          // if (_endDateController.text.isEmpty) {
+                          //   _endDateController.text = _startDateController.text;
+                          // }
+                          context.read<AttendanceWeekBloc>().add(
+                                AttendanceWeekEvent.getScheduleByDate(
+                                  GetScheduleDto(
+                                    startDate: _startDateController.text,
+                                    endDate: _endDateController.text,
+                                  ),
                                 ),
-                              ),
-                            );
+                              );
+                        }
                       },
                     );
                   },

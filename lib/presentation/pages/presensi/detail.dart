@@ -163,7 +163,7 @@ class DetailPresensiPage extends StatelessWidget {
                       children: [
                         const TitleDetail(title: 'Waktu ditutup'),
                         ValueDetail(
-                          content: scheduleWeek.status!,
+                          content: scheduleWeek.closedAt!,
                         ),
                       ],
                     ),

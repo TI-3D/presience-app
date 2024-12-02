@@ -362,6 +362,27 @@ class _FormLateState extends State<FormLate> {
   String? evidancePhoto;
   String? pathImage;
 
+  Map<String, String?> errorMessage = {
+    'description': null,
+    'document': null,
+  };
+
+  void validationForm() {
+    setState(() {
+      if (_descriptionController.text.isEmpty) {
+        errorMessage['description'] = "Masukkan deskripsi";
+      } else {
+        errorMessage['description'] = null;
+      }
+
+      if (evidancePhoto == null) {
+        errorMessage['document'] = "Unggah Gambar";
+      } else {
+        errorMessage['document'] = null;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     ImageProvider imageProvider;
@@ -403,6 +424,7 @@ class _FormLateState extends State<FormLate> {
               label: "Deskripsi",
               hint: "Deskripsi",
               controller: _descriptionController,
+              errorMessage: errorMessage['description'],
               onChanged: (value) {
                 setState(() {
                   _descriptionController.text = value;
@@ -428,21 +450,26 @@ class _FormLateState extends State<FormLate> {
                 child: (evidancePhoto != null)
                     ? CustomImageInputFill(
                         imageProvider: imageProvider, pathImage: pathImage)
-                    : const CustomImageInputEmpty()),
+                    : CustomImageInputEmpty(
+                        errorMessage: errorMessage['document'])),
             const SizedBox(
               height: 28,
             ),
             LargeFillButton(
               label: "Lanjut",
-              isDisabled:
-                  _descriptionController.text.isEmpty || evidancePhoto == null,
+              // isDisabled:
+              //     _descriptionController.text.isEmpty || evidancePhoto == null,
               onPressed: () {
-                _attendanceDto = AttendanceDto(
-                  description: _descriptionController.text,
-                  evidence: File(evidancePhoto!),
-                );
-                widget.onSubmit(_attendanceDto!);
-                context.pop();
+                validationForm();
+                if (errorMessage['description'] == null &&
+                    errorMessage['document'] == null) {
+                  _attendanceDto = AttendanceDto(
+                    description: _descriptionController.text,
+                    evidence: File(evidancePhoto!),
+                  );
+                  widget.onSubmit(_attendanceDto!);
+                  context.pop();
+                }
               },
             )
           ],
