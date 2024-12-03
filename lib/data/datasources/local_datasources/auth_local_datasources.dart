@@ -34,6 +34,7 @@ class AuthLocalDataSource {
 
     final authData = AuthDto(
       token: authResponse.token,
+      refToken: authResponse.refToken,
       user: user,
       expiration: expirationDateTime,
     );

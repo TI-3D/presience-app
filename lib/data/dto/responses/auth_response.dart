@@ -1,9 +1,11 @@
 class AuthResponse {
   final String? token;
+  final String? refToken;
   final int? expiredIn;
 
   AuthResponse({
     this.token,
+    this.refToken,
     this.expiredIn,
   });
 
@@ -15,11 +17,13 @@ class AuthResponse {
       // if data is not null, get token from data
       return AuthResponse(
         token: data["token"],
+        refToken: data["reftoken"],
         expiredIn: data["expired_in"],
       );
     } else {
       return AuthResponse(
         token: null,
+        refToken: null,
         expiredIn: null,
       );
     }
@@ -28,6 +32,7 @@ class AuthResponse {
   Map<String, dynamic> toJson() => {
         "data": {
           "token": token,
+          "reftoken": refToken,
           "expired_in": expiredIn,
         },
       };

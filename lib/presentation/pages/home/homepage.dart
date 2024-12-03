@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
-import 'package:presience_app/data/datasources/remote_datasources/firebase_remote_datasource.dart';
 import 'package:presience_app/domain/entities/schedule_week.dart';
 import 'package:presience_app/presentation/blocs/attendance/attendance_bloc.dart';
 import 'package:presience_app/presentation/blocs/attendance_week/attendance_week_bloc.dart';
@@ -26,6 +25,7 @@ import 'package:presience_app/presentation/widgets/skeletons/last_week_skeleton.
 import 'package:presience_app/presentation/widgets/skeletons/today_presensi_skeleton.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../data/datasources/remote_datasources/firebase_remote_datasource.dart';
 import '../../../data/dto/requests/get_history_attendance_dto.dart';
 import '../../blocs/history_attendance/history_attendance_bloc.dart';
 import '../../widgets/cards/section.dart';
@@ -54,12 +54,6 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
       widget.selectedPageIndex = index;
       context.go(_routeNames[index]);
     });
-  }
-
-  @override
-  void initState() {
-    FirebaseRemoteDatasource().initialize();
-    super.initState();
   }
 
   @override
@@ -121,6 +115,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool isLastWeekEmpty = false;
+
+  @override
+  void initState() {
+    FirebaseRemoteDatasource().initialize();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

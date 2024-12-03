@@ -1,31 +1,34 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:presience_app/domain/entities/course.dart';
 
 import '../../../presentation/utils/constants.dart';
-import '../local_datasources/auth_local_datasources.dart';
+import 'refresh_token_remote_datasource.dart';
 
 class CourseRemoteDatasource {
-  Future<Either<String, List<Course>>> getCourses() async {
-    final authData = await AuthLocalDataSource().getAuthData();
-    final url = Uri.parse('$baseUrl/api/users/schedule-id');
-    final response = await http.get(
-      url,
-      headers: {
-        'Authorization': 'Bearer ${authData!.token}',
-        'Content-Type': 'application/json',
-      },
-    );
+  final Dio _dio = Dio(
+    BaseOptions(
+      baseUrl: baseUrl,
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 10),
+    ),
+  )..interceptors.add(TokenInterceptor());
 
-    if (response.statusCode == 200) {
-      final List<dynamic> jsonData =
-          jsonDecode(response.body)['data'] as List<dynamic>;
-      final schedules = jsonData.map((json) => Course.fromJson(json)).toList();
-      return Right(schedules);
-    } else {
-      return Left(jsonDecode(response.body)['message']);
+  Future<Either<String, List<Course>>> getCourses() async {
+    try {
+      final response = await _dio.get(
+        '/api/users/schedule-id',
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonData = response.data['data'] as List<dynamic>;
+        final courses = jsonData.map((json) => Course.fromJson(json)).toList();
+        return Right(courses);
+      } else {
+        return Left(response.data['message'] as String);
+      }
+    } on DioException catch (e) {
+      return Left(e.response?.data['message'] ?? 'An unknown error occurred');
     }
   }
 }

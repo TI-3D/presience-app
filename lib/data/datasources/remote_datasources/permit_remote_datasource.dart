@@ -1,34 +1,36 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:presience_app/domain/entities/permit_detail.dart';
 
 import '../../../presentation/utils/constants.dart';
-import '../local_datasources/auth_local_datasources.dart';
+import 'refresh_token_remote_datasource.dart';
 
 class PermitRemoteDatasource {
-  Future<Either<String, List<PermitDetail>>> getHistoryPermit() async {
-    final authData = await AuthLocalDataSource().getAuthData();
-    final url = Uri.parse('$baseUrl/api/users/history-permit');
-    final response = await http.get(
-      url,
-      headers: {
-        'Authorization': 'Bearer ${authData!.token}',
-        'Content-Type': 'application/json',
-      },
-    );
+  final _dio = Dio(
+    BaseOptions(
+      baseUrl: baseUrl,
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 10),
+    ),
+  )..interceptors.add(TokenInterceptor());
 
-    if (response.statusCode == 200) {
-      final List<dynamic> jsonData =
-          jsonDecode(response.body)['data'] as List<dynamic>;
-      final schedules =
-          jsonData.map((json) => PermitDetail.fromJson(json)).toList();
-      return Right(schedules);
-    } else {
-      return Left(jsonDecode(response.body)['message']);
+  Future<Either<String, List<PermitDetail>>> getHistoryPermit() async {
+    try {
+      final response = await _dio.get('/api/users/history-permit');
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonData = response.data['data'] as List<dynamic>;
+        final permits =
+            jsonData.map((json) => PermitDetail.fromJson(json)).toList();
+        return Right(permits);
+      } else {
+        return Left(response.data['message'] as String);
+      }
+    } on DioException catch (e) {
+      return Left(e.response?.data['message'] ?? 'An unknown error occurred');
     }
   }
 
@@ -41,14 +43,19 @@ class PermitRemoteDatasource {
       String fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
       String filePath = '${directory.path}/$fileName';
 
-      // Mengunduh gambar dengan http
-      final response = await http.get(Uri.parse(imageUrl));
+      // Mengunduh gambar dengan Dio
+      final response = await _dio.get<List<int>>(
+        imageUrl,
+        options: Options(
+          responseType: ResponseType.bytes, // Mendapatkan data sebagai bytes
+        ),
+      );
 
       // Mengecek apakah status pengunduhan sukses
       if (response.statusCode == 200) {
         // Menyimpan gambar ke file lokal
         File file = File(filePath);
-        await file.writeAsBytes(response.bodyBytes);
+        await file.writeAsBytes(response.data!);
 
         print("Gambar berhasil diunduh dan disimpan di: $filePath");
         return true;

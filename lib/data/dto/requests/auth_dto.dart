@@ -2,11 +2,13 @@ import 'package:presience_app/domain/entities/user.dart';
 
 class AuthDto {
   final String? token;
+  final String? refToken;
   final User? user;
   final DateTime? expiration;
 
   AuthDto({
     this.token,
+    this.refToken,
     this.user,
     this.expiration,
   });
@@ -27,12 +29,14 @@ class AuthDto {
       return AuthDto(
         user: user,
         token: data["token"],
+        refToken: data["reftoken"],
         expiration: expirationDateTime,
       );
     } else {
       return AuthDto(
         user: null,
         token: null,
+        refToken: null,
         expiration: null,
       );
     }
@@ -41,6 +45,7 @@ class AuthDto {
   Map<String, dynamic> toJson() => {
         "data": {
           "token": token,
+          "reftoken": refToken,
           "user": user?.toJson(),
           "exp": expiration != null
               ? (expiration!.millisecondsSinceEpoch ~/ 1000)
