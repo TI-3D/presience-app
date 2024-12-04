@@ -12,8 +12,8 @@ class PermitRemoteDatasource {
   final _dio = Dio(
     BaseOptions(
       baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
+      connectTimeout: const Duration(seconds: 15),
+      receiveTimeout: const Duration(seconds: 15),
     ),
   )..interceptors.add(TokenInterceptor());
 
@@ -30,7 +30,7 @@ class PermitRemoteDatasource {
         return Left(response.data['message'] as String);
       }
     } on DioException catch (e) {
-      return Left(e.response?.data['message'] ?? 'An unknown error occurred');
+      return Left(e.response?.data['message'] ?? 'Jaringan anda kurang stabil');
     }
   }
 

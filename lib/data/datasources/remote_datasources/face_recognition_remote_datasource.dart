@@ -10,8 +10,8 @@ class FaceRecognitionRemoteDatasource {
   final Dio _dio = Dio(
     BaseOptions(
       baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
+      connectTimeout: const Duration(seconds: 15),
+      receiveTimeout: const Duration(seconds: 15),
     ),
   )..interceptors.add(TokenInterceptor());
 
@@ -32,7 +32,7 @@ class FaceRecognitionRemoteDatasource {
         return Left(response.data['message'] as String);
       }
     } on DioException catch (e) {
-      return Left(e.response?.data['message'] ?? 'An error occurred: $e');
+      return Left(e.response?.data['message'] ?? 'Jaringan anda kurang stabil');
     }
   }
 
@@ -53,7 +53,7 @@ class FaceRecognitionRemoteDatasource {
         return Left(response.data['message'] as String);
       }
     } on DioException catch (e) {
-      return Left(e.response?.data['message'] ?? 'An error occurred: $e');
+      return Left(e.response?.data['message'] ?? 'Jaringan anda kurang stabil');
     }
   }
 
@@ -75,7 +75,7 @@ class FaceRecognitionRemoteDatasource {
         return Left(response.data['message'] as String);
       }
     } on DioException catch (e) {
-      return Left(e.response?.data['message'] ?? 'An error occurred: $e');
+      return Left(e.response?.data['message'] ?? 'Jaringan anda kurang stabil');
     }
   }
 }

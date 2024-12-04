@@ -96,6 +96,8 @@ class ProfilPage extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
                                           child: CustomTextLabel(

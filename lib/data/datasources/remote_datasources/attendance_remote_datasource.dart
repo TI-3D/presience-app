@@ -14,8 +14,8 @@ class AttendanceRemoteDatasource {
   final Dio _dio = Dio(
     BaseOptions(
       baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
+      connectTimeout: const Duration(seconds: 15),
+      receiveTimeout: const Duration(seconds: 15),
     ),
   )..interceptors.add(TokenInterceptor());
 
@@ -29,7 +29,7 @@ class AttendanceRemoteDatasource {
         return Left(response.data['message']);
       }
     } on DioException catch (e) {
-      return Left(e.response?.data['message'] ?? 'Kesalahan jaringan');
+      return Left(e.response?.data['message'] ?? 'Jaringan anda kurang stabil');
     }
   }
 
@@ -45,7 +45,7 @@ class AttendanceRemoteDatasource {
         return Left(response.data['message']);
       }
     } on DioException catch (e) {
-      return Left(e.response?.data['message'] ?? 'Kesalahan jaringan');
+      return Left(e.response?.data['message'] ?? 'Jaringan anda kurang stabil');
     }
   }
 
@@ -69,7 +69,7 @@ class AttendanceRemoteDatasource {
         return Left(response.data['message']);
       }
     } on DioException catch (e) {
-      return Left(e.response?.data['message'] ?? 'Kesalahan jaringan');
+      return Left(e.response?.data['message'] ?? 'Jaringan anda kurang stabil');
     }
   }
 
@@ -93,7 +93,7 @@ class AttendanceRemoteDatasource {
         return Left(response.data['message']);
       }
     } on DioException catch (e) {
-      return Left(e.response?.data['message'] ?? 'Kesalahan jaringan');
+      return Left(e.response?.data['message'] ?? 'Jaringan anda kurang stabil');
     }
   }
 
@@ -120,7 +120,7 @@ class AttendanceRemoteDatasource {
         return Left(response.data['message']);
       }
     } on DioException catch (e) {
-      return Left(e.response?.data['message'] ?? 'Kesalahan jaringan');
+      return Left(e.response?.data['message'] ?? 'Jaringan anda kurang stabil');
     }
   }
 }

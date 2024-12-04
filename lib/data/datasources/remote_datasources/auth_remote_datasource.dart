@@ -16,8 +16,8 @@ class AuthRemoteDatasource {
   final Dio _dio = Dio(
     BaseOptions(
       baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
+      connectTimeout: const Duration(seconds: 15),
+      receiveTimeout: const Duration(seconds: 15),
     ),
   )..interceptors.add(TokenInterceptor());
 
@@ -53,7 +53,7 @@ class AuthRemoteDatasource {
             'Konfirmasi kata sandi salah atau minimal 8 karakter');
       }
     } on DioException {
-      return const Left('Kesalahan saat mengubah kata sandi');
+      return const Left('Jaringan anda kurang stabil');
     }
   }
 
@@ -71,7 +71,7 @@ class AuthRemoteDatasource {
             'Konfirmasi FCM ID salah atau FCM ID sudah digunakan');
       }
     } on DioException {
-      return const Left('Kesalahan saat mengubah FCM ID');
+      return const Left('Jaringan anda kurang stabil');
     }
   }
 

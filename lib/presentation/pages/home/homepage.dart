@@ -124,77 +124,35 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.only(bottom: 12),
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(
-            // horizontal: 16,
-            vertical: 20,
-          ),
-          color: purpleTheme[50],
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              BlocBuilder<AuthBloc, AuthState>(
-                builder: (context, state) {
-                  return state.maybeWhen(
-                    loginSuccess: (data) {
-                      return Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 52,
-                              width: 52,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                border: Border.all(
-                                    color: neutralTheme[100]!, width: 1),
-                              ),
-                              child: (data.user!.avatar != null)
-                                  ? Image.network(
-                                      data.user!.avatar!,
-                                      fit: BoxFit.cover,
-                                    )
-                                  : (data.user!.gender == 'male')
-                                      ? Image.asset(
-                                          'assets/default/Men-Avatar-Default.png',
-                                          fit: BoxFit.cover,
-                                        )
-                                      : Image.asset(
-                                          'assets/default/Girl-Avatar-Default.png',
-                                          fit: BoxFit.cover,
-                                        ),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(data.user!.name!, style: mediumBodyTextXL),
-                                const SizedBox(
-                                  height: 2,
-                                ),
-                                Text(
-                                  data.user!.nim!,
-                                  style: mediumBodyTextS,
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    orElse: () {
-                      return Skeletonizer(
-                        enabled: true, // Flag to toggle skeleton
-                        enableSwitchAnimation: true, //
-                        child: Container(
+    return RefreshIndicator(
+      onRefresh: () async {
+        context
+            .read<ScheduleBloc>()
+            .add(const ScheduleEvent.getSchedulesToday());
+        context.read<AttendanceBloc>().add(
+              const AttendanceEvent.getAttendanceInformation(),
+            );
+        context.read<AttendanceWeekBloc>().add(
+              const AttendanceWeekEvent.getHistoryAttendanceWeek(),
+            );
+      },
+      child: ListView(
+        padding: const EdgeInsets.only(bottom: 12),
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(
+              // horizontal: 16,
+              vertical: 20,
+            ),
+            color: purpleTheme[50],
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                      loginSuccess: (data) {
+                        return Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 16,
                           ),
@@ -202,153 +160,210 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                  height: 52,
-                                  width: 52,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    border: Border.all(
-                                        color: neutralTheme[100]!, width: 1),
-                                  ),
-                                  child: const Bone.circle()),
+                                height: 52,
+                                width: 52,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  border: Border.all(
+                                      color: neutralTheme[100]!, width: 1),
+                                ),
+                                child: (data.user!.avatar != null)
+                                    ? Image.network(
+                                        data.user!.avatar!,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : (data.user!.gender == 'male')
+                                        ? Image.asset(
+                                            'assets/default/Men-Avatar-Default.png',
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Image.asset(
+                                            'assets/default/Girl-Avatar-Default.png',
+                                            fit: BoxFit.cover,
+                                          ),
+                              ),
                               const SizedBox(
                                 width: 8,
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(BoneMock.name, style: mediumBodyTextXL),
+                                  Text(data.user!.name!,
+                                      style: mediumBodyTextXL),
                                   const SizedBox(
                                     height: 2,
                                   ),
                                   Text(
-                                    BoneMock.phone,
+                                    data.user!.nim!,
                                     style: mediumBodyTextS,
                                   )
                                 ],
-                              )
+                              ),
                             ],
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                ),
-                child: BlocBuilder<AuthBloc, AuthState>(
-                  builder: (context, state) {
-                    return state.maybeWhen(
-                      loginSuccess: (data) {
-                        return BlocBuilder<AttendanceBloc, AttendanceState>(
-                          builder: (context, state) {
-                            return state.maybeWhen(
-                              success: (attendance) {
-                                return AttendanceCard(
-                                  data: data,
-                                  attendanceInformation: attendance,
-                                );
-                              },
-                              orElse: () {
-                                return const AttendanceSkeleton();
-                              },
-                            );
-                          },
                         );
                       },
                       orElse: () {
-                        return const AttendanceSkeleton();
+                        return Skeletonizer(
+                          enabled: true, // Flag to toggle skeleton
+                          enableSwitchAnimation: true, //
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                    height: 52,
+                                    width: 52,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      border: Border.all(
+                                          color: neutralTheme[100]!, width: 1),
+                                    ),
+                                    child: const Bone.circle()),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(BoneMock.name,
+                                        style: mediumBodyTextXL),
+                                    const SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      BoneMock.phone,
+                                      style: mediumBodyTextS,
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        );
                       },
                     );
                   },
                 ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          color: neutralTheme,
-          child: Column(
-            children: [
-              Divider(
-                color: neutralTheme[100],
-                thickness: 1,
-                height: 1,
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: const TitleSection(title: "Hari Ini"),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    const ContentofHariIni2(),
-                  ],
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              Divider(
-                color: neutralTheme[100],
-                thickness: 1,
-                height: 1,
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              BlocBuilder<AttendanceWeekBloc, AttendanceWeekState>(
-                builder: (context, state) {
-                  return state.maybeWhen(
-                    success: (data) {
-                      if (data.isEmpty) {
-                        return const EmptyHistoryPresensi();
-                      }
-
-                      return CustomSection(
-                        title: "Riwayat Presensi",
-                        child: ContentofRiwayatPresensi(
-                          scheduleWeek: data,
-                        ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                  ),
+                  child: BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        loginSuccess: (data) {
+                          return BlocBuilder<AttendanceBloc, AttendanceState>(
+                            builder: (context, state) {
+                              return state.maybeWhen(
+                                success: (attendance) {
+                                  return AttendanceCard(
+                                    data: data,
+                                    attendanceInformation: attendance,
+                                  );
+                                },
+                                orElse: () {
+                                  return const AttendanceSkeleton();
+                                },
+                              );
+                            },
+                          );
+                        },
+                        orElse: () {
+                          return const AttendanceSkeleton();
+                        },
                       );
                     },
-                    loading: () {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          children: [
-                            CustomLastWeekSkeleton(),
-                            const SizedBox(height: 8),
-                            CustomLastWeekSkeleton(),
-                            const SizedBox(height: 8),
-                            CustomLastWeekSkeleton(),
-                          ],
-                        ),
-                      );
-                    },
-                    orElse: () {
-                      return const EmptyHistoryPresensi();
-                    },
-                  );
-                },
-              )
-            ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        )
-      ],
+          Container(
+            color: neutralTheme,
+            child: Column(
+              children: [
+                Divider(
+                  color: neutralTheme[100],
+                  thickness: 1,
+                  height: 1,
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: const TitleSection(title: "Hari Ini"),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      const ContentofHariIni2(),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                Divider(
+                  color: neutralTheme[100],
+                  thickness: 1,
+                  height: 1,
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                BlocBuilder<AttendanceWeekBloc, AttendanceWeekState>(
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                      success: (data) {
+                        if (data.isEmpty) {
+                          return const EmptyHistoryPresensi();
+                        }
+
+                        return CustomSection(
+                          title: "Riwayat Presensi",
+                          child: ContentofRiwayatPresensi(
+                            scheduleWeek: data,
+                          ),
+                        );
+                      },
+                      loading: () {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Column(
+                            children: [
+                              CustomLastWeekSkeleton(),
+                              const SizedBox(height: 8),
+                              CustomLastWeekSkeleton(),
+                              const SizedBox(height: 8),
+                              CustomLastWeekSkeleton(),
+                            ],
+                          ),
+                        );
+                      },
+                      orElse: () {
+                        return const EmptyHistoryPresensi();
+                      },
+                    );
+                  },
+                )
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }
