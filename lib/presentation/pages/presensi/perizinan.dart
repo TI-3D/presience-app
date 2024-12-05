@@ -271,7 +271,9 @@ class _FormDateState extends State<FormDate> {
                     context.pop();
                     return context.push('/pengajuan_izin', extra: {
                       'startDate': _startDateController.text,
-                      'endDate': _endDateController.text,
+                      'endDate': (_endDateController.text.isEmpty)
+                          ? _startDateController.text
+                          : _endDateController.text,
                     });
                   },
                   failure: (message) {
@@ -300,14 +302,13 @@ class _FormDateState extends State<FormDate> {
                       onPressed: () {
                         validateForm();
                         if (errorMessage["startDate"] == null) {
-                          // if (_endDateController.text.isEmpty) {
-                          //   _endDateController.text = _startDateController.text;
-                          // }
                           context.read<AttendanceWeekBloc>().add(
                                 AttendanceWeekEvent.getScheduleByDate(
                                   GetScheduleDto(
                                     startDate: _startDateController.text,
-                                    endDate: _endDateController.text,
+                                    endDate: (_endDateController.text.isEmpty)
+                                        ? _startDateController.text
+                                        : _endDateController.text,
                                   ),
                                 ),
                               );

@@ -1,99 +1,84 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:presience_app/data/dto/requests/attendance_dto.dart';
 import 'package:presience_app/data/dto/requests/permit_dto.dart';
 import 'package:presience_app/domain/entities/schedule_week.dart';
 
 import '../../../presentation/utils/constants.dart';
-import '../local_datasources/auth_local_datasources.dart';
+import 'refresh_token_remote_datasource.dart';
 
 class ScheduleRemoteDatasource {
-  Future<Either<String, List<ScheduleWeek>>> getSchedulesToday() async {
-    final authData = await AuthLocalDataSource().getAuthData();
-    final url = Uri.parse('$baseUrl/api/users/schedule-week');
-    final response = await http.get(
-      url,
-      headers: {
-        'Authorization': 'Bearer ${authData!.token}',
-        'Content-Type': 'application/json',
-      },
-    );
+  final _dio = Dio(
+    BaseOptions(
+      baseUrl: baseUrl,
+      connectTimeout: const Duration(seconds: 15),
+      receiveTimeout: const Duration(seconds: 15),
+    ),
+  )..interceptors.add(TokenInterceptor());
 
-    if (response.statusCode == 200) {
-      final List<dynamic> jsonData =
-          jsonDecode(response.body)['data'] as List<dynamic>;
-      final schedules =
-          jsonData.map((json) => ScheduleWeek.fromJson(json)).toList();
-      return Right(schedules);
-    } else {
-      return Left(jsonDecode(response.body)['message']);
+  Future<Either<String, List<ScheduleWeek>>> getSchedulesToday() async {
+    try {
+      final response = await _dio.get('/api/users/schedule-week');
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonData = response.data['data'] as List<dynamic>;
+        final schedules =
+            jsonData.map((json) => ScheduleWeek.fromJson(json)).toList();
+        return Right(schedules);
+      } else {
+        return Left(response.data['message'] as String);
+      }
+    } on DioException catch (e) {
+      return Left(e.response?.data['message'] ?? 'Jaringan anda kurang stabil');
     }
   }
 
   Future<Either<String, ScheduleWeek>> storeAttendance(
       AttendanceDto params) async {
-    final authData = await AuthLocalDataSource().getAuthData();
-    final url = Uri.parse('$baseUrl/api/users/store-attendance');
-
-    final request = http.MultipartRequest('POST', url)
-      ..headers['Authorization'] = 'Bearer ${authData!.token}'
-      ..fields['sw_id'] = params.scheduleWeekId.toString()
-      ..fields['latitude'] = params.latitude.toString()
-      ..fields['longitude'] = params.longitude.toString();
-
-    // Attach the evidence file if it exists
-    if (params.evidence != null) {
-      request.files.add(
-        await http.MultipartFile.fromPath('evidence', params.evidence!.path),
-      );
-      request.fields['description'] = params.description!;
-    }
-
     try {
-      final streamedResponse = await request.send();
-      final response = await http.Response.fromStream(streamedResponse);
+      final formData = FormData.fromMap({
+        'sw_id': params.scheduleWeekId.toString(),
+        'latitude': params.latitude.toString(),
+        'longitude': params.longitude.toString(),
+        if (params.evidence != null)
+          'evidence': await MultipartFile.fromFile(params.evidence!.path),
+        if (params.description != null) 'description': params.description,
+      });
+
+      final response =
+          await _dio.post('/api/users/store-attendance', data: formData);
 
       if (response.statusCode == 200) {
-        return Right(ScheduleWeek.fromJson(jsonDecode(response.body)['data']));
+        return Right(ScheduleWeek.fromJson(response.data['data']));
       } else {
-        return Left(jsonDecode(response.body)['message'] as String);
+        return Left(response.data['message'] as String);
       }
-    } catch (e) {
-      return Left('An error occurred: $e');
+    } on DioException catch (e) {
+      return Left(e.response?.data['message'] ?? 'Jaringan anda kurang stabil');
     }
   }
 
   Future<Either<String, ScheduleWeek>> storeCurrentPermit(
       PermitDto params) async {
-    final authData = await AuthLocalDataSource().getAuthData();
-    final url = Uri.parse('$baseUrl/api/users/store-current-permit');
-
-    final request = http.MultipartRequest('POST', url)
-      ..headers['Authorization'] = 'Bearer ${authData!.token}'
-      ..fields['permit_type'] = params.type.toString()
-      ..fields['description'] = params.description.toString()
-      ..fields['sw_id'] = params.scheduleWeekId.toString();
-
-    // Attach the evidence file if it exists
-    if (params.evidence != null) {
-      request.files.add(
-        await http.MultipartFile.fromPath('evidence', params.evidence!.path),
-      );
-    }
-
     try {
-      final streamedResponse = await request.send();
-      final response = await http.Response.fromStream(streamedResponse);
+      final formData = FormData.fromMap({
+        'permit_type': params.type.toString(),
+        'description': params.description.toString(),
+        'sw_id': params.scheduleWeekId.toString(),
+        if (params.evidence != null)
+          'evidence': await MultipartFile.fromFile(params.evidence!.path),
+      });
+
+      final response =
+          await _dio.post('/api/users/store-current-permit', data: formData);
 
       if (response.statusCode == 200) {
-        return Right(ScheduleWeek.fromJson(jsonDecode(response.body)['data']));
+        return Right(ScheduleWeek.fromJson(response.data['data']));
       } else {
-        return Left(jsonDecode(response.body)['message']);
+        return Left(response.data['message'] as String);
       }
-    } catch (e) {
-      return Left('An error occurred: $e');
+    } on DioException catch (e) {
+      return Left(e.response?.data['message'] ?? 'Jaringan anda kurang stabil');
     }
   }
 }

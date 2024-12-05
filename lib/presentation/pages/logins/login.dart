@@ -50,6 +50,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  void initState() {
+    context.read<ScheduleBloc>().add(const ScheduleEvent.stopPolling());
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _nimController.dispose();
     _passwordController.dispose();
