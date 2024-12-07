@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:presience_app/data/dto/requests/get_history_attendance_dto.dart';
+import 'package:presience_app/data/dto/requests/permit_after_schedule_dto.dart';
 import 'package:presience_app/data/dto/requests/permit_before_schedule_dto.dart';
 import 'package:presience_app/domain/entities/schedule_week.dart';
 
@@ -40,7 +41,31 @@ class HistoryAttendanceBloc
           .storePermitBeforeSchedule(event.params);
       response.fold(
         (l) => emit(_Failure(l)),
-        (r) => emit(_Success(schedules)),
+        (r) {
+          schedules.addAll(r);
+          emit(_Success(schedules));
+        },
+      );
+    });
+
+    on<_StorePermitAfterSchedule>((event, emit) async {
+      List<ScheduleWeek> schedules = [];
+
+      state.maybeWhen(
+        success: (data) => schedules = List<ScheduleWeek>.from(data),
+        orElse: () {},
+      );
+
+      emit(const _Loading());
+
+      final response = await _attendanceRemoteDatasource
+          .storePermitAfterSchedule(event.params);
+      response.fold(
+        (l) => emit(_Failure(l)),
+        (r) {
+          schedules.add(r);
+          emit(_Success(schedules));
+        },
       );
     });
   }

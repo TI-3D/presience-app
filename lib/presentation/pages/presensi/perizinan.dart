@@ -18,6 +18,7 @@ import 'package:presience_app/presentation/widgets/form/text_field.dart';
 
 import '../../../data/dto/requests/get_schedule_dto.dart';
 import '../../widgets/cards/section.dart';
+import '../../widgets/skeletons/history_presensi_skeleton.dart';
 import '../../widgets/skeletons/perizinan_card.dart';
 
 class PerizinanPage extends StatefulWidget {
@@ -95,6 +96,22 @@ class _PerizinanPageState extends State<PerizinanPage> {
                 // ),
                 // const CustomSection(title: "Perubahan", child: ContentofPerizinan()),
               ],
+            );
+          },
+          loading: () {
+            return ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: 4,
+              itemBuilder: (context, index) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: HistoryPresensiSkeleton(),
+                );
+              },
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 8,
+              ),
             );
           },
           orElse: () {

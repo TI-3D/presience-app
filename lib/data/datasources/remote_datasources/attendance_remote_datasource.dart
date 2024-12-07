@@ -8,14 +8,15 @@ import 'package:presience_app/domain/entities/schedule_week.dart';
 import 'package:presience_app/presentation/utils/constants.dart';
 import 'package:presience_app/presentation/utils/methods.dart';
 
+import '../../dto/requests/permit_after_schedule_dto.dart';
 import 'refresh_token_remote_datasource.dart';
 
 class AttendanceRemoteDatasource {
   final Dio _dio = Dio(
     BaseOptions(
       baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 15),
-      receiveTimeout: const Duration(seconds: 15),
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 30),
     ),
   )..interceptors.add(TokenInterceptor());
 
@@ -97,7 +98,7 @@ class AttendanceRemoteDatasource {
     }
   }
 
-  Future<Either<String, void>> storePermitBeforeSchedule(
+  Future<Either<String, List<ScheduleWeek>>> storePermitBeforeSchedule(
       PermitBeforeScheduleDto params) async {
     final formData = FormData.fromMap({
       'permit_type': params.type.toString(),
@@ -115,7 +116,36 @@ class AttendanceRemoteDatasource {
         data: formData,
       );
       if (response.statusCode == 200) {
-        return const Right(null);
+        final schedules = (response.data['data'] as List)
+            .map((json) => ScheduleWeek.fromJson(json))
+            .toList();
+        return Right(schedules);
+      } else {
+        return Left(response.data['message']);
+      }
+    } on DioException catch (e) {
+      return Left(e.response?.data['message'] ?? 'Jaringan anda kurang stabil');
+    }
+  }
+
+  Future<Either<String, ScheduleWeek>> storePermitAfterSchedule(
+      PermitAfterScheduleDto params) async {
+    final formData = FormData.fromMap({
+      'attendance_id': params.attendanceId.toString(),
+      'permit_type': params.type.toString(),
+      'description': params.description.toString(),
+      if (params.evidence != null)
+        'evidence': await MultipartFile.fromFile(params.evidence!.path),
+    });
+
+    try {
+      final response = await _dio.post(
+        '/api/users/store-after-permit',
+        data: formData,
+      );
+
+      if (response.statusCode == 200) {
+        return Right(ScheduleWeek.fromJson(response.data['data']));
       } else {
         return Left(response.data['message']);
       }

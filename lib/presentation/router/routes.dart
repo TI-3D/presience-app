@@ -248,9 +248,13 @@ final GoRouter _router = GoRouter(
         GoRoute(
           path: 'after',
           pageBuilder: (context, state) {
+            final Map<String, dynamic> extraData =
+                state.extra as Map<String, dynamic>? ?? {};
             return CustomTransitionPage(
               key: state.pageKey,
-              child: const FormPengajuanAfterClassPage(),
+              child: FormPengajuanAfterClassPage(
+                scheduleWeek: extraData['scheduleWeek'] as ScheduleWeek,
+              ),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 const begin = Offset(1.0, 0.0); // Right-to-left slide

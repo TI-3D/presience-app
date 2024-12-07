@@ -102,236 +102,245 @@ class _PresensiPageState extends State<PresensiPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(
-            height: 12,
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                BlocBuilder<CourseBloc, CourseState>(
-                  builder: (context, state) {
-                    return state.maybeWhen(
-                      success: (data) {
-                        return CustomDropdown(
-                          icon: TablerIcons.book_2,
-                          width: MediaQuery.of(context).size.width - 183,
-                          items: [
-                            const {"id": 0, "name": "Semua Mata Kuliah"},
-                            ...data.map((e) => {"id": e.id, "name": e.name!})
-                          ],
-                          onChange: (int id) {
-                            courseId = id;
-                            context.read<HistoryAttendanceBloc>().add(
-                                  HistoryAttendanceEvent.getHistoryAttendance(
-                                    GetHistoryAttendanceDto(
-                                      courseId: courseId,
-                                      attendanceStatus: attendanceStatus,
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<HistoryAttendanceBloc>().add(
+              const HistoryAttendanceEvent.getHistoryAttendance(
+                GetHistoryAttendanceDto(attendanceStatus: '', courseId: 0),
+              ),
+            );
+      },
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(
+              height: 12,
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  BlocBuilder<CourseBloc, CourseState>(
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        success: (data) {
+                          return CustomDropdown(
+                            icon: TablerIcons.book_2,
+                            width: MediaQuery.of(context).size.width - 183,
+                            items: [
+                              const {"id": 0, "name": "Semua Mata Kuliah"},
+                              ...data.map((e) => {"id": e.id, "name": e.name!})
+                            ],
+                            onChange: (int id) {
+                              courseId = id;
+                              context.read<HistoryAttendanceBloc>().add(
+                                    HistoryAttendanceEvent.getHistoryAttendance(
+                                      GetHistoryAttendanceDto(
+                                        courseId: courseId,
+                                        attendanceStatus: attendanceStatus,
+                                      ),
                                     ),
-                                  ),
-                                );
-                          },
-                        );
+                                  );
+                            },
+                          );
+                        },
+                        orElse: () {
+                          return CustomDropdown(
+                            icon: TablerIcons.book_2,
+                            width: MediaQuery.of(context).size.width - 183,
+                            items: const [
+                              {
+                                "id": 0,
+                                "name": "Semua Mata Kuliah",
+                              }
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Container(
+                    width: 1,
+                    height: 26,
+                    color: neutralTheme[100],
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  DropdownStatus(
+                    icon: TablerIcons.empathize,
+                    width: 133,
+                    items: const [
+                      {
+                        "value": "",
+                        "name": "Semua Status",
                       },
-                      orElse: () {
-                        return CustomDropdown(
-                          icon: TablerIcons.book_2,
-                          width: MediaQuery.of(context).size.width - 183,
-                          items: const [
-                            {
-                              "id": 0,
-                              "name": "Semua Mata Kuliah",
-                            }
-                          ],
-                        );
+                      {
+                        "value": "hadir",
+                        "name": "Hadir",
                       },
+                      {
+                        "value": "sakit",
+                        "name": "Sakit",
+                      },
+                      {
+                        "value": "izin",
+                        "name": "Izin",
+                      },
+                      {
+                        "value": "alpha",
+                        "name": "Alpha",
+                      },
+                    ],
+                    onChange: (String status) {
+                      attendanceStatus = status;
+                      context.read<HistoryAttendanceBloc>().add(
+                            HistoryAttendanceEvent.getHistoryAttendance(
+                              GetHistoryAttendanceDto(
+                                courseId: courseId,
+                                attendanceStatus: attendanceStatus,
+                              ),
+                            ),
+                          );
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Divider(
+              color: neutralTheme[100],
+              thickness: 1,
+              height: 24,
+            ),
+            BlocBuilder<ScheduleBloc, ScheduleState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  success: (data) {
+                    if (data.isEmpty) {
+                      return Container();
+                    }
+
+                    // Filter for the first schedule with status "opened and no attendance"
+                    final ScheduleWeek? openedSchedule = data.firstWhereOrNull(
+                      (schedule) =>
+                          schedule.status == 'opened' &&
+                          schedule.attendance == null,
+                    );
+
+                    if (openedSchedule == null) {
+                      return Container();
+                    }
+
+                    return Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: TodayPresensiCard(
+                            scheduleWeek: openedSchedule,
+                            onTapPresensi: () {
+                              context.push('/camera/presensi', extra: {
+                                'openedAt': openedSchedule.openedAt,
+                                'scheduleWeekId': openedSchedule.id
+                              });
+                            },
+                            onTapAjukanIzin: () {
+                              context.push('/pengajuan_izin/during', extra: {
+                                'scheduleWeek': openedSchedule,
+                              });
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                      ],
                     );
                   },
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Container(
-                  width: 1,
-                  height: 26,
-                  color: neutralTheme[100],
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                DropdownStatus(
-                  icon: TablerIcons.empathize,
-                  width: 133,
-                  items: const [
-                    {
-                      "value": "",
-                      "name": "Semua Status",
-                    },
-                    {
-                      "value": "hadir",
-                      "name": "Hadir",
-                    },
-                    {
-                      "value": "sakit",
-                      "name": "Sakit",
-                    },
-                    {
-                      "value": "izin",
-                      "name": "Izin",
-                    },
-                    {
-                      "value": "alpha",
-                      "name": "Alpha",
-                    },
-                  ],
-                  onChange: (String status) {
-                    attendanceStatus = status;
-                    context.read<HistoryAttendanceBloc>().add(
-                          HistoryAttendanceEvent.getHistoryAttendance(
-                            GetHistoryAttendanceDto(
-                              courseId: courseId,
-                              attendanceStatus: attendanceStatus,
-                            ),
+                  orElse: () {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: const TodayPresensiSkeleton(),
+                    );
+                  },
+                );
+              },
+            ),
+            BlocBuilder<HistoryAttendanceBloc, HistoryAttendanceState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  success: (data) {
+                    if (data.isEmpty) {
+                      return const Padding(
+                        padding: EdgeInsets.only(top: 8),
+                        child: EmptyHistoryPresensi(),
+                      );
+                    }
+
+                    return ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: HistoryPresensiCard(
+                            courseName: data[index].schedule!.course!.name!,
+                            date: getFormattedDate(data[index].date!),
+                            openedTime: data[index].openedAt ?? '-',
+                            closedTime: data[index].closedAt ?? '-',
+                            courseTime: data[index].schedule!.course!.time!,
+                            alpha: data[index].attendance!.alpha!,
+                            sakit: data[index].attendance!.sakit!,
+                            izin: data[index].attendance!.izin!,
+                            onTap: () {
+                              context.read<HistoryAttendanceBloc>().add(
+                                    HistoryAttendanceEvent.getHistoryAttendance(
+                                      GetHistoryAttendanceDto(
+                                        courseId:
+                                            data[index].schedule!.course!.id!,
+                                      ),
+                                    ),
+                                  );
+                              context.push(
+                                '/presensi/detail',
+                                extra: data[index],
+                              );
+                            },
                           ),
                         );
-                  },
-                ),
-              ],
-            ),
-          ),
-          Divider(
-            color: neutralTheme[100],
-            thickness: 1,
-            height: 24,
-          ),
-          BlocBuilder<ScheduleBloc, ScheduleState>(
-            builder: (context, state) {
-              return state.maybeWhen(
-                success: (data) {
-                  if (data.isEmpty) {
-                    return Container();
-                  }
-
-                  // Filter for the first schedule with status "opened and no attendance"
-                  final ScheduleWeek? openedSchedule = data.firstWhereOrNull(
-                    (schedule) =>
-                        schedule.status == 'opened' &&
-                        schedule.attendance == null,
-                  );
-
-                  if (openedSchedule == null) {
-                    return Container();
-                  }
-
-                  return Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: TodayPresensiCard(
-                          scheduleWeek: openedSchedule,
-                          onTapPresensi: () {
-                            context.push('/camera/presensi', extra: {
-                              'openedAt': openedSchedule.openedAt,
-                              'scheduleWeekId': openedSchedule.id
-                            });
-                          },
-                          onTapAjukanIzin: () {
-                            context.push('/pengajuan_izin/during', extra: {
-                              'scheduleWeek': openedSchedule,
-                            });
-                          },
-                        ),
+                      },
+                      separatorBuilder: (context, index) => const SizedBox(
+                        height: 8,
                       ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                    ],
-                  );
-                },
-                orElse: () {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: const TodayPresensiSkeleton(),
-                  );
-                },
-              );
-            },
-          ),
-          BlocBuilder<HistoryAttendanceBloc, HistoryAttendanceState>(
-            builder: (context, state) {
-              return state.maybeWhen(
-                success: (data) {
-                  if (data.isEmpty) {
-                    return const Padding(
-                      padding: EdgeInsets.only(top: 8),
-                      child: EmptyHistoryPresensi(),
                     );
-                  }
-
-                  return ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: HistoryPresensiCard(
-                          courseName: data[index].schedule!.course!.name!,
-                          date: getFormattedDate(data[index].date!),
-                          openedTime: data[index].openedAt ?? '-',
-                          closedTime: data[index].closedAt ?? '-',
-                          courseTime: data[index].schedule!.course!.time!,
-                          alpha: data[index].attendance!.alpha!,
-                          sakit: data[index].attendance!.sakit!,
-                          izin: data[index].attendance!.izin!,
-                          onTap: () {
-                            context.read<HistoryAttendanceBloc>().add(
-                                  HistoryAttendanceEvent.getHistoryAttendance(
-                                    GetHistoryAttendanceDto(
-                                      courseId:
-                                          data[index].schedule!.course!.id!,
-                                    ),
-                                  ),
-                                );
-                            context.push(
-                              '/presensi/detail',
-                              extra: data[index],
-                            );
-                          },
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) => const SizedBox(
-                      height: 8,
-                    ),
-                  );
-                },
-                orElse: () {
-                  return ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 4,
-                    itemBuilder: (context, index) {
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: HistoryPresensiSkeleton(),
-                      );
-                    },
-                    separatorBuilder: (context, index) => const SizedBox(
-                      height: 8,
-                    ),
-                  );
-                },
-              );
-            },
-          ),
-        ],
+                  },
+                  orElse: () {
+                    return ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: 4,
+                      itemBuilder: (context, index) {
+                        return const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: HistoryPresensiSkeleton(),
+                        );
+                      },
+                      separatorBuilder: (context, index) => const SizedBox(
+                        height: 8,
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

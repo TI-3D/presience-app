@@ -115,6 +115,7 @@ class _ReRegisterFacePageState extends State<ReRegisterFacePage> {
               },
               failure: (message) {
                 showCustomDialog(
+                  isLoading: true,
                   context,
                   child: CustomDialog(
                     child: DialogContentButton(

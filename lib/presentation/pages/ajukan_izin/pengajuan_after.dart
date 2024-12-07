@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
+import 'package:presience_app/presentation/blocs/history_attendance/history_attendance_bloc.dart';
 import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
@@ -17,8 +18,22 @@ import 'package:presience_app/presentation/widgets/form/radio_desc.dart';
 import 'package:presience_app/presentation/widgets/form/text_field.dart';
 import 'package:presience_app/presentation/widgets/navigations/app_bar.dart';
 
+import '../../../data/dto/requests/permit_after_schedule_dto.dart';
+import '../../../domain/entities/schedule_week.dart';
+import '../../blocs/attendance/attendance_bloc.dart';
+import '../../blocs/attendance_week/attendance_week_bloc.dart';
+import '../../blocs/permit/permit_bloc.dart';
+import '../../utils/methods.dart';
+import '../../widgets/modal/button.dart';
+import '../../widgets/modal/dialog.dart';
+import '../../widgets/modal/loading.dart';
+
 class FormPengajuanAfterClassPage extends StatefulWidget {
-  const FormPengajuanAfterClassPage({super.key});
+  final ScheduleWeek scheduleWeek;
+  const FormPengajuanAfterClassPage({
+    super.key,
+    required this.scheduleWeek,
+  });
 
   @override
   State<FormPengajuanAfterClassPage> createState() =>
@@ -61,13 +76,6 @@ class _FormPengajuanAfterClassPageState
 
   @override
   Widget build(BuildContext context) {
-    Future<XFile?> selectImage() async {
-      XFile? selectedImage =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
-
-      return selectedImage;
-    }
-
     ImageProvider imageProvider;
     if (evidancePhoto == null || evidancePhoto == '') {
       imageProvider = const AssetImage('assets/images/user-profile.png');
@@ -81,34 +89,41 @@ class _FormPengajuanAfterClassPageState
     return SafeArea(
       child: Scaffold(
         backgroundColor: neutralTheme,
-        appBar: const CustomAppBar(
-          title: "Pengubahan Presensi",
+        appBar: CustomAppBar(
+          title: "Pengajuan",
+          onTap: () {
+            GoRouter.of(context).pop();
+          },
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.only(top: 12, bottom: 16),
           child: Column(
             children: [
-              const CustomSection(
+              CustomSection(
                 title: "Detail Presensi",
                 child: Column(
                   children: [
                     CustomFirstDetailContainer(
                       children: [
-                        TitleDetail(title: "Mata Kuliah"),
+                        const TitleDetail(title: "Mata Kuliah"),
                         ValueDetail(
-                            content: "Administrasi dan Keamanan Jaringan")
+                            content:
+                                widget.scheduleWeek.schedule!.course!.name!)
                       ],
                     ),
                     CustomMiddleDetailContainer(
                       children: [
-                        TitleDetail(title: "Minggu"),
-                        ValueDetail(content: "7")
+                        const TitleDetail(title: "Minggu"),
+                        ValueDetail(
+                            content: widget.scheduleWeek.schedule!.week!.name!)
                       ],
                     ),
                     CustomLastDetailContainer(
                       children: [
-                        TitleDetail(title: "Tanggal"),
-                        ValueDetail(content: "07/10/2024")
+                        const TitleDetail(title: "Tanggal"),
+                        ValueDetail(
+                            content:
+                                getFormattedDate(widget.scheduleWeek.date!))
                       ],
                     ),
                   ],
@@ -168,7 +183,7 @@ class _FormPengajuanAfterClassPageState
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -195,22 +210,21 @@ class _FormPengajuanAfterClassPageState
                           ),
                           const SizedBox(height: 8),
                           InkWell(
-                              onTap: () async {
-                                final image = await selectImage();
-                                setState(() {
-                                  evidancePhoto = image!.path;
-                                  pathImage = path.basename(image.path);
-                                });
-                                print(evidancePhoto);
-                                print(pathImage);
-                              },
-                              child: (evidancePhoto != null)
-                                  ? CustomImageInputFill(
-                                      imageProvider: imageProvider,
-                                      pathImage: pathImage)
-                                  : CustomImageInputEmpty(
-                                      errorMessage: errorMessage['document'],
-                                    ))
+                            onTap: () async {
+                              final image = await selectImage();
+                              setState(() {
+                                evidancePhoto = image!.path;
+                                pathImage = path.basename(image.path);
+                              });
+                            },
+                            child: (evidancePhoto != null)
+                                ? CustomImageInputFill(
+                                    imageProvider: imageProvider,
+                                    pathImage: pathImage)
+                                : CustomImageInputEmpty(
+                                    errorMessage: errorMessage['document'],
+                                  ),
+                          )
                         ],
                       ),
                     ),
@@ -220,19 +234,85 @@ class _FormPengajuanAfterClassPageState
             ],
           ),
         ),
-        bottomNavigationBar: Container(
-          padding: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
-          child: LargeFillButton(
-            label: "Konfirmasi",
-            onPressed: () {
-              validateForm();
-              if (errorMessage["description"] == null &&
-                  errorMessage['document'] == null) {
-                context.go('/homepage',
-                    extra: {'selectedPageIndex': 1, 'selectedTab': 1});
-              }
-            },
-          ),
+        bottomNavigationBar:
+            BlocConsumer<HistoryAttendanceBloc, HistoryAttendanceState>(
+          listener: (context, state) {
+            state.maybeWhen(
+              success: (data) {
+                Navigator.of(context, rootNavigator: true).pop();
+                context.read<AttendanceBloc>().add(
+                      const AttendanceEvent.getAttendanceInformation(),
+                    );
+                context.read<AttendanceWeekBloc>().add(
+                      const AttendanceWeekEvent.getHistoryAttendanceWeek(),
+                    );
+                context.read<PermitBloc>().add(
+                      const PermitEvent.getHistoryPermit(),
+                    );
+                context.replace('/homepage');
+              },
+              failure: (message) {
+                Navigator.of(context, rootNavigator: true).pop();
+                showCustomDialog(
+                  isLoading: true,
+                  context,
+                  child: CustomDialog(
+                    child: DialogContentButton(
+                      title: "Gagal Mengajukan Izin",
+                      subtitle: message,
+                      label: "Ulangi",
+                      onPressed: () {
+                        context.pop();
+                      },
+                    ),
+                  ),
+                );
+              },
+              loading: () {
+                showCustomDialog(
+                  isLoading: true,
+                  context,
+                  child: const CustomDialog(
+                    child: DialogContentLoading(
+                      title: "Tunggu sebentar",
+                      subtitle: "Izin kamu sedang diproses",
+                    ),
+                  ),
+                );
+              },
+              orElse: () {},
+            );
+          },
+          builder: (context, state) {
+            return state.maybeWhen(
+              orElse: () {
+                return Container(
+                  padding:
+                      const EdgeInsets.only(bottom: 16, right: 16, left: 16),
+                  child: LargeFillButton(
+                    label: "Konfirmasi",
+                    onPressed: () {
+                      validateForm();
+                      if (errorMessage["description"] == null &&
+                          errorMessage['document'] == null) {
+                        context.read<HistoryAttendanceBloc>().add(
+                              HistoryAttendanceEvent.storePermitAfterSchedule(
+                                PermitAfterScheduleDto(
+                                  attendanceId:
+                                      widget.scheduleWeek.attendance!.id,
+                                  type: selectedPermission,
+                                  description: _descriptionController.text,
+                                  evidence: File(evidancePhoto!),
+                                ),
+                              ),
+                            );
+                      }
+                    },
+                  ),
+                );
+              },
+            );
+          },
         ),
       ),
     );
