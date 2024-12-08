@@ -7,4 +7,6 @@ class HistoryAttendanceEvent with _$HistoryAttendanceEvent {
       GetHistoryAttendanceDto params) = _GetHistoryAttendance;
   const factory HistoryAttendanceEvent.storePermitBeforeSchedule(
       PermitBeforeScheduleDto params) = _StorePermitBeforeSchedule;
+  const factory HistoryAttendanceEvent.storePermitAfterSchedule(
+      PermitAfterScheduleDto params) = _StorePermitAfterSchedule;
 }

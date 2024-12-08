@@ -63,11 +63,11 @@ String capitalize(String input) {
   return input[0].toUpperCase() + input.substring(1).toLowerCase();
 }
 
-void showCustomDialog(BuildContext context,
-    {bool isLoading = false,
-    required CustomDialog child,
-    Future<bool> Function()? getResponse,
-    void Function(bool response)? onResponse}) {
+void showCustomDialog(
+  BuildContext context, {
+  bool isLoading = false,
+  required CustomDialog child,
+}) {
   showDialog(
     barrierDismissible: !isLoading,
     context: context,
@@ -75,13 +75,6 @@ void showCustomDialog(BuildContext context,
       return child;
     },
   );
-
-  // Simulate a backend call
-  if (isLoading) {
-    getResponse!().then((response) {
-      onResponse!(response);
-    });
-  }
 }
 
 Future<XFile?> selectImage() async {

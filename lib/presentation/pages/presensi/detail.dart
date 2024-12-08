@@ -207,22 +207,25 @@ class DetailPresensiPage extends StatelessWidget {
                       children: [
                         TitleDetail(
                           title: 'Status',
-                          child: Row(
-                            children: [
-                              const Icon(
-                                TablerIcons.alert_circle,
-                                color: redTheme,
-                                size: 14,
-                              ),
-                              const SizedBox(width: 2),
-                              Text(
-                                'Status dapat diubah dalam 7 hari lagi',
-                                style: regularBodyTextXS.copyWith(
-                                  color: redTheme,
-                                ),
-                              ),
-                            ],
-                          ),
+                          child: (DateTime.now().isBefore(scheduleWeek.date!
+                                  .add(const Duration(days: 7))))
+                              ? Row(
+                                  children: [
+                                    const Icon(
+                                      TablerIcons.alert_circle,
+                                      color: redTheme,
+                                      size: 14,
+                                    ),
+                                    const SizedBox(width: 2),
+                                    Text(
+                                      'Status dapat diubah dalam 7 hari lagi',
+                                      style: regularBodyTextXS.copyWith(
+                                        color: redTheme,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : Container(),
                         ),
                         Row(
                           children: [
@@ -230,11 +233,20 @@ class DetailPresensiPage extends StatelessWidget {
                             const SizedBox(
                               width: 8,
                             ),
-                            Icon(
-                              TablerIcons.refresh,
-                              color: neutralTheme[300],
-                              size: 24,
-                            ),
+                            if ((DateTime.now().isBefore(scheduleWeek.date!
+                                .add(const Duration(days: 7)))))
+                              GestureDetector(
+                                onTap: () {
+                                  context.push('/pengajuan_izin/after', extra: {
+                                    'scheduleWeek': scheduleWeek,
+                                  });
+                                },
+                                child: Icon(
+                                  TablerIcons.refresh,
+                                  color: neutralTheme[300],
+                                  size: 24,
+                                ),
+                              ),
                           ],
                         )
                       ],
