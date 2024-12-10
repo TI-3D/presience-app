@@ -130,8 +130,8 @@ class _FirstChangePasswordPageState extends State<FirstChangePasswordPage> {
                       const EdgeInsets.only(bottom: 16, right: 16, left: 16),
                   child: LargeFillButton(
                     label: "Masuk",
-                    isDisabled: _passwordController.text.isEmpty ||
-                        _passwordConfirmationController.text.isEmpty,
+                    // isDisabled: _passwordController.text.isEmpty ||
+                    //     _passwordConfirmationController.text.isEmpty,
                     onPressed: () {
                       validationForm();
                       if (errorMessage["password"] == null &&
