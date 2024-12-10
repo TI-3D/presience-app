@@ -51,6 +51,8 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
   late CameraController controller;
   int _currentCameraIndex = 0;
   bool isLate = false;
+  bool _showPicture = false;
+  File? fileImage;
 
   double? latitude;
   double? longitude;
@@ -159,6 +161,7 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
     try {
       XFile picture = await controller.takePicture();
       File file = File(picture.path);
+      fileImage = file;
       return file.copy(filePath);
     } catch (e) {
       return null;
@@ -186,6 +189,18 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                     return Stack(
                       children: [
                         CameraFullRatio(controller: controller),
+                        if (_showPicture) ...[
+                          Transform(
+                            alignment: Alignment.center,
+                            transform: Matrix4.identity()..scale(-1.0, 1.0),
+                            child: Image.file(
+                              fileImage!,
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height,
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        ],
                         const CameraFrame(),
                         BlocListener<FaceRecognitionBloc, FaceRecognitionState>(
                           listener: (context, state) {
@@ -207,6 +222,7 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                               },
                               failure: (message) {
                                 showCustomDialog(
+                                  isLoading: true,
                                   context,
                                   child: CustomDialog(
                                     child: DialogContentButton(
@@ -215,6 +231,9 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                                           "Kami tidak dapat mengenali wajahmu.",
                                       label: "Ulangi",
                                       onPressed: () {
+                                        setState(() {
+                                          _showPicture = false;
+                                        });
                                         context.pop();
                                       },
                                     ),
@@ -252,6 +271,7 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                                 failure: (message) {
                                   showCustomDialog(
                                     context,
+                                    isLoading: true,
                                     child: CustomDialog(
                                       child: DialogContentButton(
                                         title: "Lokasi Tidak Valid",
@@ -259,6 +279,9 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                                             "Sepertinya kamu sedang tidak di kampus.",
                                         label: "Ulangi",
                                         onPressed: () {
+                                          setState(() {
+                                            _showPicture = false;
+                                          });
                                           context.pop();
                                         },
                                       ),
@@ -277,6 +300,9 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                                           const ScheduleEvent.stopPolling());
                                       File? picture = await takePicture();
                                       if (picture != null) {
+                                        setState(() {
+                                          _showPicture = true;
+                                        });
                                         context.read<FaceRecognitionBloc>().add(
                                             FaceRecognitionEvent.validateFace(
                                                 picture));
@@ -315,7 +341,7 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                                 return const CustomDialog(
                                   child: DialogContentLoading(
                                     title: "Tunggu sebentar",
-                                    subtitle: "Wajah kamu sedang di proses",
+                                    subtitle: "Kami sedang mengenali wajah kamu",
                                   ),
                                 );
                               },
