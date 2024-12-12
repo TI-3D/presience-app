@@ -407,7 +407,7 @@ class _FormPengajuanBeforeClassPageState
                   context.read<PermitBloc>().add(
                         const PermitEvent.getHistoryPermit(),
                       );
-                  context.replace('/homepage');
+                  context.go('/homepage');
                 },
                 failure: (message) {
                   Navigator.of(context, rootNavigator: true).pop();

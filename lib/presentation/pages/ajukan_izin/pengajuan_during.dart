@@ -95,9 +95,6 @@ class _FormPengajuanDuringClassPageState
           title: "Pengajuan",
           onTap: () {
             GoRouter.of(context).pop();
-            context.read<ScheduleBloc>().add(
-                  const ScheduleEvent.getSchedulesToday(),
-                );
           },
         ),
         body: SingleChildScrollView(
