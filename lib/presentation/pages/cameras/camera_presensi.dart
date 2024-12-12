@@ -266,7 +266,7 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                                   context
                                       .read<ScheduleBloc>()
                                       .add(const ScheduleEvent.startPolling());
-                                  return context.push('/homepage');
+                                  return context.go('/homepage');
                                 },
                                 failure: (message) {
                                   showCustomDialog(
@@ -341,7 +341,8 @@ class _CameraPresensiPageState extends State<CameraPresensiPage> {
                                 return const CustomDialog(
                                   child: DialogContentLoading(
                                     title: "Tunggu sebentar",
-                                    subtitle: "Kami sedang mengenali wajah kamu",
+                                    subtitle:
+                                        "Kami sedang mengenali wajah kamu",
                                   ),
                                 );
                               },
