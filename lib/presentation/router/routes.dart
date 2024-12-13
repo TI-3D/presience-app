@@ -10,6 +10,7 @@ import 'package:presience_app/presentation/pages/cameras/camera_presensi.dart';
 import 'package:presience_app/presentation/pages/cameras/camera_re_registration.dart';
 import 'package:presience_app/presentation/pages/cameras/camera_registration.dart';
 import 'package:presience_app/presentation/pages/home/homepage.dart';
+import 'package:presience_app/presentation/pages/logins/forget_password.dart';
 import 'package:presience_app/presentation/pages/logins/login.dart';
 import 'package:presience_app/presentation/pages/logins/success.dart';
 import 'package:presience_app/presentation/pages/presensi/detail.dart';
@@ -31,6 +32,30 @@ final GoRouter _router = GoRouter(
         },
       ),
       routes: <RouteBase>[
+        GoRoute(
+              path: 'forget_password',
+              pageBuilder: (context, state) {
+                return CustomTransitionPage(
+                  key: state.pageKey,
+                  child: const ForgetPasswordPage(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    const begin = Offset(1.0, 0.0); // Right-to-left slide
+                    const end = Offset.zero;
+                    const curve = Curves.ease;
+
+                    var tween = Tween(begin: begin, end: end)
+                        .chain(CurveTween(curve: curve));
+                    var offsetAnimation = animation.drive(tween);
+
+                    return SlideTransition(
+                      position: offsetAnimation,
+                      child: child,
+                    );
+                  },
+                );
+              },
+            ),
         GoRoute(
           path: 'success',
           pageBuilder: (context, state) {
