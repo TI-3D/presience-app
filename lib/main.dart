@@ -15,6 +15,7 @@ import 'package:presience_app/presentation/blocs/attendance_week/attendance_week
 import 'package:presience_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:presience_app/presentation/blocs/course/course_bloc.dart';
 import 'package:presience_app/presentation/blocs/face_recognition/face_recognition_bloc.dart';
+import 'package:presience_app/presentation/blocs/forgot_password/forgot_password_bloc.dart';
 import 'package:presience_app/presentation/blocs/history_attendance/history_attendance_bloc.dart';
 import 'package:presience_app/presentation/blocs/permit/permit_bloc.dart';
 import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
@@ -74,6 +75,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => FaceRecognitionBloc(
             FaceRecognitionRemoteDatasource(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => ForgotPasswordBloc(
+            AuthRemoteDatasource(),
           ),
         ),
       ],
