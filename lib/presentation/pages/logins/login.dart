@@ -8,6 +8,7 @@ import 'package:presience_app/presentation/blocs/course/course_bloc.dart';
 import 'package:presience_app/presentation/blocs/history_attendance/history_attendance_bloc.dart';
 import 'package:presience_app/presentation/blocs/permit/permit_bloc.dart';
 import 'package:presience_app/presentation/blocs/schedule/schedule_bloc.dart';
+import 'package:presience_app/presentation/utils/text.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/buttons/button.dart';
 import 'package:presience_app/presentation/widgets/form/text_field.dart';
@@ -110,6 +111,22 @@ class _LoginPageState extends State<LoginPage> {
                         });
                       },
                     ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        context.push("/login/forget_password");
+                      },
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "Lupa Kata Sandi?",
+                          textAlign: TextAlign.right,
+                          style: mediumBodyText.copyWith(color: purpleTheme),
+                        ),
+                      ),
+                    )
                   ],
                 )
               ],
@@ -159,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
               orElse: () {
                 return Container(
                   padding:
-                      const EdgeInsets.only(bottom: 16, right: 16, left: 16),
+                      const EdgeInsets.all(16),
                   child: LargeFillButton(
                     label: "Masuk",
                     // isDisabled: _nimController.text.isEmpty ||

@@ -144,6 +144,18 @@ class _FormDateState extends State<FormDate> {
     "endDate": null,
   };
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _startDateController.dispose();
+    _endDateController.dispose();
+    super.dispose();
+  }
+
   void validateForm() {
     setState(() {
       // Validasi password
