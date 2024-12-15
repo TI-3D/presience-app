@@ -9,6 +9,7 @@ import 'package:presience_app/data/dto/requests/login_dto.dart';
 import 'package:presience_app/data/dto/responses/auth_response.dart';
 import 'package:presience_app/presentation/utils/constants.dart';
 
+import '../../dto/requests/forgot_password_dto.dart';
 import '../local_datasources/auth_local_datasources.dart';
 import 'refresh_token_remote_datasource.dart';
 
@@ -35,6 +36,22 @@ class AuthRemoteDatasource {
       return Right(data);
     } else {
       return const Left('Nim atau kata sandi salah');
+    }
+  }
+
+  Future<Either<String, String>> forgotPassword(
+      ForgotPasswordDto params) async {
+    final url = Uri.parse('$baseUrl/api/forgot-password');
+    final response = await http.post(
+      url,
+      body: params.toJson(),
+    );
+
+    if (response.statusCode == 200) {
+      return const Right(
+          'Yeay! Berhasil melakukan pengaturan ulang kata sandi');
+    } else {
+      return const Left('NIM atau tanggal lahir Anda salah');
     }
   }
 
