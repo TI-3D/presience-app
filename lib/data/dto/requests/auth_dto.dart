@@ -52,4 +52,18 @@ class AuthDto {
               : null,
         },
       };
+
+  AuthDto copyWith({
+    String? token,
+    String? refToken,
+    User? user,
+    DateTime? expiration,
+  }) {
+    return AuthDto(
+      token: token ?? this.token,
+      refToken: refToken ?? this.refToken,
+      user: user ?? this.user,
+      expiration: expiration ?? this.expiration,
+    );
+  }
 }
