@@ -474,6 +474,15 @@ class _FormPengajuanBeforeClassPageState
                     },
                   ),
                 ),
+                loading: () => Container(
+                  padding:
+                      const EdgeInsets.only(bottom: 16, right: 16, left: 16),
+                  child: LargeFillButton(
+                    label: "Konfirmasi",
+                    isDisabled: true,
+                    onPressed: () {},
+                  ),
+                ),
               );
             },
           ),

@@ -423,13 +423,11 @@ final GoRouter _router = GoRouter(
           authData.expiration!.isAfter(DateTime.now())) {
         return '/homepage'; // Redirect to homepage if token is valid
       } else {
-        await AuthLocalDataSource().removeAuthData();
         return '/login'; // Redirect to login if token is expired
       }
     }
 
     if (authData != null && !authData.expiration!.isAfter(DateTime.now())) {
-      await AuthLocalDataSource().removeAuthData();
       return '/login'; // Redirect to login if token is expired
     }
 

@@ -4,7 +4,6 @@ import 'package:presience_app/data/datasources/local_datasources/auth_local_data
 import 'package:presience_app/data/dto/requests/auth_dto.dart';
 import 'package:presience_app/data/dto/requests/change_password_dto.dart';
 import 'package:presience_app/data/dto/requests/login_dto.dart';
-import 'package:presience_app/domain/entities/user.dart';
 
 import '../../../data/datasources/remote_datasources/auth_remote_datasource.dart';
 
@@ -56,11 +55,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final result = await _authRemoteDatasource.changePassword(event.params);
       result.fold(
         (l) => emit(_Failure(l)),
-        (r) {
-          User updatedUser = user!.user!.copyWith(isVerified: true);
-          user = user!.copyWith(user: updatedUser);
-          emit(_SuccessLogin(user!));
-        },
+        (r) => emit(_SuccessLogin(user!)),
       );
     });
 
