@@ -5,6 +5,7 @@ import 'package:presience_app/data/dto/requests/permit_dto.dart';
 import 'package:presience_app/domain/entities/schedule_week.dart';
 
 import '../../../presentation/utils/constants.dart';
+import '../../../presentation/utils/methods.dart';
 import 'refresh_token_remote_datasource.dart';
 
 class ScheduleRemoteDatasource {
@@ -61,12 +62,15 @@ class ScheduleRemoteDatasource {
   Future<Either<String, ScheduleWeek>> storeCurrentPermit(
       PermitDto params) async {
     try {
+      // Mengompres gambar
+      final compressedFile = await compressImage(params.evidence!);
+
       final formData = FormData.fromMap({
         'permit_type': params.type.toString(),
         'description': params.description.toString(),
         'sw_id': params.scheduleWeekId.toString(),
         if (params.evidence != null)
-          'evidence': await MultipartFile.fromFile(params.evidence!.path),
+          'evidence': await MultipartFile.fromFile(compressedFile.path),
       });
 
       final response =

@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
 import '../../../presentation/utils/constants.dart';
+import '../../../presentation/utils/methods.dart';
 import 'refresh_token_remote_datasource.dart';
 
 class FaceRecognitionRemoteDatasource {
@@ -17,8 +18,11 @@ class FaceRecognitionRemoteDatasource {
 
   Future<Either<String, String>> storeFace(File params) async {
     try {
+      // Mengompres gambar
+      final compressedFile = await compressImage(params);
+
       final formData = FormData.fromMap({
-        'face_image': await MultipartFile.fromFile(params.path),
+        'face_image': await MultipartFile.fromFile(compressedFile.path),
       });
 
       final response = await _dio.post(
@@ -38,8 +42,11 @@ class FaceRecognitionRemoteDatasource {
 
   Future<Either<String, String>> validateFace(File params) async {
     try {
+      // Mengompres gambar
+      final compressedFile = await compressImage(params);
+
       final formData = FormData.fromMap({
-        'face_image': await MultipartFile.fromFile(params.path),
+        'face_image': await MultipartFile.fromFile(compressedFile.path),
       });
 
       final response = await _dio.post(

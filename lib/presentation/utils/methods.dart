@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
+import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:presience_app/presentation/utils/theme.dart';
@@ -113,4 +116,26 @@ String convertDateRequest(String date) {
   final DateFormat outputFormat = DateFormat('yyyy-MM-dd');
   DateTime parsedDate = inputFormat.parse(date);
   return outputFormat.format(parsedDate);
+}
+
+Future<File> compressImage(File file) async {
+  // Membaca gambar menggunakan paket image
+  img.Image? image = img.decodeImage(file.readAsBytesSync());
+
+  if (image == null) {
+    throw Exception("Gambar gagal dibaca");
+  }
+
+  // Mengompres gambar (menentukan kualitas, misalnya 50%)
+  img.Image compressedImage =
+      img.copyResize(image, width: 800); // Mengubah ukuran jika perlu
+  List<int> compressedBytes = img.encodeJpg(compressedImage,
+      quality: 50); // Menyimpan dengan kualitas 50%
+
+  // Menyimpan gambar terkompresi ke file sementara
+  final tempDir = Directory.systemTemp;
+  final tempFile = File('${tempDir.path}/temp_compressed.jpg');
+  await tempFile.writeAsBytes(compressedBytes);
+
+  return tempFile;
 }
