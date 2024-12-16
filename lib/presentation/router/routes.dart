@@ -33,29 +33,29 @@ final GoRouter _router = GoRouter(
       ),
       routes: <RouteBase>[
         GoRoute(
-              path: 'forget_password',
-              pageBuilder: (context, state) {
-                return CustomTransitionPage(
-                  key: state.pageKey,
-                  child: const ForgetPasswordPage(),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnimation, child) {
-                    const begin = Offset(1.0, 0.0); // Right-to-left slide
-                    const end = Offset.zero;
-                    const curve = Curves.ease;
+          path: 'forget_password',
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: const ForgetPasswordPage(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                const begin = Offset(1.0, 0.0); // Right-to-left slide
+                const end = Offset.zero;
+                const curve = Curves.ease;
 
-                    var tween = Tween(begin: begin, end: end)
-                        .chain(CurveTween(curve: curve));
-                    var offsetAnimation = animation.drive(tween);
+                var tween = Tween(begin: begin, end: end)
+                    .chain(CurveTween(curve: curve));
+                var offsetAnimation = animation.drive(tween);
 
-                    return SlideTransition(
-                      position: offsetAnimation,
-                      child: child,
-                    );
-                  },
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: child,
                 );
               },
-            ),
+            );
+          },
+        ),
         GoRoute(
           path: 'success',
           pageBuilder: (context, state) {
@@ -423,11 +423,13 @@ final GoRouter _router = GoRouter(
           authData.expiration!.isAfter(DateTime.now())) {
         return '/homepage'; // Redirect to homepage if token is valid
       } else {
+        await AuthLocalDataSource().removeAuthData();
         return '/login'; // Redirect to login if token is expired
       }
     }
 
     if (authData != null && !authData.expiration!.isAfter(DateTime.now())) {
+      await AuthLocalDataSource().removeAuthData();
       return '/login'; // Redirect to login if token is expired
     }
 
