@@ -58,7 +58,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         (l) => emit(_Failure(l)),
         (r) {
           User updatedUser = user!.user!.copyWith(isVerified: true);
-          user!.copyWith(user: updatedUser);
+          user = user!.copyWith(user: updatedUser);
           emit(_SuccessLogin(user!));
         },
       );
