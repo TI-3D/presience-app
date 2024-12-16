@@ -100,6 +100,9 @@ class AttendanceRemoteDatasource {
 
   Future<Either<String, List<ScheduleWeek>>> storePermitBeforeSchedule(
       PermitBeforeScheduleDto params) async {
+    // Mengompres gambar
+    final compressedFile = await compressImage(params.evidence!);
+
     final formData = FormData.fromMap({
       'permit_type': params.type.toString(),
       'description': params.description.toString(),
@@ -107,7 +110,7 @@ class AttendanceRemoteDatasource {
       'end_date': params.endDate!.toString(),
       'sw_id': params.scheduleWeekId!.toString(),
       if (params.evidence != null)
-        'evidence': await MultipartFile.fromFile(params.evidence!.path),
+        'evidence': await MultipartFile.fromFile(compressedFile.path),
     });
 
     try {
@@ -130,12 +133,15 @@ class AttendanceRemoteDatasource {
 
   Future<Either<String, ScheduleWeek>> storePermitAfterSchedule(
       PermitAfterScheduleDto params) async {
+    // Mengompres gambar
+    final compressedFile = await compressImage(params.evidence!);
+
     final formData = FormData.fromMap({
       'attendance_id': params.attendanceId.toString(),
       'permit_type': params.type.toString(),
       'description': params.description.toString(),
       if (params.evidence != null)
-        'evidence': await MultipartFile.fromFile(params.evidence!.path),
+        'evidence': await MultipartFile.fromFile(compressedFile.path),
     });
 
     try {
