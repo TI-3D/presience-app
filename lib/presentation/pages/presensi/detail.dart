@@ -179,13 +179,15 @@ class DetailPresensiPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                    CustomMiddleDetailContainer(
-                      children: [
-                        const TitleDetail(title: 'Waktu presensi'),
-                        ValueDetail(
-                            content: scheduleWeek.attendance!.entryTime!),
-                      ],
-                    ),
+                    if (scheduleWeek.attendance!.alpha! !=
+                        scheduleWeek.schedule!.course!.time)
+                      CustomMiddleDetailContainer(
+                        children: [
+                          const TitleDetail(title: 'Waktu presensi'),
+                          ValueDetail(
+                              content: scheduleWeek.attendance!.entryTime!),
+                        ],
+                      ),
                     if (scheduleWeek.attendance!.izin! !=
                             scheduleWeek.schedule!.course!.time &&
                         scheduleWeek.attendance!.alpha! !=
@@ -231,7 +233,7 @@ class DetailPresensiPage extends StatelessWidget {
                                       ),
                                       const SizedBox(width: 2),
                                       Text(
-                                        'Status dapat diubah dalam 7 hari lagi',
+                                        'Status dapat diubah dalam ${scheduleWeek.date!.add(const Duration(days: 7)).difference(DateTime.now()).inDays} hari lagi',
                                         style: regularBodyTextXS.copyWith(
                                           color: redTheme,
                                         ),

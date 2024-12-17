@@ -58,7 +58,7 @@ class FirebaseRemoteDatasource {
       body,
       const NotificationDetails(
         android: AndroidNotificationDetails('com.presience.app', 'app',
-            importance: Importance.max),
+            importance: Importance.max, priority: Priority.high, ticker: 'ticker',),
         iOS: DarwinNotificationDetails(),
       ),
     );
