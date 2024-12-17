@@ -9,21 +9,25 @@ import 'package:presience_app/presentation/utils/theme.dart';
 import 'package:presience_app/presentation/widgets/labels/tag_label.dart';
 import 'package:presience_app/presentation/widgets/modal/dialog.dart';
 
-Map<String, dynamic> getWidgetStatus(
-    {required int izin,
-    required int sakit,
-    required int alpha,
-    required int courseTime}) {
+Map<String, dynamic> getWidgetStatus({
+  required int izin,
+  required int sakit,
+  required int alpha,
+  required int courseTime,
+  bool isChanged = false,
+}) {
   Widget? tagLabel;
   Icon? additionIcon;
 
   if (alpha == courseTime) {
     tagLabel = const CustomTaglabelRed(label: "Alpha");
-    additionIcon = const Icon(
-      TablerIcons.alert_circle,
-      color: redTheme,
-      size: 16,
-    );
+    if (!isChanged) {
+      additionIcon = const Icon(
+        TablerIcons.alert_circle,
+        color: redTheme,
+        size: 16,
+      );
+    }
   } else if (izin == courseTime) {
     tagLabel = const CustomTaglabelOrange(label: "Izin");
     additionIcon = null;

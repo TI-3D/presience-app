@@ -298,6 +298,7 @@ class _PresensiPageState extends State<PresensiPage> {
                             alpha: data[index].attendance!.alpha!,
                             sakit: data[index].attendance!.sakit!,
                             izin: data[index].attendance!.izin!,
+                            isChanged: data[index].attendance!.isChanged!,
                             onTap: () {
                               context.read<HistoryAttendanceBloc>().add(
                                     HistoryAttendanceEvent.getHistoryAttendance(

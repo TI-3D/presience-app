@@ -223,7 +223,8 @@ class DetailPresensiPage extends StatelessWidget {
                           TitleDetail(
                             title: 'Status',
                             child: (DateTime.now().isBefore(scheduleWeek.date!
-                                    .add(const Duration(days: 7))))
+                                        .add(const Duration(days: 7))) &&
+                                    !scheduleWeek.attendance!.isChanged!)
                                 ? Row(
                                     children: [
                                       const Icon(
@@ -249,7 +250,8 @@ class DetailPresensiPage extends StatelessWidget {
                                 width: 8,
                               ),
                               if ((DateTime.now().isBefore(scheduleWeek.date!
-                                  .add(const Duration(days: 7)))))
+                                      .add(const Duration(days: 7))) &&
+                                  !scheduleWeek.attendance!.isChanged!))
                                 GestureDetector(
                                   onTap: () {
                                     context
@@ -366,6 +368,7 @@ class _ContentofWeekCourseState extends State<ContentofWeekCourse> {
                   sakit: data[index].attendance!.sakit!,
                   izin: data[index].attendance!.izin!,
                   courseWeek: data[index].schedule!.week!.name!,
+                  isChanged: data[index].attendance!.isChanged!,
                   onTap: () {
                     context.push(
                       '/presensi/detail',

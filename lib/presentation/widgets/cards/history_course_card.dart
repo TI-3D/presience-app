@@ -17,19 +17,22 @@ class HistoryCourseCard extends StatelessWidget {
   final int alpha;
   final int courseTime;
   final String courseWeek;
+  final bool isChanged;
 
-  const HistoryCourseCard(
-      {super.key,
-      required this.courseName,
-      this.onTap,
-      required this.izin,
-      required this.sakit,
-      required this.alpha,
-      required this.courseTime,
-      required this.date,
-      required this.openedTime,
-      required this.courseWeek,
-      required this.closedTime});
+  const HistoryCourseCard({
+    super.key,
+    required this.courseName,
+    this.onTap,
+    required this.izin,
+    required this.sakit,
+    required this.alpha,
+    required this.courseTime,
+    required this.date,
+    required this.openedTime,
+    required this.courseWeek,
+    required this.closedTime,
+    required this.isChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +41,7 @@ class HistoryCourseCard extends StatelessWidget {
       sakit: sakit,
       alpha: alpha,
       courseTime: courseTime,
+      isChanged: isChanged,
     );
 
     return CustomCard(

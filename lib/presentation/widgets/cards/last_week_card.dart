@@ -13,23 +13,31 @@ class CustomLastWeekCard extends StatelessWidget {
   final int sakit;
   final int alpha;
   final int courseTime;
+  final bool isChanged;
 
-  CustomLastWeekCard(
-      {super.key,
-      required this.courseName,
-      required this.lectureName,
-      this.onTap,
-      required this.izin,
-      required this.alpha,
-      required this.sakit,
-      required this.courseTime});
+  CustomLastWeekCard({
+    super.key,
+    required this.courseName,
+    required this.lectureName,
+    this.onTap,
+    required this.izin,
+    required this.alpha,
+    required this.sakit,
+    required this.courseTime,
+    required this.isChanged,
+  });
 
   late Widget tagLabel;
   late Icon? additionIcon;
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> widgets = getWidgetStatus(
-        izin: izin, sakit: sakit, alpha: alpha, courseTime: courseTime);
+      izin: izin,
+      sakit: sakit,
+      alpha: alpha,
+      courseTime: courseTime,
+      isChanged: isChanged,
+    );
     tagLabel = widgets['tagLabel']!;
     additionIcon = widgets['additionIcon'];
 
