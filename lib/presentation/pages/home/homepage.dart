@@ -396,6 +396,7 @@ class _ContentofRiwayatPresensiState extends State<ContentofRiwayatPresensi> {
           alpha: widget.scheduleWeek[index].attendance!.alpha!,
           sakit: widget.scheduleWeek[index].attendance!.sakit!,
           izin: widget.scheduleWeek[index].attendance!.izin!,
+          isChanged: widget.scheduleWeek[index].attendance!.isChanged!,
           onTap: () {
             context.read<HistoryAttendanceBloc>().add(
                   HistoryAttendanceEvent.getHistoryAttendance(

@@ -202,6 +202,7 @@ class _ContentofWeekCourseState extends State<ContentofWeekCourse> {
                   sakit: data[index].attendance!.sakit!,
                   izin: data[index].attendance!.izin!,
                   courseWeek: data[index].schedule!.week!.name!,
+                  isChanged: data[index].attendance!.isChanged!,
                   onTap: () {},
                   // onTap: () {
                   //   context.push(
